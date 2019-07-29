@@ -1,0 +1,405 @@
+
+<style lang="less">
+  @import "../../style/variable";
+
+  
+  .testclass{
+    color:@color-danger;
+  }
+  .rich-p{
+    word-break: break-all;
+  }
+  .rich-a{
+    color:@color-primary;
+  }  
+  .xkd-inline-block{
+    display: inline-block;
+  }
+  .xkd-color-fff{
+    color: #fff;
+  }
+  .xkd-color-999 {
+    color: #999;
+  }
+  .containers{
+    //height: calc(100% - 300rpx);
+    //margin-bottom: 180rpx;
+    & .img-nav{
+     & > view{       
+        & .linkTitle{
+           position: relative;
+          & .line{
+            position: absolute;
+            top:50%;
+            right: 0;
+            transform: translate(0,-50%);
+            height: 33rpx;
+            width: 1rpx;
+            border-right:1rpx solid #eee;
+          }
+        }
+     }
+    }
+  }
+
+  // 店招
+  .cap-shop-banner__cover-mask {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0,0,0,.3);
+  }
+  .cap-shop-banner__content {
+    position: relative;
+    padding-left: 30rpx;
+    overflow: hidden;
+  }
+  .cap-shop-banner {
+    position: relative;
+    background-color: #fff;
+    font-size: 24rpx;
+  }
+  .cap-shop-banner__logo {
+    float: left;
+    width: 116rpx;
+    height: 116rpx;
+    border: 2px solid #fff;
+    background-color: #fff;
+    vertical-align: bottom;
+    overflow: hidden;
+    border-radius: 50%;
+    & image {
+        position: relative;
+        // max-width: 100%;
+        // height: auto;
+        border: none;
+        vertical-align: middle;
+    }
+  }
+  .cap-shop-banner__right-content {
+    margin-left: 140rpx;
+    margin-top: -16rpx;
+  }
+  .cap-shop-banner__inner {
+    position: absolute;
+    top: 230rpx;
+    width: 100%;
+  }
+  .cap-shop-banner__right-content .title {
+    margin-top: 10px;
+    max-width: 220px;
+    font-size: 18px;
+    line-height: 22px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 15px rgba(0,0,0,.5);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    font-size: 36rpx;
+  }
+  .cap-shop-banner__sum-content {
+    font-size: 28rpx;
+    margin-top: 30rpx;
+    line-height: 24rpx;
+  }
+  .cap-shop-banner__sum-content-total {
+    position: relative;
+    display: inline-block;
+    padding: 0 20rpx;
+    vertical-align: middle;
+  }
+  .cap-shop-banner__sum-content>view:first-child>view {
+    padding-left: 0;
+  }
+  .cap-shop-banner__sum-content>view:first-child>view:after {
+    content: "|";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 4rpx;
+    height: 24rpx;
+    font-size: 20rpx;
+    color: #e5e5e5;
+  }
+  // 样式二
+  .cap-shop-banner--type-2 {
+    height: 476rpx;
+  }  
+  .cap-shop-banner__cover {
+    position: relative;
+    height: 370rpx;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-size: cover;
+  }
+  .cap-shop-banner--type-2 .cap-shop-banner__inner {
+    position: absolute;
+    top: 300rpx;
+    width: 100%;
+  }
+  //样式三
+  .cap-shop-banner--type-3 {
+    height: 516rpx;
+  }
+  .cap-shop-banner--type-3 .cap-shop-banner__cover {
+    height: 300rpx;
+  }
+  .cap-shop-banner--type-3 .cap-shop-banner__content {
+    padding-left: 0;
+    text-align: center;
+  }
+  .cap-shop-banner--type-3 .cap-shop-banner__logo {
+    float: none;
+    display: inline-block;
+    width: 140rpx;
+    height: 140rpx;
+    border-radius: 50%;
+  }
+  .cap-shop-banner--type-3 .cap-shop-banner__right-content {
+    margin-left: 0;
+  }
+  .cap-shop-banner--type-3 .cap-shop-banner__right-content>.title {
+    display: inline-block;
+    margin-top: 40rpx;
+    max-width: 100%;
+    color: #333;
+    text-shadow: none;
+  }
+  .cap-shop-banner--type-3 .cap-shop-banner__sum-content {
+    margin-top: 20rpx;
+  }
+  //样式四
+  .cap-shop-banner--type-4 {
+    height: 500rpx;
+  }
+  .cap-shop-banner--type-4 .cap-shop-banner__cover {
+    height: 100%;
+  }
+  .cap-shop-banner--type-4 .cap-shop-banner__inner {
+    top: 100rpx;
+  }
+  .cap-shop-banner--type-4 .cap-shop-banner__content {
+    padding-left: 0;
+    text-align: center;
+  }
+  .cap-shop-banner--type-4 .cap-shop-banner__logo {
+    float: none;
+    display: inline-block;
+    width: 140rpx;
+    height: 140rpx;
+    border-radius: 50%;
+  }
+  .cap-shop-banner--type-4 .cap-shop-banner__right-content {
+    margin-left: 0;
+  }
+  .cap-shop-banner--type-4 .cap-shop-banner__right-content>.title {
+    display: inline-block;
+    margin-top: 40rpx;
+    max-width: 100%;
+    padding-bottom: 20rpx;
+    border-bottom: 1px solid #ffffff80;
+    color: #fff;
+    text-shadow: none;
+  }
+  .cap-shop-banner--type-4 .cap-shop-banner__sum-content {
+    margin-top: 10rpx;
+  }
+</style>
+
+<template>
+<block>
+  <import src="../../templates/micropagetmpls.wxml"/>
+  <xkd-master id="xkdmaster" pageReady="{{pageIsReady}}"  pagedata="{{currentData}}" bind:tab-change="tab_selChange" bind:navbackclick="nav_backclick">
+
+  <view desc="本页工作区域" id="containers" style="background:{{pagedataList[0].bgcolor}}">   
+   <block wx:for="{{pagedataList}}" wx:key="id" wx:for-index="index" wx:for-item="item" > 
+        <template is="{{item.type}}" data="{{...item,RequestUrl,index,navigate}}"></template>
+    </block>
+     <xkd-copyright wx:if="{{pageIsReady}}" id="wxacopyright" desc="底部版权" watchNode="#xkdmaster"/>
+  </view>
+   
+</xkd-master> 
+</block>
+</template>
+
+<script>
+import wepy from 'wepy';
+import Tips from '../../utils/Tips';
+import wxutils from '../../utils/WxUtils';
+import basepage from '../../utils/basepage';
+import testMixin from '../../mixins/test';
+import pageApi from '../../api/micropageapi';
+import productApi from '../../api/product';
+
+export default class homeFrame extends basepage {
+  ///页
+  config = {
+    navigationBarTitleText: '商城主页',
+    // backgroundColor: "#fff",
+    usingComponents: {
+      'van-search': '/components/vant/search/index'
+    },
+    // enablePullDownRefresh:true
+  };
+
+  data = {
+    pageTitle:"商城主页",
+    share: null,
+    navleftArrow: true, ///是否显示返回按钮
+    searchkey: '',
+    pageShare:{
+      title:"商城主页",
+      path:"/pages/home/index",
+      imageUrl:""
+    },
+    pagedataList:[],
+    dataList:[]
+  };   
+  async bindApiData(option={},flag,callback) {    
+    if(!flag) Tips.loading('加载中...');
+    //let p1=this.m1(5);
+    //let p2=this.m2(10);    
+    //await Promise.all([p1,p2]); 
+    let that=this;   
+    let pagedataList=[];    
+    let extConfig = wepy.getExtConfigSync(); 
+    this.$wxapp.mtj.trackEvent('custompage', {
+              id: extConfig.micIds[2]
+            });  
+    let productCount=await productApi.GetProductCountInfo();      
+    this.$parent.globalData.storeInfo.AllProductNum=productCount.Data.AllProductNum; 
+    this.$parent.globalData.storeInfo.LatestNum=productCount.Data.LatestNum; 
+    let pageData=await pageApi.getMicroPageData(extConfig.micIds[2]);///获取主页数据
+    if(pageData.Next)
+    {
+      ///处理HttpCode非200情况
+      if(pageData.HttpCode!=200)
+      {
+          Tips.error(pageData.Msg);///
+      }
+      else
+      {
+        if(pageData.Code!=0)
+        {
+           Tips.error(pageData.Msg);///
+        }
+        else
+        {                                                    
+          pagedataList=pageData.Data.PageJson;                                                    
+          this.pageTitle=pageData.Data.PageShare.Name;                    
+          this.pageShare.title=pageData.Data.PageShare.Desc;
+          this.pageShare.imageUrl=pageData.Data.PageShare.ShareImg;
+          this.pagedataList=wxutils.renderData(pagedataList,this.$parent);
+          this.$apply();                                              
+          if(callback && typeof callback === 'function') callback();           
+        }
+      }
+       
+    }   
+    
+  } 
+  navigate(e){
+    let extConfig = wepy.getExtConfigSync(); 
+    let link =e.currentTarget.dataset.link;
+    if(!link) return; 
+    if(link.indexOf('/pages/home/micropage')>-1){
+      let id=link.substr(link.indexOf("?")+4);
+      let index = extConfig.micIds.findIndex((item)=>item==id);
+      if(index>-1){       
+        wx.switchTab({
+          url: `/pages/home/micropage${index+1}`
+        })
+      }else{
+         wxutils.backOrNavigate(link)
+      }
+    }else{
+      wxutils.backOrNavigate(link)
+    }      
+  }    
+  
+  checkArr(e){
+    var flag=false;
+    let arr = e.currentTarget.dataset.arr;
+    console.log(9999999)
+    if(arr&&arr.length){
+        for(var i=0;i<arr.length;i++){
+            if(!arr[i]){
+                flag=false;
+                break;
+            }
+            flag=true;
+        }
+    }
+    return flag;
+  }
+  async  m1(time) {
+    return this.$parent.sleep(time);
+  }
+   
+  async  m2(time) {
+    return this.$parent.sleep(time);
+  }
+
+  components = {}; // 声明页面中所引用的组件，或声明组件中所引用的子组件
+
+  ///替换mixins配置，请不要定义mixins=[],否则不出现异常
+  addmixins() {
+    return [testMixin]; // 声明页面所引用的Mixin实例
+  }
+
+  computed = {}; // 声明计算属性（详见后文介绍）
+
+  watch = {}; // 声明数据watcher（详见后文介绍）
+
+  methods = {
+    onSearch(res) {
+      console.log(res);
+      this.vnotify(`搜索${res}`);
+    }
+  };  
+  onPullDownRefresh(e){
+    let that=this;
+    this.bindApiData({},true,()=>{
+          setTimeout(() => {
+            Tips.loaded();
+          wx.stopPullDownRefresh();
+          this.$apply();
+          wxutils.ChangeCopyRight();///刷新底部版权位置
+          }, 1000);
+      }); 
+    // var selector="#xkdmaster";
+    // var query=wx.createSelectorQuery().select("#containers").boundingClientRect(function (rect) {
+    //  console.log(rect,"query")
+    //   //that.pagedataList=[];
+    //   if(rect.top<70){
+    //     wx.stopPullDownRefresh();        
+    //   }else{       
+    //     that.bindApiData({},true,()=>{
+    //       setTimeout(() => {
+    //         Tips.loaded();
+    //       wx.stopPullDownRefresh();
+    //       this.$apply();
+    //       }, 1000);
+    //     });  
+    //   }
+    //   }).exec();         
+                
+  }
+  
+  /**
+   * 分享
+   */
+
+  onShareAppMessage() {
+    return {
+      title:this.pageShare.title,
+      path:"/pages/home/index",
+      imageUrl:this.pageShare.imageUrl
+    };
+  }
+}
+</script>

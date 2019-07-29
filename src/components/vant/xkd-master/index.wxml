@@ -1,0 +1,14 @@
+<!-- 小程序模板组件 -->  
+ <!-- 业务内容块 -->   
+ <view style="overflow:hidden;" id="page_container">
+  <slot wx:if="{{pageReady}}" />
+ </view>
+
+<!--轻提示toast-->
+<van-toast id="van-toast"/>
+
+<!--dialog-->
+<van-dialog id="van-dialog"/>
+
+<!--notify-->
+<van-notify id="van-notify"/>

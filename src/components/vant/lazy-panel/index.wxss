@@ -1,0 +1,7 @@
+@import '../common/index.wxss';
+.Lazycomponent-observer {
+    height: 1rpx;
+    margin-top: -1rpx;
+    font-size: 1px;
+  }
+  

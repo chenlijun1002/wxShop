@@ -1,0 +1,2272 @@
+
+<style lang="less">
+  @import "../../style/variable";
+  .container{
+    background-color: #f0f0f0;
+    padding-bottom: 56px;
+  }
+  .swiper-info{
+    position: absolute;
+    left:50%;
+    bottom: 24rpx;
+    transform:translate(-50%,0);
+    height:48rpx;
+    line-height: 48rpx;
+    width:184rpx;
+    background:rgba(0,0,0,0.45);  
+    border-radius:24rpx;   
+    .swiper-info-item{
+      width:50%;
+      vertical-align: bottom;
+      text-align: center;
+      display: inline-block;
+      color:#fff;
+      font-size: 24rpx;
+      height: 48rpx;
+      line-height: 48rpx;
+      border-radius:24rpx;
+      box-sizing:border-box;      
+    }
+    .active{
+      background-color: #FF9800;
+      // background-color: rgb(255,152,0)
+    }    
+  }
+  .video-mask{
+      position: absolute;
+      top: 328rpx;
+      left: 50%;
+      transform: translate(-50%,0);
+      width: 120rpx;
+      height: 120rpx;     
+      background:rgba(0,0,0,0.45);
+      border-radius: 50%;
+      image{
+        width: 100%;
+        height: 100%;
+      }
+    }
+  .swiper-total-info{
+    position: absolute;
+    width:90rpx;
+    height:48rpx;
+    line-height: 48rpx;
+    background:rgba(0,0,0,0.45);  
+    border-radius:24rpx;
+    right:24rpx;
+    bottom: 24rpx;
+    color:#fff;
+    text-align:center;
+    font-size:24rpx;
+  }
+  .product-video{
+    width: 100%;
+    position: absolute;
+    top:0;
+    left: 0;
+  }
+.product-video video{
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-text-info .product-name{
+  padding-right: 80rpx;
+  position: relative;
+  margin-bottom: 10rpx;
+  font-size: 36rpx;
+  line-height: 56rpx;
+}
+.product-price{
+  line-height: 48rpx;
+}
+.product-price .present-price{
+  font-size: 28rpx;
+  color: #FF9800;
+ // float: left;
+  display: inline-block;
+  margin-right: 16rpx;
+}
+// .product-price .present-price text{
+//   font-size: 28rpx;
+// }
+.product-price .original-price{
+  //float: left;
+  display: inline-block;
+  font-size: 24rpx;
+  color: #BDBDBD;
+  margin-top: 10rpx;
+  text-decoration: line-through;
+}
+.product-price .sales-volume{
+  font-size: 28rpx;
+  color: #757575;
+  float: right;
+  margin-top: 8rpx;
+}
+.product-price  .return-commission {
+  margin: 10rpx 0 0 24rpx;
+}
+.van-cell {
+  padding:12px 14px !important;
+}
+.specifications{
+  flex:8 !important;
+  text-align: left !important;
+  color:#BDBDBD;
+}
+.evaluation-header{
+  padding: 24rpx;
+  .head-portrait{
+    width: 80rpx;
+    height: 80rpx;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  .user-name{
+    line-height: 38rpx;
+    height: 38rpx;
+    overflow: hidden;
+    margin-bottom:10rpx;
+  }
+  .rate{
+    height:30rpx;
+    line-height:30rpx;
+    overflow:hidden;
+
+  }  
+}
+.evaluation-text{
+    padding-left:62rpx;
+    padding-right:24rpx;  
+  }
+
+.comment-img-box{
+  display: flex;
+  .comment-img-item{
+    flex:1;    
+    image{
+      width: 120rpx;
+      height: 120rpx;
+      border:1rpx solid #eee;
+    box-sizing: border-box;
+    }
+  }
+}
+
+// 店招
+  .cap-shop-banner__cover-mask {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0,0,0,.3);
+  }
+  .cap-shop-banner__content {
+    position: relative;
+    padding-left: 30rpx;
+    overflow: hidden;
+  }
+  .cap-shop-banner {
+    position: relative;
+    background-color: #fff;
+    font-size: 24rpx;
+  }
+  .cap-shop-banner__logo {
+    float: left;
+    width: 116rpx;
+    height: 116rpx;
+    border: 2px solid #fff;
+    background-color: #fff;
+    vertical-align: bottom;
+    overflow: hidden;
+    border-radius: 50%;
+    & image {
+        position: relative;
+        // max-width: 100%;
+        // height: auto;
+        border: none;
+        vertical-align: middle;
+    }
+  }
+  .cap-shop-banner__right-content {
+    margin-left: 140rpx;
+    margin-top: -16rpx;
+  }
+  .cap-shop-banner__inner {
+    position: absolute;
+    top: 230rpx;
+    width: 100%;
+  }
+  .cap-shop-banner__right-content .title {
+    margin-top: 10px;
+    max-width: 220px;
+    font-size: 18px;
+    line-height: 22px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 15px rgba(0,0,0,.5);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    font-size: 36rpx;
+  }
+  .cap-shop-banner__sum-content {
+    font-size: 28rpx;
+    margin-top: 30rpx;
+    line-height: 24rpx;
+  }
+  .cap-shop-banner__sum-content-total {
+    position: relative;
+    display: inline-block;
+    padding: 0 20rpx;
+    vertical-align: middle;
+  }
+  .cap-shop-banner__sum-content>view:first-child>view {
+    padding-left: 0;
+  }
+  .cap-shop-banner__sum-content>view:first-child>view:after {
+    content: "|";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 4rpx;
+    height: 24rpx;
+    font-size: 20rpx;
+    color: #e5e5e5;
+  }
+  // 样式二
+  .cap-shop-banner--type-2 {
+    height: 476rpx;
+  }  
+  .cap-shop-banner__cover {
+    position: relative;
+    height: 370rpx;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-size: cover;
+  }
+  .cap-shop-banner--type-2 .cap-shop-banner__inner {
+    position: absolute;
+    top: 300rpx;
+    width: 100%;
+  }
+  //样式三
+  .cap-shop-banner--type-3 {
+    height: 516rpx;
+  }
+  .cap-shop-banner--type-3 .cap-shop-banner__cover {
+    height: 300rpx;
+  }
+  .cap-shop-banner--type-3 .cap-shop-banner__content {
+    padding-left: 0;
+    text-align: center;
+  }
+  .cap-shop-banner--type-3 .cap-shop-banner__logo {
+    float: none;
+    display: inline-block;
+    width: 140rpx;
+    height: 140rpx;
+    border-radius: 50%;
+  }
+  .cap-shop-banner--type-3 .cap-shop-banner__right-content {
+    margin-left: 0;
+  }
+  .cap-shop-banner--type-3 .cap-shop-banner__right-content>.title {
+    display: inline-block;
+    margin-top: 40rpx;
+    max-width: 100%;
+    color: #333;
+    text-shadow: none;
+  }
+  .cap-shop-banner--type-3 .cap-shop-banner__sum-content {
+    margin-top: 20rpx;
+  }
+  //样式四
+  .cap-shop-banner--type-4 {
+    height: 500rpx;
+  }
+  .cap-shop-banner--type-4 .cap-shop-banner__cover {
+    height: 100%;
+  }
+  .cap-shop-banner--type-4 .cap-shop-banner__inner {
+    top: 100rpx;
+  }
+  .cap-shop-banner--type-4 .cap-shop-banner__content {
+    padding-left: 0;
+    text-align: center;
+  }
+  .cap-shop-banner--type-4 .cap-shop-banner__logo {
+    float: none;
+    display: inline-block;
+    width: 140rpx;
+    height: 140rpx;
+    border-radius: 50%;
+  }
+  .cap-shop-banner--type-4 .cap-shop-banner__right-content {
+    margin-left: 0;
+  }
+  .cap-shop-banner--type-4 .cap-shop-banner__right-content>.title {
+    display: inline-block;
+    margin-top: 40rpx;
+    max-width: 100%;
+    padding-bottom: 20rpx;
+    border-bottom: 1px solid #ffffff80;
+    color: #fff;
+    text-shadow: none;
+  }
+  .cap-shop-banner--type-4 .cap-shop-banner__sum-content {
+    margin-top: 10rpx;
+  }
+
+  //展开规格的样式
+  .rule-popup{
+  position: fixed;
+  width: 100%;
+  height: 880rpx;
+  left: 0;
+  bottom: 0;
+  background-color: #fff;
+  z-index: 20;
+  transform: translateY(120%);
+  transition: all 0.4s;
+}
+.rule-popup .rule-popup-herder{
+  position: relative;
+  padding: 24rpx 0 24rpx 248rpx;
+  min-height: 200rpx;
+  box-sizing: border-box;
+}
+.rule-popup .rule-popup-herder::after{
+  position: absolute;
+  content:'';
+  left:24rpx;
+  width:calc(100% - 48rpx);
+  height:1rpx;
+  border-bottom:1px solid #eee;
+  bottom:0;
+}
+.rule-popup .rule-popup-herder .price{
+  margin-bottom: 20rpx;
+}
+.rule-popup .rule-popup-herder .price text:nth-child(2){
+  font-size: 40rpx;
+  margin-right: 28rpx;
+}
+.rule-popup .rule-popup-herder .product-imag{
+  position: absolute;
+  left: 24rpx;
+  top: -30rpx;
+  width: 202rpx;
+  height: 202rpx;
+  border-radius: 8rpx;
+  border:1px solid #DFDFDF;
+}
+.rule-popup .rule-popup-herder .cancel{
+  position: absolute;
+  right: 24rpx;
+  top: 24rpx;
+}
+.rule-popup-body{
+  padding: 0 24rpx;
+}
+.specifications-list-box{
+    position:relative;
+}
+.specifications-list-box::after{
+    position: absolute;
+    content:'';
+    left:0;
+    width:100%;
+    height:1rpx;
+    // border-bottom:1px solid #eee;
+    bottom:0;
+}
+.specifications-list{
+  margin-top: 20rpx;
+  margin-bottom: 34rpx;
+}
+.specifications-list .specifications-title{
+  font-size: 32rpx;
+  margin-bottom: 24rpx;
+}
+.specifications-list-group .specifications-item{
+  display: inline-block;
+  font-size: 24rpx;
+  padding:0 20rpx;
+  background-color: #F7F7F7;
+  border-radius: 6rpx;
+  color: #757575;
+  margin-right: 32rpx;
+  min-width: 40rpx;
+  text-align: center;
+  transition: all 0.4s;
+  margin-bottom: 20rpx;
+  box-sizing: border-box;
+  height: 64rpx;
+  line-height: 64rpx;
+}
+.specifications-list-group .specifications-item.select{
+  background-color: #FF9800;
+  color: #fff;
+}
+.buy-number{
+  padding: 24rpx 0;
+  position:relative;
+}
+
+.buy-number::before{
+  position: absolute;
+  content:'';
+  left:0;
+  width:100%;
+  height:1rpx;
+  border-top:1px solid #eee;
+  top:0;
+}
+.buy-number::after{
+  position: absolute;
+  content:'';
+  left:0;
+  width:100%;
+  height:1rpx;
+  border-bottom:1px solid #eee;
+  bottom:0;
+}
+.buy-number .number-text{  
+  font-size: 28rpx;
+  color: #202020;
+  line-height: 64rpx;
+  margin-right: 30rpx;
+}
+
+//
+.table-view-cell{
+  padding:12px 14px !important;
+  position:relative;
+
+
+  width:100%;
+  display:-webkit-flex;
+  display:flex;
+  box-sizing:border-box;
+  line-height:24px;
+  background-color:#fff;
+  color:#333;
+  font-size:14px;
+
+}
+.table-view-cell::after{
+  content:'';
+  position:absolute;
+  pointer-events:none;
+  box-sizing:border-box;
+  -webkit-transform-origin:center;
+  transform-origin:center;
+  top:auto;
+  left:15px;
+  right:0;
+  bottom:0;
+  -webkit-transform:scaleY(.5);
+  transform:scaleY(.5);
+  border-bottom:1px solid #eee;
+}
+
+.table-view-cell .title{
+  display: inline-block;
+  max-width:90px;
+  min-width:90px;  
+  line-height:24px;
+
+  display:block;
+  -webkit-flex:1;
+  flex:1;
+
+}
+.table-view-cell .value{
+  overflow:hidden;
+  text-align:left;
+  vertical-align:middle;
+  display:block;
+  -webkit-flex:1;
+  flex:1;
+}
+.table-view-cell::before{
+  display: none;
+  content:'*';
+  position:absolute;
+  left:7px;
+  font-size:14px;
+  color:#f44
+}
+.table-view-cell.required::before{
+  display: inline-block;
+}
+
+.nav-fiexd-bottom {
+  display: flex;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 104rpx;
+  background-color: #fff;
+  border-top: 1px solid #dfdfdf;
+  z-index: 9;  
+}
+.nav-fiexd-bottom-item.nav-icon{
+  width: 12%;
+}
+button.nav-fiexd-bottom-item{
+    padding: 0;
+    height: 100rpx;
+    line-height:normal;
+    background-color: transparent;    
+}
+.nav-fiexd-bottom-item .icon{
+  position: relative;
+  display: block;
+  width: 44rpx;
+  height: 44rpx;
+  margin: 12rpx auto 8rpx;
+}
+/* 徽章 */
+.badge {
+  font-size: 20rpx;
+  line-height: 1;
+  display: inline-block;
+  padding: 2rpx 8rpx;
+  color: #fff;
+  border-radius: 100px;
+  background-color: #fa3f6e;
+}
+.nav-fiexd-bottom-item .icon .badge{
+  position: absolute;
+  right: -6rpx;
+  top: -6rpx;
+}
+.nav-fiexd-bottom-item .icon .addnum{
+  position: absolute;
+  right: -6rpx;
+  top: -6rpx;
+  color: #FA3F6E;
+  font-size: 26rpx;
+  font-weight: 700;
+  opacity: 0;
+}
+.nav-fiexd-bottom-item .icon .addnum.show{
+  animation: addnum 1s step-end;
+}
+@keyframes addnum{
+  0%{
+    opacity: 0;
+    top: -6rpx;
+  }
+  25%{
+    opacity: 0.5;
+    top: -28rpx;
+  }
+  50%{
+    opacity: 1;
+    top: -50rpx;
+  }
+  75%{
+    opacity: 0.5;
+    top: -28rpx;
+  }
+  100%{
+    opacity: 0;
+    top: -6rpx;
+  }
+}
+.nav-fiexd-bottom-item .index-icon{
+  background: url("http://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/systemfile/icon/icon02.png") no-repeat center bottom;
+  background-size: 95%;
+}
+.nav-fiexd-bottom-item .message-icon{
+  background: url("http://file.xiaokeduo.com/system/xkdxcx/system/images/message-icon.png") no-repeat center bottom;
+  background-size: 100%;
+}
+.nav-fiexd-bottom-item .cart-icon{
+  background: url("http://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/systemfile/icon/icon13.png") no-repeat left center;
+  background-size: auto 100%;  
+}
+.nav-fiexd-bottom-item.border::before{
+  position: absolute;
+  content:'';
+  left:0;
+  height: 100%;
+  width: 1rpx;
+  border-left:1px solid #eee;
+  bottom:0;
+}
+.nav-fiexd-bottom-item.border::after{
+  position: absolute;
+  content:'';
+  right:0;
+  height: 100%;
+  width: 1rpx;
+  border-left:1px solid #eee;
+  bottom:0;
+}
+.nav-fiexd-bottom-item .like-icon{
+  background: url("http://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/systemfile/icon/icon17.png") no-repeat left center;
+  background-size: auto 100%;
+}
+.nav-fiexd-bottom-item .selectedLikeIcon{
+  background: url("http://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/systemfile/icon/icon17-s-01.png") no-repeat left center;
+  background-size: auto 100%;
+}
+.nav-fiexd-bottom-item .icon-text{
+  display: block;
+  font-size: 24rpx;
+  text-align: center;
+  color: #202020;
+  height: 24rpx;
+  line-height: 24rpx;
+}
+.nav-fiexd-bottom .operation-btn{
+  width: 32%;  
+  line-height:72rpx;
+text-align:center;
+
+}
+.nav-fiexd-bottom .operation-btn text{
+  display: block;
+  line-height: 72rpx;
+  height: 72rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: #fff;
+}
+.operation-btn.add-cart{
+  //background: linear-gradient(to right, #ffcc66 , #ff8947);
+  background-color: #FFBC59;
+  border-radius:16rpx 0 0 16rpx;
+  height: 72rpx;
+  margin-top: 16rpx;
+}
+.operation-btn.buy-now{
+ // background: linear-gradient(to right, #ff6e47, #ff4757);
+ background-color: #FF9800;
+ border-radius:0 16rpx 16rpx 0;
+ height: 72rpx;
+ margin-top: 16rpx;
+ margin-right:24rpx;
+}
+
+</style>
+
+<template>
+<block>
+  <import src="../../templates/micropagetmpls.wxml"/>
+  <import src="../../plugins/wxParse/wxParse.wxml"/>
+  <xkd-master id="xkdmaster" pageReady="{{pageIsReady}}"  pagedata="{{currentData}}" bind:tab-change="tab_selChange" bind:navbackclick="nav_backclick">
+  <block wx:if="{{loadingFinished}}">
+    <block wx:if="{{!isShelves}}">
+      <view desc="本页工作区域" class="container">
+        <view style="position:relative;">
+          <view class="bg-f0f0f0">
+            <swiper
+              indicator-dots="{{false}}"
+              autoplay="{{false}}"
+              interval="{{2000}}"
+              duration="{{500}}"
+              current="{{current}}"       
+              bindchange="bindanimationfinish"              
+              style="height:{{windowWidth}}px"
+            >    
+              <block wx:if="{{pageData.VedioCoverPath}}">
+                <swiper-item  style="background-color:rgba(0,0,0,1)">
+                  <image src="{{pageData.VedioCoverPath}}" class="slide-image" style="width:100%;height:{{windowWidth}}px;"  mode="aspectFit" />   
+                  <view class="video-mask" @tap="videoPlay()" wx:if="{{!play&&current<=0}}">
+                    <image src="https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/mchfile/100000000001/image/fe6a5d72d3e0473ba8db6c02b99fd8fe.png?x-oss-process=style/180" />
+                  </view>            
+                </swiper-item>
+              </block>       
+              <block wx:for="{{pageData.Picture}}" wx:for-item="item" wx:for-index="idx" wx:key="{{idx}}">
+                <swiper-item bindtap="navigate" data-link="{{item.linkUrl}}" item-id="{{idx}}" >
+                  <image src="{{item.imageUrl}}" class="slide-image" style="width:100%;height:{{windowWidth}}px;"  mode="aspectFit" @tap="previewImg({{idx}},{{pageData.Picture}})"/>   
+                  <!-- <view class="video-mask" @tap="videoPlay()" wx:if="{{playbtn&&!play&&pageData.VedioPath&&current<=0}}">
+                    <image src="https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/mchfile/100000000001/image/fe6a5d72d3e0473ba8db6c02b99fd8fe.png?x-oss-process=style/180" />
+                  </view>             -->
+                </swiper-item>
+              </block>        
+            </swiper>
+          </view>
+        <!--  <view class="product-video" style="height:{{windowWidth}}px;" wx:else>
+            <video src="{{pageData.VedioPath}}" poster="{{pageData.VedioCoverPath}}"></video>
+          </view> -->
+          <view class="swiper-info" wx:if="{{pageData.VedioPath}}">
+            <view class="swiper-info-item" :class="{active:selectIndex==0}" style="background-color:{{selectIndex==0?themeColor:''}};color:{{selectIndex==0?textThemeColor:''}}" @tap="changeType(0)">视频</view>
+            <view class="swiper-info-item" :class="{active:selectIndex==1}" style="background-color:{{selectIndex==1?themeColor:''}};color:{{selectIndex==1?textThemeColor:''}}" @tap="changeType(1)">图片</view>
+          </view>
+         <!-- <view class="swiper-total-info" wx:if="{{pageData.VedioPath && current>0}}">
+          <text style="font-size:28rpx;">{{index}}</text>
+          <text>/</text>
+          <text>{{pageData.Picture.length}}</text>
+          </view> -->
+          <view class="swiper-total-info" wx:if="{{(pageData.VedioPath && current>0)||(!pageData.VedioPath)}}">
+          <text style="font-size:28rpx;">{{index}}</text>
+          <text>/</text>
+          <text>{{pageData.Picture.length}}</text>
+          </view>
+          <view class="product-video" style="height:{{play?'100%':0}}">
+            <video
+              id="myVideo"
+              src="{{pageData.VedioPath}}"        
+              event-model="bubble"   
+              bindended="playEnd"   
+              controls="{{true}}"
+              style="height:{{play?'100%':0}}"
+            >
+              <cover-view class="swiper-info" wx:if="{{pageData.VedioPath&&play}}">
+                <cover-view class="swiper-info-item" :class="{active:selectIndex==0}" style="background-color:{{selectIndex==0?themeColor:''}};color:{{selectIndex==0?textThemeColor:''}}" @tap="changeType(0)">视频</cover-view>
+                <cover-view class="swiper-info-item" :class="{active:selectIndex==1}" style="background-color:{{selectIndex==1?themeColor:''}};color:{{selectIndex==1?textThemeColor:''}}" @tap="changeType(1)">图片</cover-view>
+              </cover-view>
+            </video>
+          </view>      
+        </view>      
+        <view class="xkd-panel margin-b-24 padding-lr-24 padding-t-24 padding-b-24">
+          <view class="product-price clearfix margin-b-24">
+              <view class="present-price" style="color:{{themeColor}}">
+                  <text>￥</text><text class="font-40">{{pageData.SalePrice}}</text>
+              </view>         
+              <view class="original-price">￥<text class="font-28">{{pageData.OriginPrice|| 0}}</text></view>         
+          </view>
+        <!-- </view> 9999 -->
+          <view class="product-name">
+              <view class="text-ellipsis-2 line-height-48 break-all">
+                  <text class="xkd-label label-primary margin-r-16" wx:if="{{pageData.Tag}}">{{pageData.Tag}}</text> <text class="font-32">{{pageData.Name}}</text>
+              </view>          
+          </view>
+          <view class="margin-t-20 font-26 text-ellipsis-2 xkd-color-424242 line-height-32 xkd-word-break" wx:if="{{pageData.Feature}}">
+            <text>{{pageData.Feature}}</text> 
+          </view>      
+          <view class="margin-t-16 font-24">
+          <van-row gutter="20">
+            <van-col span="8">
+              <view >
+                <text>运费</text>
+                <text>￥{{pageData.Freight||0}}</text>  
+              </view>
+            </van-col>
+            <van-col span="8">
+              <view class="text-center">
+                <text>剩余</text>
+                <text>{{pageData.StockNum}}</text>  
+              </view>
+            </van-col>
+            <van-col span="8">
+              <view class="text-right">
+                <text>销量</text>
+                <text>{{pageData.SaleNum}}</text>  
+              </view>
+            </van-col>
+          </van-row> 
+          </view>   
+        </view>
+        <view class="margin-b-24" wx:if="{{skuList.length}}">
+          <block wx:if="{{pageData.specificationsType===1}}">
+            <van-cell
+              title="选择"     
+              is-link
+              value="{{selectedSkuValueText||'颜色分类/尺寸'}}"
+              value-class="specifications"
+              @click="showSpecificationsPopup"
+            />
+          </block>
+          <block wx:else>
+            <view class="bg-fff padding-t-24 margin-b-24">
+              <view class="rule-popup-body">
+                <view class="specifications-list-box">
+                  <view class="specifications-list" wx:for-index="pidx" wx:for="{{skuList}}" wx:for-item="sku" wx:key="*this">
+                    <view class="specifications-title">{{sku.Text}}</view>
+                    <view class="specifications-list-group">
+                        <view class="specifications-item {{skuValue.selected?'select':''}}" style="background-color:{{skuValue.selected?themeColor:''}};color:{{skuValue.selected?textThemeColor:''}}" data-currentIndex="{{cidx}}" data-parentIndex="{{pidx}}" wx:for-index="cidx" wx:for="{{sku.Sku_Value}}" wx:for-item="skuValue" @tap="selectedSp({{skuValue.Id}},{{skuValue.Text}},{{pidx}},{{cidx}})" wx:key="*this" >{{skuValue.Text}}</view>
+                    </view>
+                    </view>
+                    <view class="buy-number">
+                        <text class="number-text">数量</text>
+                        <view class="inline-block vertical-align-top">
+                          <van-stepper
+                              value="{{ value }}"
+                              integer
+                              min="1"    
+                              max="{{pageData.StockNum}}"                             
+                              bind:change="onChangeNum"
+                            />
+                        </view> 
+                        <text class="number-text margin-l-16">剩余{{pageData.StockNum}}件</text>
+                    </view>
+                    <block wx:for-index="idx" wx:for="{{pageData.Message}}" wx:for-item="item" wx:key="*this">
+                      <view>
+                        <van-cell-group border="{{false}}">
+                          <block wx:if="{{item.DataType==='text'}}">
+                            <van-field
+                              label="{{item.Name}}"
+                              required="{{item.Required}}"
+                              value="{{ item.text }}"                   
+                              border="{{ true }}"
+                              bind:change="onChange"
+                              type="{{item.IsMultiple?'textarea':''}}"
+                              autosize="{{true}}"
+                              @change="changeInput"
+                              data-index="{{idx}}" 
+                            />
+                          </block>
+                          <block wx:if="{{item.DataType==='time'||item.DataType==='date'}}">
+                            <block wx:if="{{item.DataType==='date'}}">
+                              <picker
+                                mode="{{item.DataType}}"
+                                value="{{ item.text }}"  
+                                start="00:00"
+                                end="23:59"
+                                @change="bindTimeChange"    
+                                data-index="{{idx}}"                      
+                              >                        
+                                <!-- <view class="table-view-cell {{item.Required?'required':''}} font-28" >
+                                    <label class="title">{{item.Name}}</label>
+                                    <view class="value"> {{item.text}}</view>                            
+                                </view> -->
+                                <van-field
+                                  label="{{item.Name}}"
+                                  required="{{item.Required}}"
+                                  value="{{ item.text }}"                   
+                                  border="{{ true }}"
+                                  disabled
+                                
+                                />
+                              </picker>
+                            </block>
+                            <block wx:else>
+                              <block wx:if="{{item.IsDate}}"> 
+                                  <van-field
+                                  label="{{item.Name}}"
+                                  required="{{item.Required}}"
+                                  value="{{ item.text }}"                   
+                                  border="{{ true }}"
+                                  disabled
+                                  bind:change="onChange"         
+                                  data-index="{{idx}}" 
+                                  bindtap="showDatetimePup({{idx}})"
+                                />    
+                                <!-- <view class="table-view-cell {{item.Required?'required':''}} font-28" @tap="showDatetimePup">
+                                    <label class="title">{{item.Name}}</label>
+                                    <text class="picker"> {{item.text}}</text>                    
+                                </view>  -->                      
+                                <van-popup show="{{ showDatetime }}" position="bottom" bind:close="onCloseDatetime" >
+                                  <van-datetime-picker
+                                    type="datetime"
+                                    bind:confirm="selectDatetime"
+                                    bind:cancel="onCloseDatetime"
+                                    value="{{currentDate}}"
+                                  />
+                                </van-popup>                            
+                              </block>
+                              <block wx:else>
+                                <picker
+                                  mode="{{item.DataType}}"
+                                  value="{{ item.text }}"  
+                                  start="00:00"
+                                  end="23:59"
+                                  @change="bindTimeChange"    
+                                  data-index="{{idx}}"                      
+                                >                        
+                                <!--  <view class="table-view-cell {{item.Required?'required':''}} font-28" >
+                                      <label class="title">{{item.Name}}</label>
+                                      <view class="value"> {{item.text}}</view>                            
+                                  </view> -->
+                                  <van-field
+                                  label="{{item.Name}}"
+                                  required="{{item.Required}}"
+                                  value="{{ item.text }}"                   
+                                  border="{{ true }}"
+                                  disabled
+                                
+                                />
+                                </picker>
+                              </block>
+                            </block>
+                          </block>
+                          <block wx:if="{{item.DataType==='number'}}">
+                            <van-field
+                              label="{{item.Name}}"
+                              required="{{item.Required}}"
+                              value="{{ item.text }}"                   
+                              border="{{ true }}"
+                              bind:change="onChange"
+                              type="{{item.DataType}}"
+                              autosize="{{true}}"
+                              @change="changeInput"
+                              data-index="{{idx}}" 
+                            />
+                          </block>
+                          <block wx:if="{{item.DataType==='picture'}}">
+                            <view class="table-view-cell {{item.Required?'required':''}} font-28" @tap="chooseImage"  data-index="{{idx}}">
+                                <label class="title">{{item.Name}}</label>
+                                <view class="value">                               
+                                  <image src="{{item.text }}" style="width:180rpx;height:180rpx" wx:if="{{item.text}}" />
+                                  <text wx:else>图片</text>
+                                </view>                            
+                            </view>
+                          </block>
+                          <block wx:if="{{item.DataType==='idCard'}}">
+                            <van-field
+                              label="{{item.Name}}"
+                              required="{{item.Required}}"
+                              value="{{ item.text }}"                   
+                              border="{{ true }}"
+                              error-message="{{item.error?'请输入正确的身份证号码':''}}"
+                              @change="changeInput"
+                              data-index="{{idx}}" 
+                              data-DataType="{{item.DataType}}"
+                            />
+                          </block>
+                          <block wx:if="{{item.DataType==='mail'}}">
+                            <van-field
+                              label="{{item.Name}}"
+                              required="{{item.Required}}"
+                              value="{{ item.text }}"                   
+                              border="{{ true }}"
+                              error-message="{{item.error?'请输入正确的邮箱':''}}"
+                              @change="changeInput"
+                              data-index="{{idx}}"  
+                              data-DataType="{{item.DataType}}"
+                            />
+                          </block>
+                          <block wx:if="{{item.DataType==='phoneNo'}}">
+                            <van-field
+                              label="{{item.Name}}"
+                              required="{{item.Required}}"
+                              value="{{ item.text }}"                   
+                              border="{{ true }}"
+                              error-message="{{item.error?'请输入正确的手机号码':''}}"
+                              @change="changeInput"
+                              data-index="{{idx}}"  
+                              data-DataType="{{item.DataType}}"
+                            />
+                          </block>
+                        </van-cell-group>
+                      </view>
+                    </block>
+                </view>       
+              </view>
+            </view>
+          </block>
+        </view>
+        <view class="margin-b-24 bg-fff" wx:else>
+          <view class="buy-number padding-l-24 padding-r-24">
+              <text class="number-text">数量</text>
+              <view class="inline-block vertical-align-top">
+                <van-stepper
+                    value="{{ value }}"
+                    integer
+                    min="1"    
+                    max="{{pageData.StockNum}}"                             
+                    bind:change="onChangeNum"
+                  />
+              </view> 
+              <text class="number-text margin-l-16">剩余{{pageData.StockNum}}件</text>
+          </view>
+          <block wx:for-index="idx" wx:for="{{pageData.Message}}" wx:for-item="item" wx:key="*this">            
+            <view>
+              <van-cell-group border="{{false}}">
+                <block wx:if="{{item.DataType==='text'}}">
+                  <van-field
+                    label="{{item.Name}}"
+                    required="{{item.Required}}"
+                    value="{{ item.text }}"                   
+                    border="{{ true }}"
+                    bind:change="onChange"
+                    type="{{item.IsMultiple?'textarea':''}}"
+                    autosize="{{true}}"
+                    @change="changeInput"
+                    data-index="{{idx}}" 
+                  />
+                </block>
+                <block wx:if="{{item.DataType==='time'||item.DataType==='date'}}">
+                  <block wx:if="{{item.DataType==='date'}}">
+                    <picker
+                      mode="{{item.DataType}}"
+                      value="{{ item.text }}"  
+                      start="00:00"
+                      end="23:59"
+                      @change="bindTimeChange"    
+                      data-index="{{idx}}"                      
+                    >                        
+                      <!-- <view class="table-view-cell {{item.Required?'required':''}} font-28" >
+                          <label class="title">{{item.Name}}</label>
+                          <view class="value"> {{item.text}}</view>                            
+                      </view> -->
+                      <van-field
+                        label="{{item.Name}}"
+                        required="{{item.Required}}"
+                        value="{{ item.text }}"                   
+                        border="{{ true }}"
+                        disabled
+                      
+                      />
+                    </picker>
+                  </block>
+                  <block wx:else>
+                    <block wx:if="{{item.IsDate}}"> 
+                        <van-field
+                        label="{{item.Name}}"
+                        required="{{item.Required}}"
+                        value="{{ item.text }}"                   
+                        border="{{ true }}"
+                        disabled
+                        bind:change="onChange"         
+                        data-index="{{idx}}" 
+                        bindtap="showDatetimePup({{idx}})"
+                      />    
+                      <!-- <view class="table-view-cell {{item.Required?'required':''}} font-28" @tap="showDatetimePup">
+                          <label class="title">{{item.Name}}</label>
+                          <text class="picker"> {{item.text}}</text>                    
+                      </view>  -->                                             
+                      <van-popup show="{{ showDatetime }}" position="bottom" bind:close="onCloseDatetime" >
+                        <van-datetime-picker
+                          type="datetime"
+                          bind:confirm="selectDatetime"
+                          bind:cancel="onCloseDatetime"
+                          value="{{currentDate}}"
+                        />
+                      </van-popup>                            
+                    </block>
+                    <block wx:else>
+                      <picker
+                        mode="{{item.DataType}}"
+                        value="{{ item.text }}"  
+                        start="00:00"
+                        end="23:59"
+                        @change="bindTimeChange"    
+                        data-index="{{idx}}"                      
+                      >                        
+                        <!-- <view class="table-view-cell {{item.Required?'required':''}} font-28" >
+                            <label class="title">{{item.Name}}</label>
+                            <view class="value"> {{item.text}}</view>                            
+                        </view> -->
+                        <van-field
+                        label="{{item.Name}}"
+                        required="{{item.Required}}"
+                        value="{{ item.text }}"                   
+                        border="{{ true }}"
+                        disabled
+                      
+                      />
+                      </picker>
+                    </block>
+                  </block>
+                </block>
+                <block wx:if="{{item.DataType==='number'}}">
+                  <van-field
+                    label="{{item.Name}}"
+                    required="{{item.Required}}"
+                    value="{{ item.text }}"                   
+                    border="{{ true }}"
+                    bind:change="onChange"
+                    type="{{item.DataType}}"
+                    autosize="{{true}}"
+                    @change="changeInput"
+                    data-index="{{idx}}" 
+                  />
+                </block>
+                <block wx:if="{{item.DataType==='picture'}}">
+                  <view class="table-view-cell {{item.Required?'required':''}} font-28" @tap="chooseImage"  data-index="{{idx}}">
+                      <label class="title">{{item.Name}}</label>
+                      <view class="value"> 
+                        <image src="{{item.text }}" style="width:180rpx;height:180rpx" wx:if="{{item.text}}" />
+                        <text wx:else>图片</text>
+                      </view>                            
+                  </view>
+                </block>
+                <block wx:if="{{item.DataType==='idCard'}}">
+                  <van-field
+                    label="{{item.Name}}"
+                    required="{{item.Required}}"
+                    value="{{ item.text }}"                   
+                    border="{{ true }}"
+                    error-message="{{item.error?'请输入正确的身份证号码':''}}"
+                    @change="changeInput"
+                    data-index="{{idx}}" 
+                    data-DataType="{{item.DataType}}"
+                  />
+                </block>
+                <block wx:if="{{item.DataType==='mail'}}">
+                  <van-field
+                    label="{{item.Name}}"
+                    required="{{item.Required}}"
+                    value="{{ item.text }}"                   
+                    border="{{ true }}"
+                    error-message="{{item.error?'请输入正确的邮箱':''}}"
+                    @change="changeInput"
+                    data-index="{{idx}}"  
+                    data-DataType="{{item.DataType}}"
+                  />
+                </block>
+                <block wx:if="{{item.DataType==='phoneNo'}}">
+                  <van-field
+                    label="{{item.Name}}"
+                    required="{{item.Required}}"
+                    value="{{ item.text }}"                   
+                    border="{{ true }}"
+                    error-message="{{item.error?'请输入正确的手机号码':''}}"
+                    @change="changeInput"
+                    data-index="{{idx}}"  
+                    data-DataType="{{item.DataType}}"
+                  />
+                </block>
+              </van-cell-group>
+            </view>
+          </block>
+        </view>
+        <view>
+          <van-cell
+            title="评价"     
+            is-link
+            value="{{'共3400+条评价'}}"     
+          />
+          <view class="bg-fff padding-b-24 margin-b-24">
+          <block>
+            <view class="evaluation-header">          
+              <van-row >
+                <van-col span="3">
+                  <view class="head-portrait">
+                    <image src="{{'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/mchfile/100000000001/image/e7eeaa1a3568489e89351bb8ef5ed128.jpg?x-oss-process=style/180'}}" />
+                  </view>
+                </van-col>        
+                <van-col span="21">
+                  <view class="user-name font-28">                
+                    <text>126</text> 
+                    <text class="color-BDBDBD pull-right">2017-09-22 15:13:52</text> 
+                  </view>
+                  <view class="rate">                
+                    <van-rate value="{{ 3 }}" icon="star" void-icon="star-o" bind:change="onChange" size="14"/>  
+                  </view>
+                </van-col>
+              </van-row>
+            </view>
+            <view class="margin-b-16 font-26 text-ellipsis-2 evaluation-text">
+              <text>电饭锅地方郭德纲道森股份带给她的活动活动的活动华东师大阿让广大的风格电饭锅地方郭德纲道森股份带给她的活动活动的活动华东师大阿让广大的风格</text>
+            </view>
+            <view class="margin-b-16 font-26 evaluation-text">
+              <view class="comment-img-box">
+                <view class="comment-img-item" bind:tap="previewImg('0',{{[]}})" >
+                  <image src="{{'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/mchfile/100000000001/image/e7eeaa1a3568489e89351bb8ef5ed128.jpg?x-oss-process=style/180'}}" mode="aspectFit" />
+                </view>
+                <view class="comment-img-item" bind:tap="previewImg('1',{{[]}})" >
+                  <image src="{{'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/mchfile/100000000001/image/cff3cc432ce645449004598e00a25d66.png?x-oss-process=style/180'}}" mode="aspectFit"/>
+                </view>
+                <view class="comment-img-item" bind:tap="previewImg('2',{{[]}})" >
+                  <image src="{{'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/mchfile/100000000001/image/e16a241049ca4e7eb606df676a8dee27.jpg?x-oss-process=style/180'}}" mode="aspectFit"/>
+                </view>            
+                <view class="comment-img-item" bind:tap="previewImg('3',{{[]}})" >
+                  <image src="{{'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/mchfile/100000000001/image/f113146c779b41a98fb2e7c2a66e8b79.png?x-oss-process=style/180'}}" mode="aspectFit"/>
+                </view>
+                <view class="comment-img-item" bind:tap="previewImg('4',{{[]}})" >
+                  <image src="{{'https://insidexkd.oss-cn-shanghai.aliyuncs.com/test/test789.jpg?x-oss-process=style/180'}}" mode="aspectFit"/>
+                </view>
+              </view>                      
+            </view>        
+          </block>
+          </view>      
+        </view>
+        <block wx:for="{{pageData.TemplateData}}" wx:key="id" wx:for-index="index" wx:for-item="item" wx:if="{{pageData.TemplateData.length}}">      
+          <view class="margin-b-24 margin-t-24" wx:if="{{item.type==='productDetail'}}">
+            <van-cell
+              title="商品详情"     
+            />
+            <view class="padding-t-24 bg-fff" >
+              <block wx:for="{{item.details}}" wx:key="id" wx:for-index="idx" wx:for-item="value" > 
+                <template is="{{value.type}}" data="{{...value,idx}}"></template>        
+              </block>
+            </view>
+          </view>
+          <view wx:else >                
+              <template is="{{item.type}}" data="{{...item,index}}"></template> 
+          </view>
+        </block> 
+        <block wx:if="{{!pageData.TemplateData.length}}" >
+          <van-cell
+              title="商品详情"                    
+            />
+          <view class="padding-t-24 bg-fff" wx:if="{{pageData.Details.length}}">
+            <block  wx:for="{{pageData.Details}}" wx:key="id" wx:for-index="index" wx:for-item="item">
+              <template is="{{item.type}}" data="{{...item,index}}"></template>
+            </block>
+          </view>
+        </block>
+        <xkd-copyright wx:if="{{pageIsReady}}" id="wxacopyright" desc="底部版权" watchNode="#xkdmaster"/>    
+      </view> 
+      <view>   
+        <view class="nav-fiexd-bottom">
+            <view class="nav-fiexd-bottom-item nav-icon" bindtap="goIndex">
+                <view class="index-icon icon"></view>                      
+                <text class="icon-text">首页</text>
+            </view>                    
+            <view class="nav-fiexd-bottom-item nav-icon border" bindtap="goShopCart">
+                <view class="cart-icon icon">
+                    <text class="badge" wx:if="{{!showCartNum}}">{{cartNum}}</text>
+                    <text class="addnum {{isAddnum}}">+1</text>
+                </view>
+                <text class="icon-text">购物车</text>
+            </view>
+            <view class="nav-fiexd-bottom-item nav-icon" bindtap="goLike">
+                <view class="like-icon icon {{selectedLike?'selectedLikeIcon':''}}">                             
+                </view>
+                <text class="icon-text">收藏</text>
+            </view>
+            <view class="nav-fiexd-bottom-item operation-btn add-cart" bindtap="addCart" style="background-color:{{subColor}}">
+                <text wx:if="{{!addCartLoading}}" style="color:{{textSubColor}}">加入购物车</text>
+                <van-loading size="20px" color="#fff" wx:else/>
+            </view>                    
+            <view class="nav-fiexd-bottom-item operation-btn buy-now" bindtap="buyNow" style="background-color:{{themeColor}};color:{{textThemeColor}}">
+                <text style="color:{{textThemeColor}}">立即购买</text>
+            </view>
+        </view>
+      </view> 
+      <xkd-sku visible="{{showSpecificationsModal}}" styleConfig="{{styleConfig}}" bind:onAddCart="onAddCart" bind:selectSkus="selectSku" sku="{{skuComponentList}}" bind:close="onClose"></xkd-sku>  
+    </block>
+    <block wx:else>
+      <xkd-nodata
+          bind:redirectToPage="repage"
+          textMsg="该商品已下架"
+          fileImageType="xkdnewyun/systemfile/wxashop/wxanodata1.png"
+      ></xkd-nodata>
+    </block>
+  </block>  
+</xkd-master> 
+<van-toast id="van-toast" show="{{toastShow}}" message="{{toastMessage}}" duration="{{1000}}" />
+</block>
+</template>
+
+<script>
+import wepy from 'wepy';
+import Tips from '../../utils/Tips';
+import wxutils from '../../utils/WxUtils';
+import basepage from '../../utils/basepage';
+import testMixin from '../../mixins/test';
+import pageApi from '../../api/product';
+import shopcartApi from '../../api/shopcart';
+import richText from '../../utils/richText';
+//import WxParse from '../../plugins/wxParse/wxParse'
+export default class productlist extends basepage {
+  ///页
+  config = {
+    navigationBarTitleText: '商品详情',
+    usingComponents: {
+      'van-search': '/components/vant/search/index',
+      'van-panel': '/components/vant/panel/index',
+      "van-cell": "/components/vant/cell/index",
+      "van-cell-group": "/components/vant/cell-group/index",
+      "van-row": "/components/vant/row/index",
+      "van-col": "/components/vant/col/index",
+      "van-rate": "/components/vant/rate/index",
+
+      "van-goods-action": "/components/vant/goods-action/index",
+      "van-goods-action-icon": "/components/vant/goods-action-icon/index",
+      "van-goods-action-button": "/components/vant/goods-action-button/index",
+
+       "xkd-sku": "/components/sku-select/index",
+
+      "van-stepper": "/components/vant/stepper/index",
+      "van-field": "/components/vant/field/index",     
+      "van-icon": "/components/vant/icon/index",
+      "van-loading": "/components/vant/loading/index",    
+      "van-toast": "/components/vant/toast/index",
+       "van-datetime-picker": "/components/vant/datetime-picker/index",
+       "van-popup": "/components/vant/popup/index",
+       'xkd-nodata': '/components/vant/xkd-nodata/index'
+    }
+  };
+
+  data = {
+    pageTitle:"商品详情",
+    share: null,
+    navleftArrow: true, ///是否显示返回按钮
+    searchkey: '',
+    item: {
+      index: 0,
+      msg: '测试列1',
+      time: '2016-09-15'
+    },    
+    windowWidth:0,
+    selectIndex:0, 
+    index:1, 
+    current:0,  
+    skuList:[],
+    selectSku:[],
+    selectedSkuValue:'',
+    pageData:{},
+    showSpecificationsModal:false,
+    skuComponentList:[],
+    addCartLoading:false,
+    selectedSkuValueText:'',
+    selectedSkuValueTextList:[],
+    toastMessage:'',
+    toastShow:false,
+    isAddnum:'',
+    cartNum:1,
+    videoCtx:null,
+    play:false,
+    duration:0,
+    themeColor:'',
+    subColor:'',
+    textThemeColor:'',
+    textSubColor:'',
+    styleConfig:{},
+    showDatetime:false,
+    currentDate:'',
+    productId:0,
+    selectedLike:false,   
+    htmlParserTpl:{},
+    isShelves:false,
+    loadingFinished:false,
+    productNum:1,
+  };
+  
+  async bindApiData(option={},flag,callback) {    
+    if(!flag) Tips.loading('加载中...');
+    this.currentDate = new Date().getTime();
+    this.windowWidth=this.$parent.globalData.windowWidth; 
+    this.themeColor=  this.$parent.globalData.navstyleconfig.PrimaryColor;
+    this.subColor=  this.$parent.globalData.navstyleconfig.PlainColor;
+    this.textThemeColor=  this.$parent.globalData.textstyleconfig.PrimaryColor;
+    this.textSubColor=  this.$parent.globalData.textstyleconfig.PlainColor;
+    this.styleConfig={themeColor:this.themeColor,subColor:this.subColor,textThemeColor:this.textThemeColor,textSubColor:this.textSubColor};
+    this.productId=option.id;
+     let productCount=await pageApi.GetProductCountInfo();     
+     let pageData=await pageApi.GetProductById({id:option.id||32});    
+     if(pageData.Code !=0){      
+      //Tips.loaded();
+      //Tips.loading(`${pageData.Msg}`); 
+      this.toastMessage=`${pageData.Msg}`; 
+      this.toastShow=true;
+      setTimeout(()=>{
+        this.toastShow=false;
+        this.$apply();
+      },3000)
+       return false;
+     }
+     if(pageData.Data.Status==2){
+       this.isShelves=true;
+     }
+     if(pageData.Data.VedioPath){
+      this.videoCtx = wx.createVideoContext('myVideo');
+      pageData.Data.VedioPath=`${this.$parent.globalData.CdnUrl}/${pageData.Data.VedioPath}`;
+      this.playbtn=true;
+     }else{
+      this.selectIndex=1;
+     }
+     if(pageData.Data.VedioCoverPath){      
+     // pageData.Data.Picture.splice(0,0,{imageUrl:`${pageData.Data.VedioCoverPath}`});
+      pageData.Data.VedioCoverPath=`${this.$parent.globalData.CdnUrl}/${pageData.Data.VedioCoverPath}`;
+     } 
+     pageData.Data.Picture.forEach((item)=>{        
+        if(this.$parent.globalData.pixelRatio <= 2){         
+          item.imageUrl=`${this.$parent.globalData.CdnUrl}/${item.imageUrl}?x-oss-process=style/720`;
+        }else{         
+          item.imageUrl=`${this.$parent.globalData.CdnUrl}/${item.imageUrl}?x-oss-process=style/1080`;
+        } 
+     })
+     let TemplateData= pageData.Data.TemplateData?JSON.parse( pageData.Data.TemplateData):[];
+     let Details= pageData.Data.Details?JSON.parse( pageData.Data.Details):[];
+     let skuList=[];
+     Details.length&&Details.splice(0,1);
+     TemplateData.splice(0,2);
+      for(let i=0;i<Details.length;i++){
+       let item=Details[i];
+       item.windowWidth=this.$parent.globalData.windowWidth;
+        item.windowHeight=this.$parent.globalData.windowHeight;
+       item.imgInfo=item.imgInfo||[];
+        item.imgScanInfo=item.imgScanInfo||[]; 
+        if(item.type==='rich_text'){
+         if(item.content){
+           var article = richText.go(wxutils.filterSource(item.content));
+            var a = wxutils.filterVideo(article);
+            var b = wxutils.splitArr(a, article); 
+            item.nodes=b;
+         }          
+       }
+       if(item.type==="image-hot"){
+          item.images.forEach((v,i)=>{                         
+              if(this.$parent.globalData.pixelRatio <= 2){
+                v.imageUrl=`${v.imageUrl}?x-oss-process=style/720`;
+              }else{
+                v.imageUrl=`${v.imageUrl}?x-oss-process=style/1080`;
+              }
+              let L=v.width/v.height;                     
+              item.imgInfo[i]={};
+              item.imgInfo[i].width=v.width;
+              item.imgInfo[i].height=v.height;                      
+              item.imgScanInfo[i]={};
+              item.imgScanInfo[i].width=this.windowWidth;
+              item.imgScanInfo[i].height=this.windowWidth/L;
+              v.scanWidth=this.windowWidth;
+              v.scanHeight=this.windowWidth/L;
+              v.pixelRatio=this.$parent.globalData.pixelRatio; 
+              v.hotData=v.hotData||[];
+              v.hotData.forEach((val)=>{                       
+                val.scanWidth=this.windowWidth*(val.width/592);
+                val.scanHeight=(this.windowWidth*(val.width/592))/(val.width/val.height);
+                val.scanY=val.y*(this.windowWidth/L)/(592/L);
+                val.scanX=val.x*this.windowWidth/592;
+              })                       
+          })      
+       }
+        if(item.type==='storebanner'){
+          item.storeName=this.$parent.globalData.storeInfo.StoreName; 
+          item.AllProductNum=productCount.Data.AllProductNum; 
+          item.LatestNum=productCount.Data.LatestNum; 
+           item.width=this.$parent.globalData.storeInfo.width||0;
+          item.height=this.$parent.globalData.storeInfo.height||0;  
+          item.shareimg=item.shareimg||this.$parent.globalData.pixelRatio<=2?'http://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/Template/t1/images/storeBackground.png?x-oss-process=style/720':'http://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/Template/t1/images/storeBackground.png?x-oss-process=style/1080';             
+          if(this.$parent.globalData.pixelRatio <= 2){          
+            item.storeLogo=item.width?`${this.$parent.globalData.CdnUrl}/${this.$parent.globalData.storeInfo.StoreLogo}?x-oss-process=style/180`:''; 
+          }else{           
+            item.storeLogo=item.width?`${this.$parent.globalData.CdnUrl}/${this.$parent.globalData.storeInfo.StoreLogo}?x-oss-process=style/240`:''; 
+          }                                                 
+          item.imgScanInfo[0]={};
+          if(item.layout==4||item.layout==3){
+            item.imgScanInfo[0].width=70;
+            item.imgScanInfo[0].height=item.width?(70/(item.width/item.height)):70;
+          }else{
+            item.imgScanInfo[0].width=58;
+            item.imgScanInfo[0].height=item.width?(58/(item.width/item.height)):58;
+          }
+       }
+       if(item.type==='image-nav'||item.type==='image-ad'){
+            item.showLinkTitle=wxutils.isShow(item.images);
+            item.images.forEach((v,i)=>{                         
+              item.imgInfo[i]={};
+              item.imgInfo[i].width=v.width;
+              item.imgInfo[i].height=v.height;                      
+              item.imgScanInfo[i]={};
+              item.imgScanInfo[i].width=v.width;
+              item.imgScanInfo[i].height=v.height; 
+              if(item.layout==1||item.layout==2){
+                if(item.type==='image-ad'){
+                  if(this.$parent.globalData.pixelRatio <= 2){
+                    v.imageUrl=`${v.imageUrl}?x-oss-process=style/720`;
+                  }else{
+                    v.imageUrl=`${v.imageUrl}?x-oss-process=style/1080`;
+                  }
+                }else{
+                  if(item.images.length<=2){                   
+                    if(this.$parent.globalData.pixelRatio <= 2){
+                      v.imageUrl=`${v.imageUrl}?x-oss-process=style/720`;
+                    }else{
+                      v.imageUrl=`${v.imageUrl}?x-oss-process=style/1080`;
+                    } 
+                  }else{
+                    if(this.$parent.globalData.pixelRatio <= 2){
+                      v.imageUrl=`${v.imageUrl}?x-oss-process=style/540`;
+                    }else{
+                      v.imageUrl=`${v.imageUrl}?x-oss-process=style/720`;
+                    }
+                  }
+                }
+              }else if(item.layout==3){ 
+                if(this.$parent.globalData.pixelRatio <= 2){
+                  v.imageUrl=`${v.imageUrl}?x-oss-process=style/360`;
+                }else{
+                  v.imageUrl=`${v.imageUrl}?x-oss-process=style/540`;
+                }
+                if(i==0){
+                  let scanHeight=336/(v.width/v.height);
+                  let scanWidth=scanHeight*(v.width/v.height);
+                  item.imgScanInfo[i].width=scanWidth;
+                  item.imgScanInfo[i].height=scanHeight; 
+                }else{
+                  let scanWidth=item.imgScanInfo[0].height*(v.width/v.height);
+                  item.imgScanInfo[i].width=scanWidth;
+                  item.imgScanInfo[i].height=item.imgScanInfo[0].height; 
+                }
+                                                                    
+              }else if(item.layout==4){  
+                if(this.$parent.globalData.pixelRatio <= 2){
+                  v.imageUrl=`${v.imageUrl}?x-oss-process=style/240`;
+                }else{
+                  v.imageUrl=`${v.imageUrl}?x-oss-process=style/360`;
+                }                      
+                if(i==0){
+                  let scanHeight=150/(v.width/v.height);
+                  let scanWidth=scanHeight*(v.width/v.height);
+                  item.imgScanInfo[i].width=scanWidth;
+                  item.imgScanInfo[i].height=scanHeight; 
+                }else{                          
+                  let scanWidth=item.imgScanInfo[0].height*(v.width/v.height);
+                  item.imgScanInfo[i].width=scanWidth;
+                  item.imgScanInfo[i].height=item.imgScanInfo[0].height; 
+                }
+              }else if(item.layout==5){  
+                if(item.images.length<=2){                   
+                  if(this.$parent.globalData.pixelRatio <= 2){
+                    v.imageUrl=`${v.imageUrl}?x-oss-process=style/720`;
+                  }else{
+                    v.imageUrl=`${v.imageUrl}?x-oss-process=style/1080`;
+                  } 
+                }else{
+                  if(this.$parent.globalData.pixelRatio <= 2){
+                    v.imageUrl=`${v.imageUrl}?x-oss-process=style/540`;
+                  }else{
+                    v.imageUrl=`${v.imageUrl}?x-oss-process=style/720`;
+                  }
+                }                         
+                if(i==0){
+                  let scanHeight=71/(v.width/v.height);
+                  let scanWidth=scanHeight*(v.width/v.height);
+                  item.imgScanInfo[i].width=scanWidth;
+                  item.imgScanInfo[i].height=scanHeight; 
+                }else{                          
+                  let scanWidth=item.imgScanInfo[0].height*(v.width/v.height);
+                  item.imgScanInfo[i].width=scanWidth;
+                  item.imgScanInfo[i].height=item.imgScanInfo[0].height; 
+                }
+              }
+            })                    
+        }
+     }
+     pageData.Data.Details=Details;
+     if(!TemplateData.length){
+        for(let i=0;i<Details.length;i++){
+       let item=Details[i];     
+       item.windowWidth=this.$parent.globalData.windowWidth;
+        item.windowHeight=this.$parent.globalData.windowHeight;  
+        item.imgInfo=item.imgInfo||[];
+        item.imgScanInfo=item.imgScanInfo||[];        
+       if(item.type==="image-hot"){
+          item.images.forEach((v,i)=>{                         
+              if(this.$parent.globalData.pixelRatio <= 2){
+                v.imageUrl=`${v.imageUrl}?x-oss-process=style/720`;
+              }else{
+                v.imageUrl=`${v.imageUrl}?x-oss-process=style/1080`;
+              }
+              let L=v.width/v.height;                     
+              item.imgInfo[i]={};
+              item.imgInfo[i].width=v.width;
+              item.imgInfo[i].height=v.height;                      
+              item.imgScanInfo[i]={};
+              item.imgScanInfo[i].width=this.windowWidth;
+              item.imgScanInfo[i].height=this.windowWidth/L;
+              v.scanWidth=this.windowWidth;
+              v.scanHeight=this.windowWidth/L;
+              v.pixelRatio=this.$parent.globalData.pixelRatio; 
+              v.hotData=v.hotData||[];
+              v.hotData.forEach((val)=>{                       
+                val.scanWidth=this.windowWidth*(val.width/592);
+                val.scanHeight=(this.windowWidth*(val.width/592))/(val.width/val.height);
+                val.scanY=val.y*(this.windowWidth/L)/(592/L);
+                val.scanX=val.x*this.windowWidth/592;
+              })                       
+          })      
+       }
+       if(item.type==='storebanner'){
+          item.storeName=this.$parent.globalData.storeInfo.StoreName; 
+          item.AllProductNum=productCount.Data.AllProductNum; 
+          item.LatestNum=productCount.Data.LatestNum;
+          item.width=this.$parent.globalData.storeInfo.width||0;
+          item.height=this.$parent.globalData.storeInfo.height||0;
+          item.shareimg=item.shareimg||this.$parent.globalData.pixelRatio<=2?'http://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/Template/t1/images/storeBackground.png?x-oss-process=style/720':'http://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/Template/t1/images/storeBackground.png?x-oss-process=style/1080';             
+          if(this.$parent.globalData.pixelRatio <= 2){          
+            item.storeLogo=item.width?`${this.$parent.globalData.CdnUrl}/${this.$parent.globalData.storeInfo.StoreLogo}?x-oss-process=style/180`:'http://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/systemfile/store/storelogo.png?x-oss-process=style/180'; 
+          }else{           
+            item.storeLogo=item.width?`${this.$parent.globalData.CdnUrl}/${this.$parent.globalData.storeInfo.StoreLogo}?x-oss-process=style/240`:'http://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/systemfile/store/storelogo.png?x-oss-process=style/240'; 
+          }                                                    
+          item.imgScanInfo[0]={};
+          if(item.layout==4||item.layout==3){
+            item.imgScanInfo[0].width=70;
+            item.imgScanInfo[0].height=item.width?(70/(item.width/item.height)):70;
+          }else{
+            item.imgScanInfo[0].width=58;
+            item.imgScanInfo[0].height=item.width?(58/(item.width/item.height)):58;
+          }
+       }
+       if(item.type==='image-nav'||item.type==='image-ad'){
+            item.showLinkTitle=wxutils.isShow(item.images);
+            item.images.forEach((v,i)=>{                         
+              item.imgInfo[i]={};
+              item.imgInfo[i].width=v.width;
+              item.imgInfo[i].height=v.height;                      
+              item.imgScanInfo[i]={};
+              item.imgScanInfo[i].width=v.width;
+              item.imgScanInfo[i].height=v.height; 
+              if(item.layout==1||item.layout==2){
+                if(item.type==='image-ad'){
+                  if(this.$parent.globalData.pixelRatio <= 2){
+                    v.imageUrl=`${v.imageUrl}?x-oss-process=style/720`;
+                  }else{
+                    v.imageUrl=`${v.imageUrl}?x-oss-process=style/1080`;
+                  }
+                }else{
+                  if(item.images.length<=2){                   
+                    if(this.$parent.globalData.pixelRatio <= 2){
+                      v.imageUrl=`${v.imageUrl}?x-oss-process=style/720`;
+                    }else{
+                      v.imageUrl=`${v.imageUrl}?x-oss-process=style/1080`;
+                    } 
+                  }else{
+                    if(this.$parent.globalData.pixelRatio <= 2){
+                      v.imageUrl=`${v.imageUrl}?x-oss-process=style/540`;
+                    }else{
+                      v.imageUrl=`${v.imageUrl}?x-oss-process=style/720`;
+                    }
+                  }
+                }
+              }else if(item.layout==3){ 
+                if(this.$parent.globalData.pixelRatio <= 2){
+                  v.imageUrl=`${v.imageUrl}?x-oss-process=style/360`;
+                }else{
+                  v.imageUrl=`${v.imageUrl}?x-oss-process=style/540`;
+                }
+                if(i==0){
+                  let scanHeight=336/(v.width/v.height);
+                  let scanWidth=scanHeight*(v.width/v.height);
+                  item.imgScanInfo[i].width=scanWidth;
+                  item.imgScanInfo[i].height=scanHeight; 
+                }else{
+                  let scanWidth=item.imgScanInfo[0].height*(v.width/v.height);
+                  item.imgScanInfo[i].width=scanWidth;
+                  item.imgScanInfo[i].height=item.imgScanInfo[0].height; 
+                }
+                                                                    
+              }else if(item.layout==4){  
+                if(this.$parent.globalData.pixelRatio <= 2){
+                  v.imageUrl=`${v.imageUrl}?x-oss-process=style/240`;
+                }else{
+                  v.imageUrl=`${v.imageUrl}?x-oss-process=style/360`;
+                }                      
+                if(i==0){
+                  let scanHeight=150/(v.width/v.height);
+                  let scanWidth=scanHeight*(v.width/v.height);
+                  item.imgScanInfo[i].width=scanWidth;
+                  item.imgScanInfo[i].height=scanHeight; 
+                }else{                          
+                  let scanWidth=item.imgScanInfo[0].height*(v.width/v.height);
+                  item.imgScanInfo[i].width=scanWidth;
+                  item.imgScanInfo[i].height=item.imgScanInfo[0].height; 
+                }
+              }else if(item.layout==5){  
+                if(item.images.length<=2){                   
+                  if(this.$parent.globalData.pixelRatio <= 2){
+                    v.imageUrl=`${v.imageUrl}?x-oss-process=style/720`;
+                  }else{
+                    v.imageUrl=`${v.imageUrl}?x-oss-process=style/1080`;
+                  } 
+                }else{
+                  if(this.$parent.globalData.pixelRatio <= 2){
+                    v.imageUrl=`${v.imageUrl}?x-oss-process=style/540`;
+                  }else{
+                    v.imageUrl=`${v.imageUrl}?x-oss-process=style/720`;
+                  }
+                }                         
+                if(i==0){
+                  let scanHeight=71/(v.width/v.height);
+                  let scanWidth=scanHeight*(v.width/v.height);
+                  item.imgScanInfo[i].width=scanWidth;
+                  item.imgScanInfo[i].height=scanHeight; 
+                }else{                          
+                  let scanWidth=item.imgScanInfo[0].height*(v.width/v.height);
+                  item.imgScanInfo[i].width=scanWidth;
+                  item.imgScanInfo[i].height=item.imgScanInfo[0].height; 
+                }
+              }
+            })                    
+        }
+      }  
+     }     
+     if(pageData.Data.Sku_Name_1){
+        skuList.push({...pageData.Data.Sku_Name_1,Sku_Value:pageData.Data.Sku_Name_1_Value})
+     }
+     if(pageData.Data.Sku_Name_2){
+        skuList.push({...pageData.Data.Sku_Name_2,Sku_Value:pageData.Data.Sku_Name_2_Value})
+     }
+     if(pageData.Data.Sku_Name_3){
+        skuList.push({...pageData.Data.Sku_Name_3,Sku_Value:pageData.Data.Sku_Name_3_Value})
+     }
+     for(let i=0;i<TemplateData.length;i++){
+       let item=TemplateData[i];
+       if(item.type==="baseInfo"||item.type==="productDetail"){
+         item.details=Details;
+         pageData.Data.specificationsType=item.specificationsType;
+         break;
+       }
+     }     
+     for(let i=0;i<TemplateData.length;i++){
+       let item=TemplateData[i]; 
+       item.windowWidth=this.$parent.globalData.windowWidth;
+        item.windowHeight=this.$parent.globalData.windowHeight;      
+        item.imgInfo=item.imgInfo||[];
+        item.imgScanInfo=item.imgScanInfo||[]; 
+       if(item.type==='storebanner'){
+          item.storeName=this.$parent.globalData.storeInfo.StoreName; 
+          item.AllProductNum=productCount.Data.AllProductNum; 
+          item.LatestNum=productCount.Data.LatestNum;
+          item.width=this.$parent.globalData.storeInfo.width||0;
+          item.height=this.$parent.globalData.storeInfo.height||0;     
+          item.shareimg=item.shareimg||this.$parent.globalData.pixelRatio<=2?'http://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/Template/t1/images/storeBackground.png?x-oss-process=style/720':'http://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/Template/t1/images/storeBackground.png?x-oss-process=style/1080';             
+          if(this.$parent.globalData.pixelRatio <= 2){          
+            item.storeLogo=item.width?`${this.$parent.globalData.CdnUrl}/${this.$parent.globalData.storeInfo.StoreLogo}?x-oss-process=style/180`:'http://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/systemfile/store/storelogo.png?x-oss-process=style/180'; 
+          }else{           
+            item.storeLogo=item.width?`${this.$parent.globalData.CdnUrl}/${this.$parent.globalData.storeInfo.StoreLogo}?x-oss-process=style/240`:'http://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/systemfile/store/storelogo.png?x-oss-process=style/240'; 
+          }                                               
+          item.imgScanInfo[0]={};
+          if(item.layout==4||item.layout==3){
+            item.imgScanInfo[0].width=70;
+            item.imgScanInfo[0].height=item.width?(70/(item.width/item.height)):70;
+          }else{
+            item.imgScanInfo[0].width=58;
+            item.imgScanInfo[0].height=item.width?(58/(item.width/item.height)):58;
+          }
+       }
+       if(item.type==="image-hot"){
+          item.images.forEach((v,i)=>{                         
+              if(this.$parent.globalData.pixelRatio <= 2){
+                v.imageUrl=`${v.imageUrl}?x-oss-process=style/720`;
+              }else{
+                v.imageUrl=`${v.imageUrl}?x-oss-process=style/1080`;
+              }
+              let L=v.width/v.height;                     
+              item.imgInfo[i]={};
+              item.imgInfo[i].width=v.width;
+              item.imgInfo[i].height=v.height;                      
+              item.imgScanInfo[i]={};
+              item.imgScanInfo[i].width=this.windowWidth;
+              item.imgScanInfo[i].height=this.windowWidth/L;
+              v.scanWidth=this.windowWidth;
+              v.scanHeight=this.windowWidth/L;
+              v.pixelRatio=this.$parent.globalData.pixelRatio; 
+              v.hotData=v.hotData||[];
+              v.hotData.forEach((val)=>{                       
+                val.scanWidth=this.windowWidth*(val.width/592);
+                val.scanHeight=(this.windowWidth*(val.width/592))/(val.width/val.height);
+                val.scanY=val.y*(this.windowWidth/L)/(592/L);
+                val.scanX=val.x*this.windowWidth/592;
+              })                       
+          })      
+       }
+       if(item.type==='rich_text'){
+         if(item.content){
+           var article = richText.go(wxutils.filterSource(item.content));
+            var a = wxutils.filterVideo(article);
+            var b = wxutils.splitArr(a, article); 
+            item.nodes=b;
+         }  
+       }
+       if(item.type==='image-nav'||item.type==='image-ad'){
+            item.showLinkTitle=wxutils.isShow(item.images);
+            item.images.forEach((v,i)=>{                         
+              item.imgInfo[i]={};
+              item.imgInfo[i].width=v.width;
+              item.imgInfo[i].height=v.height;                      
+              item.imgScanInfo[i]={};
+              item.imgScanInfo[i].width=v.width;
+              item.imgScanInfo[i].height=v.height; 
+              if(item.layout==1||item.layout==2){
+                if(item.type==='image-ad'){
+                  if(this.$parent.globalData.pixelRatio <= 2){
+                    v.imageUrl=`${v.imageUrl}?x-oss-process=style/720`;
+                  }else{
+                    v.imageUrl=`${v.imageUrl}?x-oss-process=style/1080`;
+                  }
+                }else{
+                  if(item.images.length<=2){                   
+                    if(this.$parent.globalData.pixelRatio <= 2){
+                      v.imageUrl=`${v.imageUrl}?x-oss-process=style/720`;
+                    }else{
+                      v.imageUrl=`${v.imageUrl}?x-oss-process=style/1080`;
+                    } 
+                  }else{
+                    if(this.$parent.globalData.pixelRatio <= 2){
+                      v.imageUrl=`${v.imageUrl}?x-oss-process=style/540`;
+                    }else{
+                      v.imageUrl=`${v.imageUrl}?x-oss-process=style/720`;
+                    }
+                  }
+                }
+              }else if(item.layout==3){ 
+                if(this.$parent.globalData.pixelRatio <= 2){
+                  v.imageUrl=`${v.imageUrl}?x-oss-process=style/360`;
+                }else{
+                  v.imageUrl=`${v.imageUrl}?x-oss-process=style/540`;
+                }
+                if(i==0){
+                  let scanHeight=336/(v.width/v.height);
+                  let scanWidth=scanHeight*(v.width/v.height);
+                  item.imgScanInfo[i].width=scanWidth;
+                  item.imgScanInfo[i].height=scanHeight; 
+                }else{
+                  let scanWidth=item.imgScanInfo[0].height*(v.width/v.height);
+                  item.imgScanInfo[i].width=scanWidth;
+                  item.imgScanInfo[i].height=item.imgScanInfo[0].height; 
+                }
+                                                                    
+              }else if(item.layout==4){  
+                if(this.$parent.globalData.pixelRatio <= 2){
+                  v.imageUrl=`${v.imageUrl}?x-oss-process=style/240`;
+                }else{
+                  v.imageUrl=`${v.imageUrl}?x-oss-process=style/360`;
+                }                      
+                if(i==0){
+                  let scanHeight=150/(v.width/v.height);
+                  let scanWidth=scanHeight*(v.width/v.height);
+                  item.imgScanInfo[i].width=scanWidth;
+                  item.imgScanInfo[i].height=scanHeight; 
+                }else{                          
+                  let scanWidth=item.imgScanInfo[0].height*(v.width/v.height);
+                  item.imgScanInfo[i].width=scanWidth;
+                  item.imgScanInfo[i].height=item.imgScanInfo[0].height; 
+                }
+              }else if(item.layout==5){  
+                if(item.images.length<=2){                   
+                  if(this.$parent.globalData.pixelRatio <= 2){
+                    v.imageUrl=`${v.imageUrl}?x-oss-process=style/720`;
+                  }else{
+                    v.imageUrl=`${v.imageUrl}?x-oss-process=style/1080`;
+                  } 
+                }else{
+                  if(this.$parent.globalData.pixelRatio <= 2){
+                    v.imageUrl=`${v.imageUrl}?x-oss-process=style/540`;
+                  }else{
+                    v.imageUrl=`${v.imageUrl}?x-oss-process=style/720`;
+                  }
+                }                         
+                if(i==0){
+                  let scanHeight=71/(v.width/v.height);
+                  let scanWidth=scanHeight*(v.width/v.height);
+                  item.imgScanInfo[i].width=scanWidth;
+                  item.imgScanInfo[i].height=scanHeight; 
+                }else{                          
+                  let scanWidth=item.imgScanInfo[0].height*(v.width/v.height);
+                  item.imgScanInfo[i].width=scanWidth;
+                  item.imgScanInfo[i].height=item.imgScanInfo[0].height; 
+                }
+              }
+            })                    
+        }
+     }      
+     pageData.Data.TemplateData=TemplateData;
+     pageData.Data.Message&&pageData.Data.Message.forEach((item)=>{
+       item.text="";
+     })
+     this.skuList=skuList;
+     this.skuComponentList={
+          skuList,
+          list:pageData.Data.SkuStock||[],
+          goods: {
+            id: pageData.Data.Id,
+            name: pageData.Data.Name,
+            picture: pageData.Data.Sku_Name_1_Value&&pageData.Data.Sku_Name_1_Value[0].ImgPath?`${this.$parent.globalData.CdnUrl}/${pageData.Data.Sku_Name_1_Value[0].ImgPath}`:pageData.Data.Picture[0].imageUrl?pageData.Data.Picture[0].imageUrl:''||'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/mchfile/100000000001/image/c5537d40501a42fdabea493fdec50ddf.png?x-oss-process=style/180',
+            price:pageData.Data.SalePrice,
+            stockNum:pageData.Data.StockNum,
+            cdnUrl:this.$parent.globalData.CdnUrl
+          },
+          message:pageData.Data.Message?pageData.Data.Message:[]
+       };       
+     this.pageData = pageData.Data;
+     this.loadingFinished=true;
+     let shopcartCount=await shopcartApi.GetShopCartNumber();     
+     if(callback && typeof callback === 'function') callback(); 
+    //  pageData.Data.Details=this.details;    
+    //  this.details[1].content = richText.go(this.details[1].content);
+      console.log(this.pageData,this.$parent)
+     
+  }
+
+  components = {}; // 声明页面中所引用的组件，或声明组件中所引用的子组件
+
+  ///替换mixins配置，请不要定义mixins=[],否则不出现异常
+  addmixins() {
+    return [testMixin]; // 声明页面所引用的Mixin实例
+  }
+
+  computed = {}; // 声明计算属性（详见后文介绍）
+
+  watch = {}; // 声明数据watcher（详见后文介绍）
+
+  methods = {
+    bindanimationfinish(e){     
+     this.index=!this.pageData.VedioPath?e.detail.current+1:e.detail.current;
+      this.current=e.detail.current;
+      console.log(e.detail)
+      if(this.pageData.VedioPath&&this.current>0){
+        this.selectIndex=1;
+      }else if(this.index<=0){
+        this.selectIndex=0;
+      }     
+    },
+    changeType(type){
+      this.selectIndex=type;
+      this.current=type;
+      this.index=type;
+      console.log(this)
+      if(type==1){
+        this.play=false;
+        this.videoCtx.pause();
+        this.duration=0;
+      }
+    },
+    bindTimeChange(e){
+      let index=e.target.dataset.index;      
+      this.pageData.Message[index].text=e.detail.value;
+    },
+    changeInput(e){
+      let text=e.detail;
+      let index=e.target.dataset.index;
+      let type = e.target.dataset.datatype;
+      this.pageData.Message[index].text=text;   
+      console.log(type)  
+      if(type === 'phoneNo'){
+        let reg=/^0?(13[0-9]|14[5-9]|15[012356789]|166|17[0-8]|18[0-9]|19[89])[0-9]{8}$/;
+        if(text.match(reg)){
+          this.pageData.Message[index].error=false;   
+        }else{
+          this.pageData.Message[index].error=true; 
+        }
+      }else if(type === 'mail'){
+        let reg=/^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/;
+        if(text.match(reg)){
+          this.pageData.Message[index].error=false;   
+        }else{
+          this.pageData.Message[index].error=true; 
+        }
+      }else if(type === 'idCard'){
+        let reg=/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+        if(text.match(reg)){
+          this.pageData.Message[index].error=false;   
+        }else{
+          this.pageData.Message[index].error=true; 
+        }
+      }
+    },
+    selectedSp(id,text,pidx,cidx){
+      console.log(id,text,pidx,cidx);
+      let selectSku=[];
+      let list = JSON.parse(JSON.stringify(this.skuList));
+      let skuList = JSON.parse(JSON.stringify(this.skuList));
+      list[pidx].Sku_Value.forEach((item)=>{
+        item.selected=false;
+      })
+       list[pidx].Sku_Value[cidx].selected=true;
+      this.skuList=list;
+      let index=this.selectSku.findIndex((item)=>item===id);
+      if(index<0){
+         //this.selectSku.push(id);
+         this.selectSku[pidx]=id;
+      }    
+     // this.selectSku=selectSku;      
+     let arr=JSON.parse(JSON.stringify(this.selectSku));
+     arr.sort(function (a,b) {
+        return a-b;
+      })
+      this.selectedSkuValue=`${this.pageData.Id}_${arr.join('_')}`; 
+      let filter=this.selectSku.filter((item)=>item);
+      if(this.skuList.length===filter.length){
+        for(let i=0;i<this.pageData.SkuStock.length;i++){
+          let item=this.pageData.SkuStock[i];
+          if(this.selectedSkuValue===item.SkuId){          
+            this.pageData.SalePrice=item.SalePrice;
+            this.pageData.SaleNum=item.SaleNum;
+            this.pageData.StockNum=item.StockNum;
+            break;
+          }
+        }
+      }          
+    },
+    showSpecificationsPopup(){     
+      this.showSpecificationsModal=true;
+    },
+    onClose() {
+      //this.setData({ show: false });
+      this.showSpecificationsModal=false;     
+    },
+    async onAddCart(e){
+       this.isAddnum='show';
+       this.cartNum= ++this.cartNum;
+      //  setTimeout(()=>{
+      //    this.isAddnum='';
+      //    this.$apply()
+      //  },1000)
+       console.log(e,9999)
+       let res=await pageApi.SaveToShopCart({
+         productId:e.detail.productId,
+         skuId:e.detail.skuId,
+         number:e.detail.productNum,
+         activityId:0,
+         actName:'',
+         productMsg:'',
+         sourceFrom:0
+       });       
+       if(res.Code==0){
+         Tips.success('加入成功');
+          this.showSpecificationsModal=false;         
+       }else{
+         Tips.error(res.Msg);
+       }
+       e.detail.hideLoading();      
+    },
+    selectSku(e){     
+      console.log(e,222) 
+      let textList=e.detail;
+      let list=[];     
+      textList.forEach((item)=>{
+        if(item){
+          list.push(item)
+        }
+      })
+       let text=list.join('，');
+      this.selectedSkuValueText=text;
+      this.selectedSkuValueTextList=textList;
+    },
+    onChangeNum(e){      
+      this.productNum=e.detail;
+      console.log(e.detail)
+    },
+    async addCart(e){
+      //this.showSpecificationsModal=true;
+      if(this.pageData.specificationsType==1){
+        if(this.pageData.Sku_Name_1){
+          this.showSpecificationsModal=true;
+          return;
+        }
+      }else{
+          if(!this.selectSku[0]&&this.pageData.Sku_Name_1){         
+          this.toastMessage=`请选择${this.pageData.Sku_Name_1.Text}`; 
+          this.toastShow=true;
+          setTimeout(()=>{
+              this.toastShow=false;
+            this.$apply()
+          },1500)
+          return;
+        }
+        if(!this.selectSku[1]&&this.pageData.Sku_Name_2){
+          this.toastMessage=`请选择${this.pageData.Sku_Name_2.Text}`; 
+          this.toastShow=true;
+          setTimeout(()=>{
+              this.toastShow=false;
+            this.$apply()
+          },1500)
+          return;
+        }
+        if(!this.selectSku[2]&&this.pageData.Sku_Name_3){
+        this.toastMessage=`请选择${this.pageData.Sku_Name_3.Text}`; 
+          this.toastShow=true;
+          setTimeout(()=>{
+              this.toastShow=false;
+            this.$apply()
+          },1500)
+          return;
+        }
+      }
+      this.addCartLoading=true;     
+      let res=await pageApi.SaveToShopCart({
+         productId:Number(this.productId),
+         skuId:this.selectedSkuValue||this.productId,
+         number:this.productNum,
+         activityId:0,
+         actName:'',
+         productMsg:this.pageData.Message?JSON.stringify(this.pageData.Message):'',
+         sourceFrom:0
+       });
+       if(res.Code==0){
+         Tips.success('加入成功');                 
+       }else{
+         Tips.error(res.Msg);
+       }
+       this.addCartLoading=false; 
+      // setTimeout(()=>{              
+      //  this.toastMessage="加入成功"; 
+      //  this.toastShow=true;    
+      //   this.addCartLoading=false;
+      //   this.isAddnum='show';
+      //   this.$apply()
+      // },2000)
+      // setTimeout(()=>{
+      //     this.toastShow=false;
+      //   this.$apply()
+      // },3000)
+    },
+    buyNow(){
+      // if(!this.selectedSkuValueTextList[0]&&this.pageData.Sku_Name_1){         
+      //   this.toastMessage=`请选择${this.pageData.Sku_Name_1.Text}`; 
+      //   this.toastShow=true;
+      //   setTimeout(()=>{
+      //       this.toastShow=false;
+      //     this.$apply()
+      //   },1500)
+      //   return;
+      // }
+      // if(!this.selectedSkuValueTextList[1]&&this.pageData.Sku_Name_2){
+      //   this.toastMessage=`请选择${this.pageData.Sku_Name_2.Text}`; 
+      //   this.toastShow=true;
+      //   setTimeout(()=>{
+      //       this.toastShow=false;
+      //     this.$apply()
+      //   },1500)
+      //   return;
+      // }
+      // if(!this.selectedSkuValueTextList[2]&&this.pageData.Sku_Name_3){
+      //  this.toastMessage=`请选择${this.pageData.Sku_Name_3.Text}`; 
+      //   this.toastShow=true;
+      //   setTimeout(()=>{
+      //       this.toastShow=false;
+      //     this.$apply()
+      //   },1500)
+      //   return;
+      // }
+       if(this.pageData.specificationsType==1){
+        if(this.pageData.Sku_Name_1){
+          this.showSpecificationsModal=true;
+          return;
+        }
+      }else{
+          if(!this.selectSku[0]&&this.pageData.Sku_Name_1){         
+          this.toastMessage=`请选择${this.pageData.Sku_Name_1.Text}`; 
+          this.toastShow=true;
+          setTimeout(()=>{
+              this.toastShow=false;
+            this.$apply()
+          },1500)
+          return;
+        }
+        if(!this.selectSku[1]&&this.pageData.Sku_Name_2){
+          this.toastMessage=`请选择${this.pageData.Sku_Name_2.Text}`; 
+          this.toastShow=true;
+          setTimeout(()=>{
+              this.toastShow=false;
+            this.$apply()
+          },1500)
+          return;
+        }
+        if(!this.selectSku[2]&&this.pageData.Sku_Name_3){
+        this.toastMessage=`请选择${this.pageData.Sku_Name_3.Text}`; 
+          this.toastShow=true;
+          setTimeout(()=>{
+              this.toastShow=false;
+            this.$apply()
+          },1500)
+          return;
+        }
+      }
+       this.toastMessage="该功能正在开发中"; 
+       this.toastShow=true;
+       setTimeout(()=>{
+          this.toastShow=false;
+        this.$apply()
+      },1500)
+    },
+    previewImg(index,imgList){
+      if(this.pageData.VedioPath&&index==0){
+        return;
+      }
+      let list= imgList.length?imgList:[
+            {imageUrl:'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/mchfile/100000000001/image/e7eeaa1a3568489e89351bb8ef5ed128.jpg?x-oss-process=style/180',},
+            {imageUrl:'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/mchfile/100000000001/image/cff3cc432ce645449004598e00a25d66.png?x-oss-process=style/180',},
+            {imageUrl:'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/mchfile/100000000001/image/e16a241049ca4e7eb606df676a8dee27.jpg?x-oss-process=style/180',},
+            {imageUrl:'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/mchfile/100000000001/image/f113146c779b41a98fb2e7c2a66e8b79.png?x-oss-process=style/180',},
+            {imageUrl:'https://insidexkd.oss-cn-shanghai.aliyuncs.com/test/test789.jpg?x-oss-process=style/180'}                                   
+          ] ;
+          let previewList=imgList.length?[]:[
+            'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/mchfile/100000000001/image/e7eeaa1a3568489e89351bb8ef5ed128.jpg?x-oss-process=style/180',
+           'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/mchfile/100000000001/image/cff3cc432ce645449004598e00a25d66.png?x-oss-process=style/180',
+            'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/mchfile/100000000001/image/e16a241049ca4e7eb606df676a8dee27.jpg?x-oss-process=style/180',
+           'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/mchfile/100000000001/image/f113146c779b41a98fb2e7c2a66e8b79.png?x-oss-process=style/180',
+            'https://insidexkd.oss-cn-shanghai.aliyuncs.com/test/test789.jpg?x-oss-process=style/180'
+          ];
+          list.forEach((item)=>{
+            previewList.push(item.imageUrl);
+          })          
+      wx.previewImage({
+        current: imgList.length?list[index].imageUrl:previewList[index], // 当前显示图片的http链接
+        urls: previewList // 需要预览的图片http链接列表
+      })
+    },
+    videoPlay() {
+      this.play=true;
+      this.videoCtx.play()
+    },
+    playEnd(){
+      this.play=false;
+    },
+    pause() {
+      this.videoCtx.pause()
+    },
+    onCloseDatetime(){
+      this.showDatetime=false;
+    },
+    showDatetimePup(num){
+      console.log(num)
+      this.datetimeIndex=num;
+      this.showDatetime=true;
+    },
+    selectDatetime(val){      
+      // this.pageData.Message[this.datetimeIndex].text=this.date('Y-m-d H:i:s',`${val.detail}`); 
+      this.pageData.Message[this.datetimeIndex].text=wxutils.date(`${val.detail}`.substr(0,`${val.detail}`.length-3));
+      this.showDatetime=false;
+    },
+    chooseImage(e){
+      // let text=e.detail;
+      let index=e.currentTarget.dataset.index;
+      //let type = e.target.dataset.datatype;
+      const that=this;
+      wx.chooseImage({
+        count: 1,
+        sizeType: ['original', 'compressed'],
+        sourceType: ['album', 'camera'],
+        success(res) {
+          // tempFilePath可以作为img标签的src属性显示图片
+          const tempFilePaths = res.tempFilePaths;
+          console.log(tempFilePaths)
+          that.pageData.Message[index].text=tempFilePaths[0];
+          that.$apply();
+        }
+      })
+    },
+    goIndex(){      
+      wxutils.redirectToPage('/pages/home/index')
+    },
+    goShopCart(){
+      wxutils.redirectToPage('/pages/shopcart/index')
+    },
+    goLike(){
+      this.toastMessage="已收藏"; 
+       this.toastShow=true;
+       this.selectedLike = true;
+       setTimeout(()=>{
+          this.toastShow=false;
+        this.$apply()
+      },1500)
+    },
+    repage(){
+      wxutils.redirectToPage('/pages/home/index')
+    }
+  };
+
+  onPullDownRefresh(e){    
+    let that=this;  
+    this.bindApiData({id:this.productId},true,()=>{
+          setTimeout(() => {
+            Tips.loaded();
+          wx.stopPullDownRefresh();
+          this.$apply();
+          }, 1000);
+      });            
+                
+  }
+  /**
+   * 分享
+   */
+
+  onShareAppMessage() {
+    console.log(this.pageData.Picture)
+    return {
+      title:this.pageData.Name,
+      path:`/pages/product/detail?id=${this.productId}`,
+      imageUrl:this.pageData.Picture[0].imageUrl
+    };
+  }
+}
+</script>

@@ -1,0 +1,243 @@
+<style lang="less">
+  @import "../../style/variable";
+    .address-page {
+        height: 100%;
+        background: #f7f7f7;
+    }
+    .address-content{
+        border-top: 1rpx solid #eee;
+        background: #fff;
+        // box-shadow:0px 1px 0px rgba(238,238,238,1);
+    }
+    .address-radio {
+        > .van-radio {
+            display:flex;
+            align-items:center;
+            border-bottom:1rpx solid #eee;
+            margin-left:24rpx;
+            > .van-radio__label {
+                margin-left: 0;
+                flex: 1
+            }
+        }      
+    }
+    .address-bottom {
+        position:absolute;
+        bottom:0rpx;
+        left:0rpx;
+        right:0rpx;
+        background:#fff;
+        padding:32rpx 48rpx;
+        position:fixed;
+        display: flex;
+        .address-bottom-left {
+            flex:1;
+            height:72rpx;
+            line-height:72rpx;
+            background:rgba(28,49,68,1);
+            opacity:1;
+            border-radius:8rpx 0rpx 0rpx 8rpx;
+            font-size: 28rpx;
+            text-align: center;
+            color: #fff;
+        }
+        .address-bottom-right {
+            flex:1;
+            height:72rpx;
+            line-height:72rpx;
+            background:rgba(255,152,0,1);
+            opacity:1;
+            border-radius:0rpx 8rpx 8rpx 0rpx;
+            font-size: 28rpx;
+            text-align: center;
+            color: #fff;
+        }
+    }
+    .van-cell {
+        // padding: 0 0 0 8px;
+        .van-cell {
+            padding: 24rpx 16rpx;
+        }
+        .slot-title {
+            display: flex;
+            align-items: center;
+            color: #212121;
+            font-size: 30rpx;
+            .van-default-addrass {
+                background:rgba(230,247,255,1);
+                border:1rpx solid rgba(24,144,255,1);
+                opacity:1;
+                border-radius:8rpx;
+                color:rgba(24,144,255,1);
+                padding: 0rpx 8rpx;
+                margin-left: 16rpx;
+                font-size: 26rpx;
+            }
+        }
+        .van-cell-label {
+            color: #747474;
+            font-size: 26rpx;
+        }
+       .van-cell__right-icon {
+            display:flex;
+            align-items:center;
+            >.van-icon> image{
+                width: 48rpx;
+                height: 48rpx;
+            }
+        }
+    }   
+</style>
+
+<template>
+<html>
+  <xkd-master id="xkdmaster" pageReady="{{pageIsReady}}"  pagedata="{{currentData}}" bind:tab-change="tab_selChange" bind:navbackclick="nav_backclick">
+
+    <view desc="本页工作区域" style="height: 100%;">
+    <!-- <xkd-address @wechataddress="getWechataddress"></xkd-address> -->
+    <view class="address-page">
+        <view class="address-content">
+            <van-radio-group value="{{ radio }}" bind:change="selectAddress">
+                <van-radio name="{{item.Id}}" class="address-radio" wx:for="{{addressListData}}" wx:for-index="index" wx:for-item="item" wx:key="item">
+                    <van-cell class="van-cell" border="{{ false }}">
+                        <view slot="title" class="slot-title">
+                            <view>{{item.ShipTo + ','+ item.Phone}}</view>
+                            <view class="van-default-addrass" wx:if="{{item.IsDefault}}">默认地址</view>
+                        </view>
+                        <view slot="title" class="van-cell-label">{{item.ProvName + item.CityName + item.DistrictName + item.Detail }}</view>
+                        <van-icon
+                            slot="right-icon"
+                            name="{{cdnUrl+'/'+ 'xkdnewyun/systemfile/wxashop/icon/address_icon_edit.png' +'?x-oss-process=style/180'}}"
+                            class="van-cell__right-icon"
+                        />
+                   </van-cell>
+                </van-radio>
+            </van-radio-group>
+        </view>
+        <!-- <view>
+            <view> 以下地址超出配送范围</view>
+        </view> -->
+        <view class="address-bottom">
+            <view class="address-bottom-left" bind:tap="clickGetWechatAddress">获取微信收货地址</view>
+            <view class="address-bottom-right">新增地址</view>
+        </view>
+    </view>
+
+    <!-- <xkd-nodata
+        @redirectToPage="linkToIndexpage"
+        fileImageType="xkdnewyun/systemfile/wxashop/wxanodata2.png"
+    ></xkd-nodata> -->
+    <xkd-copyright wx:if="{{pageIsReady}}" id="wxacopyright" desc="底部版权" watchNode="#xkdmaster"/>
+    </view>    
+</xkd-master> 
+</html>
+</template>
+
+<script>
+import wepy from 'wepy';
+import Tips from '../../utils/Tips';
+import wxutils from '../../utils/WxUtils';
+import basepage from '../../utils/basepage';
+import testMixin from '../../mixins/test';
+import addressApi from '../../api/address';
+
+export default class addressList extends basepage {
+  ///页
+  config = {
+    navigationBarTitleText: '选择收货地址',
+    usingComponents: {
+      "van-radio-group": "/components/vant/radio-group/index",
+      "van-radio": "/components/vant/radio/index",
+      "van-cell": "/components/vant/cell/index",
+      "van-button": "/components/vant/button/index",
+      "van-icon": "/components/vant/icon/index",
+      "van-tag": "/components/vant/tag/index",
+      "xkd-address": "/components/vant/xkd-address/index",
+    //   'xkd-nodata': '/components/vant/xkd-nodata/index'
+    }
+  };
+
+  data = {
+    pageTitle:"选择收货地址",
+    share: null,
+    navleftArrow: true, ///是否显示返回按钮
+    searchkey: '',
+    radio: '',
+    item: {
+      index: 0,
+      msg: '测试列1',
+      time: '2016-09-15'
+    },
+    cdnUrl:'',
+    addressListData: [],
+    wechatAddressId: ''
+  };
+  
+  async bindApiData(option) {
+    this.cdnUrl=this.$parent.globalData.CdnUrl;
+    Tips.loading('模拟等待数据');
+    let addressData = await this.GetMemberAddress();
+    this.addressListData = addressData;
+    // await this.$parent.sleep(1);
+    this.$apply();
+  }
+
+  async GetMemberAddress(){
+       let addressData = await addressApi.GetMemberAddress();
+    //    if(addressData.Data.length > 0) {
+           return addressData.Data;
+    //    }     
+  }
+
+  components = {}; // 声明页面中所引用的组件，或声明组件中所引用的子组件
+
+  ///替换mixins配置，请不要定义mixins=[],否则不出现异常
+  addmixins() {
+    return [testMixin]; // 声明页面所引用的Mixin实例
+  }
+
+  computed = {}; // 声明计算属性（详见后文介绍）
+
+  watch = {}; // 声明数据watcher（详见后文介绍）
+
+  methods = {
+      getWechataddress(e){
+          this.wechatAddressId = e.detail;
+      },
+      selectAddress(e) {
+          this.radio = e.detail;
+      },
+      clickGetWechatAddress() {
+          let that=this;
+          wx.chooseAddress({
+            success(res) {
+                 addressApi.AddWeixinAddress({
+                    userName: res.userName,
+                    phone: res.telNumber==='020-81167888'?'13112345678':res.telNumber,
+                    provName: res.provinceName,
+                    cityName: res.cityName,
+                    districtName: res.countyName,
+                    detail: res.detailInfo
+                }).then(resData=>{
+                 if(resData.Code ===0) {
+                   that.GetMemberAddress().then(resNewData=>{
+                       that.addressListData = resNewData;
+                   });
+                 }
+                });
+
+                
+            }
+        })
+      }
+  };
+
+  /**
+   * 分享
+   */
+
+  onShareAppMessage() {
+    return {};
+  }
+}
+</script>

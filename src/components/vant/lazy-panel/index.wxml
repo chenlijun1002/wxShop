@@ -1,0 +1,12 @@
+
+<!--这是一个懒加载组件，当组件区进入到可视区，出发事件-->
+<view
+ 
+  class="custom-class"
+  style="{{ customStyle }}"
+  bind:tap="onClick"
+>
+<view wx:if="{{show_observer}}"  id="{{randomId}}" class="Lazycomponent-observer"> 　　　  </view>
+<!-- 内容区 -->
+<slot/>
+</view>

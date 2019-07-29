@@ -1,0 +1,124 @@
+<style lang="less">
+</style>
+
+<template>
+<html>
+  <import src="../../templates/tmpltest.wxml"/>
+  <xkd-master id="xkdmaster" pageReady="{{pageIsReady}}"  pagedata="{{currentData}}" bind:tab-change="tab_selChange" bind:navbackclick="nav_backclick">
+
+  <view desc="本页工作区域">
+
+   <van-search value="{{ searchkey }}" use-action-slot placeholder="请输入搜索关键词" @search="onSearch">
+      <view slot="action" @tap="onSearch">搜索</view>
+    </van-search>
+
+    <template is="testtmpl" data="{{...item}}"/>
+
+    <view class="title" slot="title">注册测试</view>
+    <button @tap="alert" size="mini">alert</button>
+    <navigator open-type="navigate" url="/pages/home/login">注册页</navigator>
+
+    <view class="title" slot="title">wepy示例</view>
+    <navigator open-type="navigate" url="/pages/demo">wepy示例</navigator>
+    <view class="home">
+      <van-button @click="notify" type="default">默认按钮</van-button>
+      <van-button @click="dialog" type="primary" size="large">主要按钮</van-button>
+      <van-button @click="vtoast" type="warning" size="small">警告按钮</van-button>
+      <van-button @click="confirm" type="danger" size="mini">危险按钮</van-button>
+    </view>
+
+  </view>
+   
+</xkd-master> 
+</html>
+</template>
+
+<script>
+import wepy from 'wepy';
+import Tips from '../../utils/Tips';
+import wxutils from '../../utils/WxUtils';
+import basepage from '../../utils/basepage';
+import testMixin from '../../mixins/test';
+
+export default class homeFrame extends basepage {
+  ///页
+  config = {
+    navigationBarTitleText: '框架页',
+    usingComponents: {
+      'van-search': '/components/vant/search/index'
+    }
+  };
+
+  data = {
+    pageTitle:"框架页",
+    share: null,
+    navleftArrow: true, ///是否显示返回按钮
+    searchkey: '',
+    item: {
+      index: 0,
+      msg: '测试列1',
+      time: '2016-09-15'
+    }
+  };
+  
+  async bindApiData(option) {
+    Tips.loading('模拟等待数据');
+    await this.$parent.sleep(1);
+  }
+
+  components = {}; // 声明页面中所引用的组件，或声明组件中所引用的子组件
+
+  ///替换mixins配置，请不要定义mixins=[],否则不出现异常
+  addmixins() {
+    return [testMixin]; // 声明页面所引用的Mixin实例
+  }
+
+  computed = {}; // 声明计算属性（详见后文介绍）
+
+  watch = {}; // 声明数据watcher（详见后文介绍）
+
+  methods = {
+    onSearch(res) {
+      console.log(res);
+      this.vnotify(`搜索${res}`);
+    },
+    confirm() {
+      this.vdialog
+        .confirm({
+          title: '危险操作',
+          message: '确定操作'
+        })
+        .then(() => {
+          // on confirm
+        })
+        .catch(() => {
+          // on cancel
+        });
+    },
+    vtoast() {
+      this.vtoast.success('成功文案');
+    },
+    notify() {
+      this.vnotify('通知内容测试');
+    },
+    dialog() {
+      this.vdialog
+        .alert({
+          title: '标题',
+          message: '弹窗内容'
+        })
+        .then(res => {
+          console.log(res);
+        });
+    }
+  };
+
+  /**
+   * 分享
+   */
+
+  onShareAppMessage() {
+    return {};
+  }
+}
+</script>

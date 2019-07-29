@@ -1,0 +1,211 @@
+<style lang="less">  
+  .van-no-data {
+      text-align: center;
+  }
+  .van-textMsg-mid {
+      margin: 54rpx 0 160rpx 0;
+      color: #747474;
+      font-size: 28rpx;
+  } 
+  .van-image {
+      width: 296rpx;
+      height: 272rpx;
+      margin-top: 160rpx;
+  }
+  .auth-btn{
+    display: block;
+    margin-left: 24rpx;
+    margin-right: 24rpx;
+    height: 88rpx;
+    line-height: 88rpx;
+    background-color: #436BE6;
+    border-radius:10rpx;
+    font-size:30rpx;
+    color:#fff;
+  }
+  .store-name{    
+    line-height: 40rpx;
+    font-size:36rpx;
+    color:#212121;
+    text-align: center;
+    margin-top: 40rpx;   
+  }
+</style>
+
+<template>
+<html>
+  <xkd-master id="xkdmaster" pageReady="{{pageIsReady}}"  pagedata="{{currentData}}" bind:tab-change="tab_selChange" bind:navbackclick="nav_backclick">
+
+  <panel>
+    <!-- <view class="title" slot="title">用户注册页面</view>
+    <button bindgetuserinfo="bindGetUserInfo" open-type="getUserInfo" size="mini">授权注册</button> -->
+    <view
+      class="custom-class van-no-data"
+      style="{{ color ? 'color: ' + color + ';' : '' }}{{ size ? 'font-size: ' + size + ';' : '' }}{{ customStyle }}"
+    >
+        <view>
+            <image src="{{(CdnUrl+'/'+storeInfo.StoreLogo)||'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/systemfile/wxashop/login.png'}}" style="width:200rpx;height:200rpx;margin-top:120rpx;border-radius: 50%;"/>
+        </view>
+        <view class="store-name">{{storeInfo.StoreName}}</view>
+        <view class="van-textMsg-mid">
+            您访问的页面需要登录以后才能继续
+        </view>
+
+        <button class="auth-btn" bindgetuserinfo="bindGetUserInfo" open-type="getUserInfo">授权登录</button>
+    </view>
+
+  </panel>
+   
+</xkd-master> 
+</html>
+</template>
+
+<script>
+import wepy from 'wepy';
+import Tips from '../../utils/Tips';
+import wxutils from '../../utils/WxUtils';
+import basepage from '../../utils/basepage';
+
+export default class homelogin extends basepage {
+  config = {
+    navigationBarTitleText: '会员登录',
+    enablePullDownRefresh:false
+  }; // 只在Page实例中存在的配置数据，对应于原生的page.json文件  
+  data = {
+    init: false,
+    share: null,
+    storeInfo:{},
+    CdnUrl:'',
+     pageTitle: '会员登录',
+     returnUrl:''
+  };
+
+  ///onload后触发的方法
+  async bindApiData(option) {
+    wepy.set
+    let { code } = await wepy.login();
+    this.$parent.globalData.logincode = code; ////初始化一个code备用
+    console.log(option)
+    this.returnUrl=option.returnUrl;
+    this.CdnUrl=this.$parent.globalData.CdnUrl;
+    this.storeInfo=this.$parent.globalData.storeInfo;
+
+  }
+
+  onShow() {} // 只在Page中存在的页面生命周期函数
+  
+
+  components = {}; // 声明页面中所引用的组件，或声明组件中所引用的子组件
+
+  computed = {}; // 声明计算属性（详见后文介绍）
+
+  watch = {}; // 声明数据watcher（详见后文介绍）
+
+  ///页内方法start
+  methods = {
+    tryregister() {
+      Tips.alert('这是一个弹出测试');
+    },
+
+    ///进入授权注册流程
+    bindGetUserInfo(e) {
+      let that=this;
+      if (e == null || e.detail == null) {
+        Tips.error('请授权用户信息权限！');
+        return;
+      } else {
+        if (e.detail.errMsg != 'getUserInfo:ok') {
+          //Tips.error('请授权用户信息权限！');
+          return;
+        } else {
+          ///在这里完成注册的逻辑,
+
+          if (this.$parent.globalData.isLogin) {
+            //wepy.navigateBack({ delta: 1 }); ///已经注册的，从直接返回原页面
+            wxutils.redirectToPage(this.returnUrl)
+          } else {
+            let code = this.$parent.globalData.logincode;
+            
+              wx.login({
+                success(res) {
+                  if (res.code) {
+                    // 发起网络请求
+                    that.register(res.code, e.detail);
+                  } else {                   
+                    Tips.error('登录失败！' + res.errMsg);
+                  }
+                }
+              })
+          }
+        }
+      }
+    }
+  };
+  //页内方法结束
+
+  ///注册API的调用
+  async register(code, detail) {
+    try {
+      let data = {
+        code: code,
+        signature: detail.signature,
+        rawData: detail.rawData,
+        encryptedData: detail.encryptedData,
+        iv: detail.iv
+      };
+
+      Tips.loading('注册中');
+
+      let res = await this.postForm('vshop', 'Login/WxaRegister', data);
+      if (!res.Next) {
+          return "stop";///请求被框架阻止了，在这里结束
+      }
+      
+      if (res.HttpCode == 200) {
+        if (res.Code == 0) {
+          wepy.$instance.globalData.isLogin = res.Data.IsLogin; ///当前用户已经登录
+          wepy.$instance.globalData.userId = res.Data.UserId; ///当前用户信息
+          wepy.$instance.globalData.jwtToken = res.Data.JwtToken; ///用户JWT令牌
+          if (res.Data.IsLogin) {
+            if (res.Data.JwtToken != '') {
+              wepy.$instance.globalData.jwtToken = res.Data.JwtToken; ///用户JWT令牌
+              wepy.setStorageSync('jwtToken', res.Data.JwtToken);
+            }
+          } else {
+            wepy.$instance.globalData.jwtToken = ''; ///未登录时，
+          }
+          Tips.success('注册成功，将返回！').then(res => {
+            //wepy.navigateBack({ delta: 1 }); ///注册成功，回到原来的页面
+            //wepy.redirectTo({url:this.returnUrl});
+            wxutils.redirectToPage(this.returnUrl)
+          });
+        } else {
+          ///code非零的处理
+          console.log(res);
+          Tips.loaded();
+          Tips.error(res.Msg, () => {});
+        }
+      } else {
+        ///非200响应的处理
+        console.log(res);
+        Tips.loaded();
+        Tips.error(res.Msg, () => {});
+      }
+    } catch (ex) {
+      Tips.loaded();
+      Tips.modal(JSON.stringify(ex), '注册异常').then(res => {
+        console.log(ex);
+      });
+      return 'faild';
+    }
+  }
+
+  /**
+   * 分享
+   */
+
+  onShareAppMessage() {
+    return {};
+  }
+}
+</script>

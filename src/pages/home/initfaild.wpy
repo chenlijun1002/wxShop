@@ -1,0 +1,60 @@
+<style lang="less">
+</style>
+
+<template>
+  <panel>
+    <view class="title" slot="title">初始化失败，点击按钮重试</view>
+    <button @tap="trylogin" size="mini">重新加载</button>
+  </panel>
+</template>
+
+<script>
+import wepy from 'wepy';
+import Tips from '../../utils/Tips';
+import WxUtils from '../../utils/WxUtils';
+import auth from '../../api/auth';
+
+export default class homieinitfaild extends wepy.page {
+  data = {
+    init: false,
+    goods: [],
+    share: null
+  };
+
+  async onLoad({ sence }) {}
+
+  onShow() {} // 只在Page中存在的页面生命周期函数
+
+  config = {}; // 只在Page实例中存在的配置数据，对应于原生的page.json文件
+
+  components = {}; // 声明页面中所引用的组件，或声明组件中所引用的子组件
+
+  mixins = []; // 声明页面所引用的Mixin实例
+
+  computed = {}; // 声明计算属性（详见后文介绍）
+
+  watch = {}; // 声明数据watcher（详见后文介绍）
+
+  methods = {
+    trylogin() {
+        auth.trylogin().then(res=>{
+
+            if(res=="ok"){
+                wepy.reLaunch({url: '/pages/home/index'});
+            }
+            console.log(res);
+            //wepy.reLaunch({url: '/pages/home/index'})
+          })
+      }
+  }
+
+
+  /**
+   * 分享
+   */
+
+  onShareAppMessage() {
+    return {};
+  }
+}
+</script>

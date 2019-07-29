@@ -1,0 +1,25 @@
+<view
+  class="custom-class van-nav-bar van-hairline--bottom {{ fixed ? 'van-nav-bar--fixed' : '' }}"
+  style="z-index: {{ zIndex }}; background-color:{{bgcolor}};overflow:hidden"
+>
+  <view class="van-nav-bar__left" bind:tap="onClickLeft">
+    <block wx:if="{{ leftArrow || leftText }}">
+      <van-icon
+        wx:if="{{ leftArrow=='true' }}"
+        name="arrow"
+        color="{{textcolor}}"
+        custom-class="van-nav-bar__arrow"
+      />
+      <view wx:if="{{ leftText }}" class="van-nav-bar__text" style="color:{{textcolor}}">{{ leftText }}</view>
+    </block>
+    <slot wx:else name="left" />
+  </view>
+  <view class="van-nav-bar__title title-class  van-ellipsis"  style="color:{{textcolor}}">
+    <block wx:if="{{ title }}">{{ title }}</block>
+    <slot wx:else name="title" />
+  </view>
+  /* <view class="van-nav-bar__right" bind:tap="onClickRight">
+    <view wx:if="{{ rightText }}" class="van-nav-bar__text">{{ rightText }}</view>
+    <slot wx:else name="right" />
+  </view> */
+</view>

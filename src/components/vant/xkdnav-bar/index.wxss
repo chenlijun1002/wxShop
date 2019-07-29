@@ -1,0 +1,63 @@
+@import '../common/index.wxss';
+.van-nav-bar {
+    padding-top:40rpx;
+    height: 134rpx;
+    position: relative;
+    -webkit-user-select: none;
+    user-select: none;
+    text-align: center;
+    line-height: 90rpx;
+    overflow:hidden;
+    box-sizing:border-box;
+}
+
+.van-nav-bar__arrow {
+    vertical-align: middle;
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg)
+}
+
+.van-nav-bar__arrow+.van-nav-bar__text {
+    margin-left: -40rpx;
+    padding-left: 50rpx
+}
+
+.van-nav-bar--fixed {
+    top: 0;
+    left: 0;
+    width: 100%;
+    position: fixed
+}
+
+.van-nav-bar__title {
+    margin: 0 auto;
+    max-width: 60%;
+    font-size: 32rpx;
+    font-weight: 500
+}
+
+.van-nav-bar__left,
+.van-nav-bar__right {
+    bottom: 0;
+    font-size: 28rpx;
+    position: absolute
+}
+
+.van-nav-bar__left {
+    left: 30rpx
+}
+
+.van-nav-bar__right {
+    right: 30rpx
+}
+
+.van-nav-bar__text {
+    margin: 0 -30rpx;
+    padding: 0 30rpx;
+    display: inline-block;
+    vertical-align: middle
+}
+
+.van-nav-bar__text:active {
+    background-color: #e8e8e8
+}

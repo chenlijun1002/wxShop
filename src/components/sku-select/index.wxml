@@ -1,0 +1,247 @@
+<view class="van-picker" catch:touchmove>
+  <view class="mask" wx:if="{{visible}}" bindtap="onCancel"></view>
+  <view class="rule-popup {{visible?'show':''}}">
+    <view class="rule-popup-herder">
+        <image class="product-imag" src="{{sku.goods.picture}}"></image>
+        <view class="price font-28">
+            <text class="color-main" style="color:{{styleConfig.themeColor}}">￥</text>
+            <text class="color-main" style="color:{{styleConfig.themeColor}}">{{sku.goods.price}}</text>            
+        </view>
+        <view class="font-28 text-ellipsis-2" wx:if="{{selectedSkuValueTextList.length>0}}">
+            <text>已选：</text>
+            <text wx:if="{{index!=selectedSku.selectedSkuName.length-1}}">
+              <text wx:for="{{selectedSkuValueTextList}}"  wx:for-index="index"  wx:for-item="item" wx:key="*this">
+                <text wx:if="{{item}}">{{item}}</text><text wx:if="{{item&&index!==selectedSkuValueTextList.length-1}}">，</text>
+              </text>
+            </text>
+            <view class="limit-buy" wx:if="{{false}}">限购{{2}}件</view>
+        </view>
+        <icon class="cancel" type="cancel" bindtap="onCancel" size="28" color="#757575" />
+    </view>
+    <view class="rule-popup-body">
+        <view class="specifications-list-box">
+          <scroll-view scroll-y style="max-height:544rpx;">
+            <view class="specifications-list" wx:for-index="pidx" wx:for="{{sku.skuList}}" wx:for-item="skuItem" wx:key="*this">
+                <view class="specifications-title">{{skuItem.Text}}</view>
+                <view class="specifications-list-group">
+                    <view class="specifications-item {{skuValue.selected?'select':''}}" style="background-color:{{skuValue.selected?styleConfig.themeColor:''}};color:{{skuValue.selected?styleConfig.textThemeColor:''}}" data-selected="{{skuValue.selected}}" data-value="{{skuValue}}" data-cidx="{{cidx}}" data-pidx="{{pidx}}" wx:for-index="cidx" wx:for="{{skuItem.Sku_Value}}" wx:for-item="skuValue" bindtap="selectedSp" wx:key="*this">{{skuValue.Text}}</view>
+                </view>
+            </view>
+            <view class="buy-number">
+                <text class="number-text">数量</text>
+                <view class="inline-block vertical-align-top">
+                  <van-stepper                     
+                      integer="{{true}}"
+                      disable-input="{{true}}"
+                      min="1"  
+                      value="{{productNum}}"   
+                      max="{{sku.goods.stockNum}}"                            
+                      bind:change="onChange"
+                    />
+                </view> 
+                <text class="number-text margin-l-16">剩余{{sku.goods.stockNum}}件</text>
+            </view>
+           <!-- <block wx:for-index="idx" wx:for="{{sku.message}}" wx:for-item="item" wx:key="*this">
+              <view>
+                <van-cell-group border="{{false}}">
+                  <block wx:if="{{item.DataType==='text'}}">
+                    <van-field
+                      label="{{item.Name}}"
+                      required="{{item.Required}}"
+                      value="{{ item.text }}"                   
+                      border="{{ false }}"
+                      bind:change="onChange"
+                      type="{{item.IsMultiple?'textarea':''}}"
+                      autosize="{{true}}"
+                      bind:change="changeInput"
+                      data-index="{{idx}}" 
+                    />
+                  </block>
+                  <block wx:else>
+                    <picker
+                      mode="{{item.DataType}}"
+                      value="{{ item.text }}"  
+                      start="00:00"
+                      end="23:59"
+                      bind:change="bindTimeChange"    
+                      data-index="{{idx}}"                      
+                    >                     
+                    
+                      <van-field
+                        label="{{item.Name}}"
+                        required="{{item.Required}}"
+                        value="{{ item.text }}"                   
+                        border="{{ true }}"
+                        disabled
+                       
+                      />
+                    </picker>
+                  </block>
+                </van-cell-group>
+              </view>
+            </block> -->
+            <block wx:for-index="idx" wx:for="{{sku.message}}" wx:for-item="item" wx:key="*this">
+              <view>
+                <van-cell-group border="{{false}}">
+                  <block wx:if="{{item.DataType==='text'}}">
+                    <van-field
+                      label="{{item.Name}}"
+                      required="{{item.Required}}"
+                      value="{{ item.text }}"                   
+                      border="{{ true }}"
+                      bind:change="changeInput"
+                      type="{{item.IsMultiple?'textarea':''}}"
+                      autosize="{{true}}"                   
+                      data-index="{{idx}}" 
+                    />
+                  </block>
+                  <block wx:if="{{item.DataType==='time'||item.DataType==='date'}}">
+                    <block wx:if="{{item.DataType==='date'}}">
+                      <picker
+                        mode="{{item.DataType}}"
+                        value="{{ item.text }}"  
+                        start="00:00"
+                        end="23:59"
+                        bind:change="changeInput"  
+                        data-index="{{idx}}"                      
+                      >                        
+                      
+                        <van-field
+                          label="{{item.Name}}"
+                          required="{{item.Required}}"
+                          value="{{ item.text }}"                   
+                          border="{{ true }}"
+                          disabled
+                         
+                        />
+                      </picker>
+                    </block>
+                    <block wx:else>
+                      <block wx:if="{{item.IsDate}}"> 
+                          <van-field
+                          label="{{item.Name}}"
+                          required="{{item.Required}}"
+                          value="{{ item.text }}"                   
+                          border="{{ true }}"
+                          disabled
+                          bind:change="onChange"         
+                          data-index="{{idx}}" 
+                          bindtap="showDatetimePup"
+                        />    
+                                             
+                        <van-popup show="{{ showDatetime }}" position="bottom" bind:close="onCloseDatetime" >
+                          <van-datetime-picker
+                            type="datetime"
+                            bind:confirm="selectDatetime"
+                            bind:cancel="onCloseDatetime"
+                            value="{{currentDate}}"
+                          />
+                        </van-popup>                            
+                      </block>
+                      <block wx:else>
+                        <picker
+                          mode="{{item.DataType}}"
+                          value="{{ item.text }}"  
+                          start="00:00"
+                          end="23:59"                          
+                          bind:change="changeInput"    
+                          data-index="{{idx}}"                      
+                        >                        
+                        
+                          <van-field
+                            label="{{item.Name}}"
+                            required="{{item.Required}}"
+                            value="{{ item.text }}"                   
+                            border="{{ true }}"
+                            disabled
+                           
+                          />
+                        </picker>
+                      </block>
+                    </block>
+                  </block>
+                  <block wx:if="{{item.DataType==='number'}}">
+                    <van-field
+                      label="{{item.Name}}"
+                      required="{{item.Required}}"
+                      value="{{ item.text }}"                   
+                      border="{{ true }}"
+                      bind:change="changeInput"
+                      type="{{item.DataType}}"
+                      autosize="{{true}}"                    
+                      data-index="{{idx}}" 
+                    />
+                  </block>
+                  <block wx:if="{{item.DataType==='picture'}}">
+                    <view class="table-view-cell {{item.Required?'required':''}} font-28" bindtap="chooseImage"  data-index="{{idx}}">
+                        <label class="title">{{item.Name}}</label>
+                        <view class="value">                               
+                          <image src="{{item.text }}" style="width:180rpx;height:180rpx" wx:if="{{item.text}}" />
+                          <text wx:else>图片</text>
+                        </view>                            
+                    </view>
+                  </block>
+                  <block wx:if="{{item.DataType==='idCard'}}">
+                    <van-field
+                      label="{{item.Name}}"
+                      required="{{item.Required}}"
+                      value="{{ item.text }}"                   
+                      border="{{ true }}"
+                      error-message="{{item.error?'请输入正确的身份证号码':''}}"
+                      bind:change="changeInput"
+                      data-index="{{idx}}" 
+                      data-DataType="{{item.DataType}}"
+                    />
+                  </block>
+                  <block wx:if="{{item.DataType==='mail'}}">
+                    <van-field
+                      label="{{item.Name}}"
+                      required="{{item.Required}}"
+                      value="{{ item.text }}"                   
+                      border="{{ true }}"
+                      error-message="{{item.error?'请输入正确的邮箱':''}}"
+                      bind:change="changeInput"
+                      data-index="{{idx}}"  
+                      data-DataType="{{item.DataType}}"
+                    />
+                  </block>
+                  <block wx:if="{{item.DataType==='phoneNo'}}">
+                    <van-field
+                      label="{{item.Name}}"
+                      required="{{item.Required}}"
+                      value="{{ item.text }}"                   
+                      border="{{ true }}"
+                      error-message="{{item.error?'请输入正确的手机号码':''}}"
+                      bind:change="changeInput"
+                      data-index="{{idx}}"  
+                      data-DataType="{{item.DataType}}"
+                    />
+                  </block>
+                </van-cell-group>
+              </view>
+            </block>
+          </scroll-view>
+        </view>      
+    </view>
+    <view class="rule-popup-footer">
+        <!-- <van-button loading="{{addCartLoading}}"  custom-class="btn1" bind:click="addCart">加入购物车</van-button>
+         <van-button loading="{{false}}"  custom-class="btn2" bind:click="buyNow" style="background-color:{{styleConfig.themeColor}};color:{{styleConfig.textThemeColor}}">立即购买</van-button>
+         -- >
+        <!--<button wx:if="{{!buyNow}}" class="font-36" type="primary" hover-class="btn-hover" bindtap="buyNow">立即购买</button>
+        <button wx:if="{{!goCart}}" class="font-36" type="primary" hover-class="btn-hover" bindtap="goCart">加入购物车</button> -->
+        <view class="selectsku-operation-btn add-cart" bindtap="addCart" style="background-color:{{styleConfig.subColor}}">
+            <text wx:if="{{!addCartLoading}}" style="color:{{styleConfig.textSubColor}}">加入购物车</text>
+            <van-loading size="20px" color="#fff" wx:else/>
+        </view>                    
+        <view class="selectsku-operation-btn buy-now" bindtap="buyNow" style="background-color:{{styleConfig.themeColor}};color:{{textThemeColor}}">
+            <text style="color:{{styleConfig.textThemeColor}}">立即购买</text>
+        </view>
+    </view>
+  </view>
+
+  <view wx:if="{{ loading }}" class="van-picker__loading">
+    <van-loading color="#1989fa"/>
+  </view>
+
+ 
+</view>

@@ -1,0 +1,12 @@
+{
+  "component": true,
+  "usingComponents": {
+    "van-loading": "../vant/loading/index",
+    "van-stepper": "../vant/stepper/index",
+    "van-field": "../vant/field/index",
+    "van-cell-group": "../vant/cell-group/index",
+    "van-button": "../vant/button/index",
+    "van-datetime-picker": "../vant/datetime-picker/index",
+       "van-popup": "../vant/popup/index"
+  }
+}

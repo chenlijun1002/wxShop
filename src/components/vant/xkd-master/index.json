@@ -1,0 +1,11 @@
+{
+  "component": true,
+  "usingComponents": {
+    "van-icon": "../icon/index",
+    "van-tabbar": "../tabbar/index",
+    "van-tabbar-item": "../tabbar-item/index",
+    "van-notify": "../notify/index",
+    "van-dialog": "../dialog/index",
+    "van-toast": "../toast/index"  
+  }
+}

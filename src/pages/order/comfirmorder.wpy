@@ -1,0 +1,492 @@
+
+<style lang="less">
+  @import "../../style/variable";
+  page{
+    background-color: #f7f7f7;
+  }
+  .product-list{
+      padding: 32rpx 0;
+      border-bottom: 1rpx solid #f3f3f3;
+      box-sizing: border-box;
+  }
+  .mask{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background:rgba(0,0,0,0.5);
+}
+
+.express-popup{
+  position: fixed;
+  width: 100%;
+  height: 986rpx;
+  left: 0;
+  bottom: 0;
+  background-color: #fff;
+  z-index: 20;
+  transform: translateY(120%);
+  transition: all 0.4s;
+}
+.express-popup .express-popup-herder{
+  position: relative;
+  padding: 24rpx;
+  height: 96rpx;
+  box-sizing: border-box;
+}
+.express-popup .express-popup-herder::after{
+  position: absolute;
+  content:'';
+  left:24rpx;
+  width:calc(100% - 48rpx);
+  height:1rpx;
+  border-bottom:1rpx solid #f3f3f3;
+  bottom:0;
+}
+.express-popup .express-popup-herder .cancel{
+  position: absolute;
+  right: 24rpx;
+  top: 24rpx;
+}
+.express-popup-footer{
+  padding: 24rpx;
+  position: absolute;
+  width:calc(100% - 48rpx);
+  bottom: 0;
+}
+.express-popup.show{
+  transform: translateY(0);
+}
+.express-picker__loading{
+  text-align: center;
+  transform: translate(0,50%);
+}
+.total-btn{
+    width:176rpx;
+    height:72rpx;
+    background:#FF9800;
+    opacity:1;
+    border-radius:8rpx;
+    font-size: 28rpx;
+    color:#fff;
+    float: right;
+  }
+  .remark-input-box .van-cell{
+      padding:0;
+  }
+
+</style>
+
+<template>
+<html>
+  <xkd-master id="xkdmaster" pageReady="{{pageIsReady}}"  pagedata="{{currentData}}" bind:tab-change="tab_selChange" bind:navbackclick="nav_backclick">
+    <view desc="本页工作区域" style="margin-bottom:104rpx;">
+        <view class="padding-24 bg-fff">
+            <view wx:if="{{!hasDefaultData}}">
+                <xkd-address @wechataddress="getWechataddress"></xkd-address>
+            </view>
+            <view wx:else>
+                <van-row>
+                    <van-col span="3">图标</van-col>
+                    <van-col span="21">
+                        <view class="font-30 color-21">{{addressInfo.ShipTo}}</view>
+                        <view class="font-26 color-747474">{{addressInfo.ProvName}}{{addressInfo.CityName}}{{addressInfo.DistrictName}}{{addressInfo.Detail}}</view>
+                    </van-col>
+                </van-row>
+            </view>
+        </view>
+        <view class="padding-lr-24 margin-t-24 bg-fff">            
+            <repeat for="{{pageData.OnSaleList}}" key="index" index="index" item="item">
+                <view class="product-list">
+                    <van-row  >                          
+                        <van-col span="5">
+                            <image src="{{cdnUrl+'/'+item.ProductImg+'?x-oss-process=style/180'}}" style="width:128rpx;height:128rpx;"/>
+                        </van-col>
+                        <van-col span="11">
+                        <van-row  >
+                            <van-col>
+                            <view class="text-ellipsis-2 font-28 color-42" style="min-height:76rpx;">{{item.ProductName}}</view>
+                            </van-col>
+                        </van-row>
+                        <van-row  >
+                            <van-col>
+                            <view class="text-ellipsis font-28 color-74" style="margin-top:12rpx;width:286rpx;">{{item.SkuContent}}</view>
+                            </van-col>
+                        </van-row>
+                        </van-col>
+                        <van-col span="8">                        
+                            <van-row  >
+                                <van-col span="24">
+                                    <view class="font-28 color-42 text-right" style="margin-top:12rpx;">
+                                        <view>￥{{item.Price}}</view>
+                                        <view class="line-height-40">X {{item.Number}}</view>
+                                        <view class="color-1890FF" bind:tap="lookMessage()">查看留言</view>
+                                    </view>
+                                </van-col>
+                            </van-row>
+                        </van-col>
+                    </van-row>
+                </view>
+            </repeat>                        
+        </view>        
+        <view>
+            <van-cell
+                title="商品小计"
+                value="{{'￥'+totalPrice}}"
+                value-class="color-f5222d"
+            />
+            <van-cell
+                title="配送方式"
+                title-class="line-height-96"               
+            >
+                <view >
+                    <view class="font-28 color-42">快递发货</view>
+                    <view class="font-24 color-74">运费 ￥{{freight}}</view>                    
+                </view>
+            </van-cell>
+            <van-cell
+                border="{{false}}"              
+            >
+                <view class="remark-input-box" slot="title">
+                    <view class="xkd-inline-block">买家备注</view>
+                    <view class="xkd-inline-block" style="margin-left:56rpx;width:72%;">
+                        <van-field
+                            value="{{ value }}"
+                            placeholder="点击可输入备注信息"
+                            border="{{ false }}"
+                            bind:change="onChange"                      
+                        />
+                    </view>
+                </view>
+            </van-cell>
+        </view>
+        <view class="margin-t-24">
+            <van-cell
+                title="会员权益"  
+                wx:if="{{CardFreePost}}"             
+            >
+                <view >
+                    <view class="font-28 color-42">会员包邮</view>
+                    <view class="font-24 color-74">运费 -￥{{freight}}</view>                    
+                </view>
+            </van-cell>
+            <van-cell
+                title="优惠券"
+                value="无可用"
+                is-link
+                value-class="color-BDBDBD"
+            />
+            <van-cell
+                title="促销优惠"
+                value="{{'已优惠￥'+preferential}}"
+                is-link
+                 border="{{false}}"
+            />
+        </view>
+        <view class="margin-t-24">
+            <van-cell
+                title="商品金额"
+                value="{{'￥'+finalPrice}}"
+                value-class="color-f5222d"
+                border="{{false}}"
+            />
+            <van-cell
+                title="运费"
+                value="{{'￥'+125.28}}"
+                value-class="color-f5222d"
+                 border="{{false}}"
+            />
+        </view>
+        <view style="position: fixed;left:0;bottom: 0;width: 100%;padding: 16rpx 24rpx 16rpx 28rpx;height: 104rpx;box-sizing: border-box;background: #fff;line-height: 72rpx;border-top:1rpx solid #f0f0f0;">
+            <van-row>        
+                <van-col span="18" offset="6">
+                    <van-row>
+                        <van-col span="14">
+                        <view style="font-size:32rpx;text-align:right;">合计：￥{{finalPrice}}</view>             
+                        </van-col>
+                        <van-col span="10" offset="{{isEdit?16:0}}">
+                        <button class="total-btn"  bind:tap="settlement">立即支付</button>            
+                        </van-col>
+                    </van-row>
+                </van-col>
+            </van-row>    
+        </view>
+        <block >    
+            <view class="express-picker" catch:touchmove>
+                <view class="mask" wx:if="{{visible}}" bind:tap="onCancel"></view>
+                <view class="express-popup {{visible?'show':''}}">                
+                    <view class="express-popup-herder">        
+                        <text class="font-32">查看留言</text>
+                        <icon class="cancel" type="cancel" bindtap="onCancel" size="28" color="#757575" />
+                    </view>
+                    <view class="express-popup-body">
+                        <view class="padding-r-24">
+                            <van-field
+                                value="输入框已禁用"
+                                label="用户名"                            
+                                disabled                               
+                            />
+                            <van-field
+                                value="输入框已禁用"
+                                label="用户名"                            
+                                disabled                               
+                            />
+                            <van-field
+                                value="输入框已禁用"
+                                label="用户名"                            
+                                disabled                               
+                            />
+                        </view>      
+                    </view>
+                    <view class="express-popup-footer">        
+                        <button class="font-30" disabled="{{expressLoading}}" bindtap="settlementExpress" style="height:88rpx;line-height:88rpx;background:rgba(255,152,0,1);border-radius:12rpx;color:#fff;background-color:{{styleConfig.subColor}};">
+                            <text wx:if="{{!expressLoading}}" style="color:{{styleConfig.textSubColor}}">去结算</text>
+                            <van-loading size="20px"  wx:else/>
+                        </button>                              
+                    </view>
+                </view>          
+            </view>          
+        </block>
+        <block >    
+            <view class="express-picker" catch:touchmove>
+                <view class="mask" wx:if="{{promotionVisible}}" bind:tap="onCancelPromotion"></view>
+                <view class="express-popup {{promotionVisible?'show':''}}">                
+                    <view class="express-popup-herder">        
+                        <text class="font-32">促销优惠</text>
+                        <icon class="cancel" type="cancel" bindtap="onCancel" size="28" color="#757575" />
+                    </view>
+                    <view class="express-popup-body">
+                        
+                             
+                    </view>
+                    <view class="express-popup-footer">        
+                        <button class="font-30" disabled="{{expressLoading}}" bindtap="settlementExpress" style="height:88rpx;line-height:88rpx;background:rgba(255,152,0,1);border-radius:12rpx;color:#fff;background-color:{{styleConfig.subColor}};">
+                            <text wx:if="{{!expressLoading}}" style="color:{{styleConfig.textSubColor}}">去结算</text>
+                            <van-loading size="20px"  wx:else/>
+                        </button>                              
+                    </view>
+                </view>          
+            </view>          
+        </block>
+        <block >    
+            <view class="express-picker" catch:touchmove>
+                <view class="mask" wx:if="{{payTypeVisible}}" bind:tap="onCancelPayType"></view>
+                <view class="express-popup {{payTypeVisible?'show':''}}">                
+                    <view class="express-popup-herder">        
+                        <text class="font-32">促销优惠</text>
+                        <icon class="cancel" type="cancel" bindtap="onCancel" size="28" color="#757575" />
+                    </view>
+                    <view class="express-popup-body">
+                        
+                             
+                    </view>
+                    <view class="express-popup-footer">        
+                        <button class="font-30" disabled="{{expressLoading}}" bindtap="settlementExpress" style="height:88rpx;line-height:88rpx;background:rgba(255,152,0,1);border-radius:12rpx;color:#fff;background-color:{{styleConfig.subColor}};">
+                            <text wx:if="{{!expressLoading}}" style="color:{{styleConfig.textSubColor}}">去结算</text>
+                            <van-loading size="20px"  wx:else/>
+                        </button>                              
+                    </view>
+                </view>          
+            </view>          
+        </block>
+    </view>  
+</xkd-master> 
+</html>
+</template>
+
+<script>
+import wepy from 'wepy';
+import Tips from '../../utils/Tips';
+import wxutils from '../../utils/WxUtils';
+import basepage from '../../utils/basepage';
+import testMixin from '../../mixins/test';
+import addressApi from '../../api/address';
+import pageApi from '../../api/shopcart';
+
+export default class shopcartIndex extends basepage {
+  ///页
+  config = {
+    navigationBarTitleText: '确认订单',
+    usingComponents: 
+    {
+      "van-panel": '/components/vant/panel/index',
+      "van-swipe-cell": "/components/vant/swipe-cell/index",
+      "van-cell": "/components/vant/cell/index",
+      "van-field": "/components/vant/field/index", 
+      "van-cell-group": "/components/vant/cell-group/index",
+      "van-row": "/components/vant/row/index",
+      "van-col": "/components/vant/col/index",      
+      "van-checkbox": "/components/vant/checkbox/index",
+      "van-checkbox-group": "/components/vant/checkbox-group/index",
+      "van-loading": "/components/vant/loading/index",
+      'xkd-nodata': '/components/vant/xkd-nodata/index',
+      'xkd-address': '/components/vant/xkd-address/index'
+    },
+    enablePullDownRefresh: false,
+   // disableScroll: true
+  };
+
+  data = {
+    pageTitle:"确认订单",
+    share: null,
+    navleftArrow: true, ///是否显示返回按钮
+    searchkey: '',    
+    pageData:{},
+    isEdit:false,
+    checkedAll:false,
+    selectedIds:[],
+    totalPrice:0,
+    visible:false,
+    promotionVisible:false,
+    payTypeVisible:false,
+    loading:true,
+    cdnUrl:'',
+    storeName:'',
+    loading:false,
+    hasDefaultData:false,
+    addressInfo:{},
+    expressLoading:false, 
+    CardFreePost:false,
+    freight:100,
+    preferential:30,
+    finalPrice:0
+  };
+  
+  async bindApiData(option,callback) {
+    this.cdnUrl=this.$parent.globalData.CdnUrl;
+    this.storeName=this.$parent.globalData.storeInfo.StoreName;
+    Tips.loading('加载中...');  
+    let addressData=await addressApi.GetMemberAddressById({id:0});
+    if(addressData.Code==0&&addressData.Data){
+        this.addressInfo=addressData.Data;
+        this.hasDefaultData=true;
+    } else{
+        this.hasDefaultData=false;
+    } 
+    let data=await pageApi.ConfrimShopCartInfo(option.Ids.split(","));       
+    if(data.Code==0){
+      if(data.Data){
+        data.Data.MemberShopCart.OnSaleList&&data.Data.MemberShopCart.OnSaleList.forEach((item,index)=>{
+          if(item.ActivityPrice){
+            if(item.BuyLimit<=item.Number){
+              item.Price=item.Number*item.ActivityPrice;
+            }else{
+              item.Price=item.Number*(item.MemberPrice||item.SkuPrice);
+            }
+          }else{
+            item.Price=item.Number*(item.MemberPrice||item.SkuPrice);
+          }
+        // this.totalPrice+=item.Price;
+        })
+        this.CardFreePost=data.Data.CardFreePost;
+        this.pageData=data.Data.MemberShopCart;
+        this.calcTotalPrice();
+      }   
+      if(callback && typeof callback === 'function') callback();
+      this.$apply();
+    }
+  }
+
+  components = {}; // 声明页面中所引用的组件，或声明组件中所引用的子组件
+
+  ///替换mixins配置，请不要定义mixins=[],否则不出现异常
+  addmixins() {
+    return [testMixin]; // 声明页面所引用的Mixin实例
+  }
+
+  computed = {}; // 声明计算属性（详见后文介绍）
+
+  watch = {}; // 声明数据watcher（详见后文介绍）
+
+  
+  methods = {  
+    async getAddressById(id){
+        let data=await addressApi.GetMemberAddressById({id});
+        if(data&&data.Code==0){
+
+        }
+    },
+    lookMessage(){
+        this.visible=true;
+    },
+    selectPayType(){
+        this.payTypeVisible=true;
+    },
+    selectPromotion(){
+        this.promotionVisible=true;
+    },
+    getWechataddress(e){
+        console.log(e.detail)
+    },        
+    //结算
+    settlement(){
+      console.log(this.selectedIds)
+      if(!this.selectedIds.length) return Tips.error('请选择商品');
+      this.visible=true; 
+      let arr=[];      
+      this.selectedIds.forEach((item)=>{
+        let index=index=this.pageData.OnSaleList.findIndex(v=>v.Id===item);        
+        if(index>-1){
+          if(this.pageData.OnSaleList[index].IsExpress){
+            this.expressInfo.list.push(this.pageData.OnSaleList[index]);
+            this.expressInfo.ids.push(item);
+          }else if(this.pageData.OnSaleList[index].IsSameCity){
+            this.sameCityInfo.list.push(this.pageData.OnSaleList[index]);
+            this.sameCityInfo.ids.push(item);
+          }else{
+            this.fromDoorInfo.list.push(this.pageData.OnSaleList[index]);
+            this.fromDoorInfo.ids.push(item);
+          }   
+        }
+      })
+      if(this.expressInfo.list.length){
+        this.expressType=1;
+      }else{
+        if(this.sameCityInfo.list.length){
+          this.expressType=2;
+        }else{
+          this.expressType=3;
+        }
+      }     
+      this.expressInfo.list.forEach((item)=>{      
+        this.expressInfo.total+=item.Number;
+        this.expressInfo.totalPrice+=item.Number*(item.MemberPrice||item.SkuPrice);
+      }) 
+      this.sameCityInfo.list.forEach((item)=>{
+        this.sameCityInfo.total+=item.Number;
+        this.sameCityInfo.totalPrice+=item.Number*(item.MemberPrice||item.SkuPrice);
+      }) 
+      this.fromDoorInfo.list.forEach((item)=>{
+        this.fromDoorInfo.total+=item.Number;
+        this.fromDoorInfo.totalPrice+=item.Number*(item.MemberPrice||item.SkuPrice);
+      })      
+    },
+    onCancel(){
+      this.visible=false;     
+    },
+    onCancelPromotion(){
+        this.promotionVisible=false;
+    },
+    onCancelPayType(){
+        this.payTypeVisible=false;
+    },
+    goIndex(){      
+      wxutils.redirectToPage('/pages/home/index')
+    },   
+  };
+  calcTotalPrice(){    
+    this.totalPrice=0;
+    this.pageData.OnSaleList.forEach((item)=>{
+      this.totalPrice+=item.Price;
+    })
+  }
+  /**
+   * 分享
+   */
+
+  onShareAppMessage() {
+    return {};
+  }
+}
+</script>

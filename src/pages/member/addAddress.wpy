@@ -1,0 +1,130 @@
+<style lang="less">
+  @import "../../style/variable";  
+</style>
+
+<template>
+<html>
+  <xkd-master id="xkdmaster" pageReady="{{pageIsReady}}"  pagedata="{{currentData}}" bind:tab-change="tab_selChange" bind:navbackclick="nav_backclick">
+
+    <view desc="本页工作区域" style="height: 100%;">
+    <view class="address-page">
+        <van-cell-group>
+            <van-field
+                value="{{ username }}"
+                label="姓名"
+                placeholder="收货人姓名"
+            />
+            <van-field
+                value="{{ phone }}"
+                label="电话"
+                placeholder="收货人手机号"
+            />
+            <van-cell
+                title="单元格"
+                is-link
+            >
+                 <view slot="value">
+                     <van-area area-list="{{ areaList }}" />
+                </view>
+           </van-cell>
+            <van-field
+                value="{{ detail }}"
+                label="详细地址"
+                placeholder="街道门牌、楼层房间号等信息"
+             />
+               <van-field
+                value="{{ zipCode }}"
+                label="邮政编码"
+                placeholder="邮政编码"
+             />
+        </van-cell-group>
+         <van-switch-cell
+            title="设置为默认收货地址"
+            checked="{{ checked }}"
+            bind:change="onChange"
+            active-color="{{color}}"
+        />
+    </view>
+
+    <!-- <xkd-nodata
+        @redirectToPage="linkToIndexpage"
+        fileImageType="xkdnewyun/systemfile/wxashop/wxanodata2.png"
+    ></xkd-nodata> -->
+    <xkd-copyright wx:if="{{pageIsReady}}" id="wxacopyright" desc="底部版权" watchNode="#xkdmaster"/>
+    </view>    
+</xkd-master> 
+</html>
+</template>
+
+<script>
+import wepy from 'wepy';
+import Tips from '../../utils/Tips';
+import wxutils from '../../utils/WxUtils';
+import basepage from '../../utils/basepage';
+import testMixin from '../../mixins/test';
+import addressApi from '../../api/address';
+
+export default class addressList extends basepage {
+  ///页
+  config = {
+    navigationBarTitleText: '新建收货地址',
+    usingComponents: {
+      "van-cell-group": "/components/vant/cell-group/index",
+      "van-field": "/components/vant/field/index",
+      "van-cell": "/components/vant/cell/index",
+      "van-button": "/components/vant/button/index",
+      "van-switch-cell": "/components/vant/switch-cell/index",
+      "van-area": "/components/vant/area/index",
+    //   'xkd-nodata': '/components/vant/xkd-nodata/index'
+    }
+  };
+
+  data = {
+    pageTitle:"新建收货地址",
+    share: null,
+    navleftArrow: true, ///是否显示返回按钮
+    checked: true,
+    color: "#52C41A",
+    cdnUrl:'',
+    AreaList: {}
+  };
+  
+  async bindApiData(option) {
+    this.cdnUrl=this.$parent.globalData.CdnUrl;
+    let areaList = await addressApi.GetBaseAreas();
+    console.log(areaList);
+    if(!areaList.Data) return;
+    this.AreaList = areaList;
+    console.log(this.AreaList);
+    Tips.loading('模拟等待数据');
+    this.$apply();
+  }
+
+  components = {}; // 声明页面中所引用的组件，或声明组件中所引用的子组件
+
+  ///替换mixins配置，请不要定义mixins=[],否则不出现异常
+  addmixins() {
+    return [testMixin]; // 声明页面所引用的Mixin实例
+  }
+
+  computed = {}; // 声明计算属性（详见后文介绍）
+
+  watch = {}; // 声明数据watcher（详见后文介绍）
+
+  methods = {
+      onChange(event) {
+        this.checked =event.detail;
+    // 需要手动对 checked 状态进行更新
+    // this.setData({ checked: event.detail });
+    }
+  };
+
+  /**
+   * 分享
+   */
+
+  onShareAppMessage() {
+    return {};
+  }
+}
+</script>

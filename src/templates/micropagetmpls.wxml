@@ -1,0 +1,331 @@
+<!--微页面通用设置，不输出任何内容-->
+<template name="config">
+<view>
+ </view>
+</template>
+
+<!--图片广告-->
+<template name="image-ad">
+  <view >
+    <view wx:if="{{layout==1}}" data-index="{{index}}">
+      <swiper
+        indicator-dots="{{true}}"
+        autoplay="{{true}}"
+        interval="{{5000}}"
+        duration="{{500}}"
+        style="height:{{(imgInfo[0].height*windowWidth/imgInfo[0].width)*2}}rpx;"
+      >
+        <block wx:for="{{images}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index+'-'+idx}}">
+          <swiper-item bindtap="navigate" data-link="{{item.linkUrl}}">
+            <image src="{{item.imageUrl}}" class="slide-image" style="width:100%;height:{{(imgInfo[0].height*windowWidth/imgInfo[0].width)*2}}rpx;"  mode="{{fillstyle==2?'aspectFit':''}}"   data-index="{{index}}" data-sonIndex="{{idx}}"/>
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
+    <view wx:elif="{{layout==2}}" style="font-size:0;" data-index="{{index}}">
+      <block wx:for="{{images}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index+'-'+idx}}">
+        <view class="image-ad-2" style="margin:{{space*2}}rpx 0;" bindtap="navigate" data-link="{{item.linkUrl}}">
+          <image src="{{item.imageUrl}}" class="slide-image"  style="width:100%;height:{{(imgInfo[idx].height*windowWidth/imgInfo[idx].width)*2}}rpx;"  data-index="{{index}}" data-sonIndex="{{idx}}"/>
+        </view>
+      </block>
+    </view>
+    <view wx:elif="{{layout==3}}"  data-index="{{index}}" style="white-space:nowrap;height:{{imgScanInfo[0].height*2}}rpx;overflow-y:hidden;overflow-x:auto;" >
+        <scroll-view
+          scroll-x
+                      
+        >
+          <block wx:for="{{images}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index+'-'+idx}}">
+            <view class="image-ad-2" style="width:{{imgScanInfo[idx].width*2}}rpx;margin-right:{{space*2}}rpx;display:inline-block;font-size:0;vertical-align:top;" bindtap="navigate" data-link="{{item.linkUrl}}">
+              <image src="{{item.imageUrl}}" class="slide-image"  style="width:{{imgScanInfo[idx].width*2}}rpx;height:{{imgScanInfo[idx].height*2}}rpx;vertical-align:top;"   data-index="{{index}}" data-sonIndex="{{idx}}" />
+            </view>
+          </block>
+        </scroll-view>    
+    </view> 
+    <view wx:elif="{{layout==4}}" data-index="{{index}}" style="white-space:nowrap;height:{{imgScanInfo[0].height*2}}rpx;overflow-y:hidden;overflow-x:auto;">
+      <scroll-view
+          scroll-x
+                      
+        >
+        <block wx:for="{{images}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index+'-'+idx}}">
+          <view class="image-ad-2" style="width:{{imgScanInfo[idx].width*2}}rpx;margin-right:{{space*2}}rpx;display:inline-block;font-size:0;vertical-align:top;" bindtap="navigate" data-link="{{item.linkUrl}}">
+            <image src="{{item.imageUrl}}" class="slide-image"  style="width:{{imgScanInfo[idx].width*2}}rpx;height:{{imgScanInfo[idx].height*2}}rpx;vertical-align:top;"  data-type="{{type}}" data-index="{{index}}" data-sonIndex="{{idx}}" />
+          </view>
+        </block>
+      </scroll-view>    
+    </view>
+    <view wx:else data-index="{{index}}" style="white-space:nowrap;height:{{imgScanInfo[0].height*2}}rpx;overflow-y:hidden;overflow-x:auto;">
+      <scroll-view
+          scroll-x
+                        
+        >
+        <block wx:for="{{images}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index+'-'+idx}}">
+          <view class="image-ad-2" style="width:{{imgScanInfo[idx].width*2}}rpx;margin-right:{{space*2}}rpx;display:inline-block;font-size:0;vertical-align:top;" bindtap="navigate" data-link="{{item.linkUrl}}">
+            <image src="{{item.imageUrl}}" class="slide-image"  style="width:{{imgScanInfo[idx].width*2}}rpx;height:{{imgScanInfo[idx].height*2}}rpx;vertical-align:top;"  data-type="{{type}}" data-index="{{index}}" data-sonIndex="{{idx}}" />
+          </view>
+        </block>
+      </scroll-view>        
+    </view>
+  </view>
+</template>
+
+<!--富文本-->
+<template name="rich_text">
+  <view style="padding:0 {{fullscreen==1?0:20}}rpx;background:{{color}}">
+     <!-- <rich-text nodes="{{content}}"></rich-text> -->
+     <block wx:for="{{nodes}}" wx:key="*this" wx:for-item="item" >
+          <rich-text style='width:100%;max-width:100%!important;' nodes="{{[item]}}" wx:if="{{item.name !='video'}}" ></rich-text>
+          <video style='width:100%;max-width:100%!important;' src="{{item.children.src}}" autoplay="{{false}}" loop="{{false}}" class="{{item.class}} wxParse-{{item.iframe}}-video" wx:else></video>
+      </block>
+  </view>
+</template>
+
+<!--微页面通知-->
+<template name="notice">
+  <view>
+    <text> {{index}}: {{msg}} </text>
+    <text> Time: {{time}} </text>
+  </view>
+</template>
+
+<!--图文导航-->
+<template name="image-nav">
+  <view wx:if="{{slide==2}}" data-index="{{index}}">    
+    <view wx:if="{{linecount==4}}" style="white-space:nowrap;height:{{232/(imgScanInfo[0].width/imgScanInfo[0].height)+66}}rpx;overflow-y:hidden;overflow-x:auto;" data-index="{{index}}" class="img-nav">
+       <scroll-view
+          scroll-x
+                      
+        >
+          <block wx:for="{{images}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index+'-'+idx}}">
+            <view class="image-ad-2" style="width:{{234}}rpx;margin-right:{{space*2}}rpx;display:inline-block;font-size:0;vertical-align:top;" bindtap="navigate" data-link="{{item.linkUrl}}">
+              <image wx:if="{{layout==1}}" src="{{item.imageUrl}}" class="slide-image"  style="width:{{234}}rpx;height:{{234/(imgScanInfo[0].width/imgScanInfo[0].height)}}rpx;vertical-align:top;"  data-type="{{type}}" data-index="{{index}}" data-sonIndex="{{idx}}" />
+              <view style="height:66rpx;color:{{fontcorlor}};background-color:{{bgcorlor}};font-size:24rpx;line-height:66rpx;text-align:center" class="linkTitle" wx:if="{{showLinkTitle}}">
+              {{item.linkTitle}}
+              <view class="line" wx:if="{{layout==2}}"></view>
+              </view> 
+            </view>           
+          </block>  
+        </scroll-view>      
+    </view>     
+    <view wx:elif="{{linecount==5}}" style="white-space:nowrap;height:{{182/(imgScanInfo[0].width/imgScanInfo[0].height)+66}}rpx;overflow-y:hidden;overflow-x:auto;" data-index="{{index}}" class="img-nav">
+      <scroll-view
+          scroll-x
+                      
+        >
+          <block wx:for="{{images}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index+'-'+idx}}">
+            <view class="image-ad-2" style="width:{{182}}rpx;margin-right:{{space*2}}rpx;display:inline-block;font-size:0;vertical-align:top;" bindtap="navigate" data-link="{{item.linkUrl}}">
+              <image wx:if="{{layout==1}}" src="{{item.imageUrl}}" class="slide-image"  style="width:{{182}}rpx;height:{{182/(imgScanInfo[0].width/imgScanInfo[0].height)}}rpx;vertical-align:top;" data-type="{{type}}" data-index="{{index}}" data-sonIndex="{{idx}}" />
+              <view style="height:66rpx;color:{{fontcorlor}};background-color:{{bgcorlor}};font-size:24rpx;line-height:66rpx;text-align:center" class="linkTitle">
+                {{item.linkTitle}}
+                <view class="line" wx:if="{{layout==2}}"></view>
+              </view> 
+            </view>
+          </block>  
+        </scroll-view>       
+    </view>
+    <view wx:elif="{{linecount==6}}" style="white-space:nowrap;height:{{146/(imgScanInfo[0].width/imgScanInfo[0].height)+66}}rpx;overflow-y:hidden;overflow-x:auto;" data-index="{{index}}" class="img-nav">
+      <scroll-view
+          scroll-x
+                      
+        >
+         <block wx:for="{{images}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index+'-'+idx}}">
+            <view class="image-ad-2" style="width:{{146}}rpx;margin-right:{{space*2}}rpx;display:inline-block;font-size:0;vertical-align:top;" bindtap="navigate" data-link="{{item.linkUrl}}">
+              <image wx:if="{{layout==1}}" src="{{item.imageUrl}}" class="slide-image"  style="width:{{146}}rpx;height:{{146/(imgScanInfo[0].width/imgScanInfo[0].height)}}rpx;vertical-align:top;"  data-type="{{type}}" data-index="{{index}}" data-sonIndex="{{idx}}" />
+              <view style="height:66rpx;color:{{fontcorlor}};background-color:{{bgcorlor}};font-size:24rpx;line-height:66rpx;text-align:center" class="linkTitle" wx:if="{{showLinkTitle}}">
+                {{item.linkTitle}}
+                <view class="line" wx:if="{{layout==2}}"></view>
+              </view> 
+            </view>
+          </block>
+        </scroll-view>        
+    </view>
+    <view wx:elif="{{linecount==7}}" style="white-space:nowrap;height:{{123/(imgScanInfo[0].width/imgScanInfo[0].height)+66}}rpx;overflow-y:hidden;overflow-x:auto;" data-index="{{index}}" class="img-nav">
+      <scroll-view
+          scroll-x
+                      
+        >
+         <block wx:for="{{images}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index+'-'+idx}}">
+            <view class="image-ad-2" style="width:{{123}}rpx;margin-right:{{space*2}}rpx;display:inline-block;font-size:0;vertical-align:top;overflow:hidden;" bindtap="navigate" data-link="{{item.linkUrl}}">
+              <image wx:if="{{layout==1}}" src="{{item.imageUrl}}" class="slide-image"  style="width:{{123}}rpx;height:{{123/(imgScanInfo[0].width/imgScanInfo[0].height)}}rpx;vertical-align:top;"  data-type="{{type}}" data-index="{{index}}" data-sonIndex="{{idx}}" />
+              <view style="height:66rpx;color:{{fontcorlor}};background-color:{{bgcorlor}};font-size:24rpx;line-height:66rpx;text-align:center" class="linkTitle" wx:if="{{showLinkTitle}}">
+                {{item.linkTitle}}
+                <view class="line" wx:if="{{layout==2}}"></view>
+              </view> 
+            </view>
+          </block>
+        </scroll-view>      
+    </view>
+    <view wx:elif="{{linecount==8}}" style="white-space:nowrap;height:{{106/(imgScanInfo[0].width/imgScanInfo[0].height)+66}}rpx;overflow-y:hidden;overflow-x:auto;" data-index="{{index}}" class="img-nav">
+      <scroll-view
+          scroll-x
+                      
+        >
+         <block wx:for="{{images}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index+'-'+idx}}">
+            <view class="image-ad-2" style="width:{{106}}rpx;margin-right:{{space*2}}rpx;display:inline-block;font-size:0;vertical-align:top;overflow:hidden;" bindtap="navigate" data-link="{{item.linkUrl}}">
+              <image wx:if="{{layout==1}}" src="{{item.imageUrl}}" class="slide-image"  style="width:{{106}}rpx;height:{{106/(imgScanInfo[0].width/imgScanInfo[0].height)}}rpx;vertical-align:top;"  data-type="{{type}}" data-index="{{index}}" data-sonIndex="{{idx}}" />
+              <view style="height:66rpx;color:{{fontcorlor}};background-color:{{bgcorlor}};font-size:24rpx;line-height:66rpx;text-align:center" class="linkTitle" wx:if="{{showLinkTitle}}">
+                {{item.linkTitle}}
+                <view class="line" wx:if="{{layout==2}}"></view>
+              </view> 
+            </view>
+          </block>
+        </scroll-view>      
+    </view>
+    <view wx:elif="{{linecount==9}}" style="white-space:nowrap;height:{{92/(imgScanInfo[0].width/imgScanInfo[0].height)+66}}rpx;overflow-y:hidden;overflow-x:auto;" data-index="{{index}}" class="img-nav">
+      <scroll-view
+          scroll-x
+                      
+        >
+         <block wx:for="{{images}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index+'-'+idx}}">
+            <view class="image-ad-2" style="width:{{92}}rpx;margin-right:{{space*2}}rpx;display:inline-block;font-size:0;vertical-align:top;overflow:hidden;" bindtap="navigate" data-link="{{item.linkUrl}}">
+              <image wx:if="{{layout==1}}" src="{{item.imageUrl}}" class="slide-image"  style="width:{{92}}rpx;height:{{92/(imgScanInfo[0].width/imgScanInfo[0].height)}}rpx;vertical-align:top;"  data-type="{{type}}" data-index="{{index}}" data-sonIndex="{{idx}}" />
+              <view style="height:66rpx;color:{{fontcorlor}};background-color:{{bgcorlor}};font-size:24rpx;line-height:66rpx;text-align:center" class="linkTitle" wx:if="{{showLinkTitle}}">
+                {{item.linkTitle}}
+                <view class="line" wx:if="{{layout==2}}"></view>
+              </view> 
+            </view>
+          </block>
+        </scroll-view>      
+    </view>
+    <view wx:else style="white-space:nowrap;height:{{82/(imgScanInfo[0].width/imgScanInfo[0].height)+66}}rpx;overflow-y:hidden;overflow-x:auto;" data-index="{{index}}" class="img-nav">
+      <scroll-view
+          scroll-x
+                      
+        >
+         <block wx:for="{{images}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index+'-'+idx}}">
+            <view class="image-ad-2" style="width:{{82}}rpx;margin-right:{{space*2}}rpx;display:inline-block;font-size:0;vertical-align:top;overflow:hidden;" bindtap="navigate" data-link="{{item.linkUrl}}">
+              <image wx:if="{{layout==1}}" src="{{item.imageUrl}}" class="slide-image"  style="width:{{82}}rpx;height:{{82/(imgScanInfo[0].width/imgScanInfo[0].height)}}rpx;vertical-align:top;"  data-type="{{type}}" data-index="{{index}}" data-sonIndex="{{idx}}" />
+              <view style="height:66rpx;color:{{fontcorlor}};background-color:{{bgcorlor}};font-size:24rpx;line-height:66rpx;text-align:center" class="linkTitle" wx:if="{{showLinkTitle}}">
+                {{item.linkTitle}}
+                <view class="line" wx:if="{{layout==2}}"></view>
+              </view> 
+            </view>
+          </block>
+        </scroll-view>      
+    </view>
+  </view>
+  <view wx:else data-index="{{index}}" style="display:flex;" class="img-nav">
+    <block wx:for="{{images}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index+'-'+idx}}">
+      <view class="image-ad-2" style="flex:1;font-size:0;vertical-align:top;overflow:hidden;" bindtap="navigate" data-link="{{item.linkUrl}}">
+        <image wx:if="{{layout==1}}" src="{{item.imageUrl}}" class="slide-image" style="width:100%;height:{{(windowWidth/images.length)/(imgInfo[0].width/imgInfo[0].height)*2}}rpx;" mode="scaleToFill"   data-type="{{type}}" data-index="{{index}}" data-sonIndex="{{idx}}" />
+        <view style="height:66rpx;color:{{fontcorlor}};background-color:{{bgcorlor}};font-size:24rpx;line-height:66rpx;text-align:center" class="linkTitle" wx:if="{{showLinkTitle}}">
+          {{item.linkTitle}}
+          <view class="line" wx:if="{{layout==2&&idx !=(images.length-1)}}"></view>
+        </view> 
+      </view>
+    </block>
+  </view>
+</template>
+
+<!--辅助空白-->
+<template name="white">
+  <view style="height:{{height}}rpx"></view>
+</template>
+
+<!--辅助线-->
+<template name="line">
+  <view style="height: 80rpx;line-height:56rpx;width: 100%;position: relative;text-align:center;">
+    <view style="border:1rpx {{lineType}} {{color}};display:inline-block;width:calc(100% - {{hasPadding?40:0}}rpx)"></view>
+  </view>
+</template>
+
+<!--视频-->
+<template name="video">
+  <view>
+    <video id="myVideo" src="{{videourl}}" controls="true" autoplay="{{false}}" loop="{{false}}" poster="{{imgtype==1?videoimg:''}}" style="width:100%"></video>
+  </view>
+</template>
+
+<!--店招模块-->
+<template name="storebanner">
+  <view data-index="{{index}}">
+    <view style="position: relative; overflow: hidden;" wx:if="{{layout==1}}">
+      <view style="position: relative; height: {{windowWidth*185/318}}px; background-repeat: no-repeat; background-position-x: 50%; background-size: cover; background-image: url({{shareimg}});">
+        <view class="cap-shop-banner__cover-mask"></view>
+        <view style="position: absolute; bottom: {{windowWidth*185/318*(17/185)}}px; width: 100%;"><view class="cap-shop-banner__content">
+          <view class="cap-shop-banner__logo">
+            <image src="{{storeLogo}}" alt="店铺logo" style="width:{{imgScanInfo[0].width*2}}rpx;height:{{imgScanInfo[0].height*2}}rpx;" data-type="{{type}}" data-index="{{index}}" data-sonIndex="{{0}}" />
+          </view>
+          <view class="cap-shop-banner__right-content">
+            <view class="cap-shop-banner__right-content-title--middle title">{{storeName}}</view>
+            <view class="cap-shop-banner__sum-content">
+              <view class="xkd-inline-block"><view class="cap-shop-banner__sum-content-total xkd-color-fff">全部商品{{AllProductNum}}</view></view>
+              <view class="xkd-inline-block"><view class="cap-shop-banner__sum-content-total xkd-color-fff">上新{{LatestNum}}</view></view>
+            </view>
+          </view>
+        </view>
+        </view>
+      </view>
+    </view>
+    <view class="cap-shop-banner cap-shop-banner--type-2" wx:elif="{{layout==2}}">
+      <view class="cap-shop-banner__cover" style="background-image: url({{shareimg}});">
+        <view class="cap-shop-banner__cover-mask"></view>
+      </view>
+      <view class="cap-shop-banner__inner">
+        <view class="cap-shop-banner__content">
+          <view class="cap-shop-banner__logo">
+            <image src="{{storeLogo}}" alt="店铺logo" style="width:{{imgScanInfo[0].width*2}}rpx;height:{{imgScanInfo[0].height*2}}rpx;" data-type="{{type}}" data-index="{{index}}" data-sonIndex="{{0}}"/>
+          </view>
+          <view class="cap-shop-banner__right-content">
+            <view class="cap-shop-banner__right-content-title--middle title">{{storeName}}</view>
+            <view class="cap-shop-banner__sum-content">
+              <view class="xkd-inline-block"><view class="cap-shop-banner__sum-content-total xkd-color-999">全部商品999</view></view>
+              <view class="xkd-inline-block"><view class="cap-shop-banner__sum-content-total xkd-color-999">上新30</view></view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="cap-shop-banner cap-shop-banner--type-3" wx:elif="{{layout==3}}">
+      <view class="cap-shop-banner__cover" style="background-image: url({{shareimg}});">
+        <view class="cap-shop-banner__cover-mask"></view>
+      </view>
+      <view class="cap-shop-banner__inner">
+        <view class="cap-shop-banner__content">
+          <view class="cap-shop-banner__logo">
+            <image src="{{storeLogo}}" alt="店铺logo" style="width:{{imgScanInfo[0].width*2}}rpx;height:{{imgScanInfo[0].height*2}}rpx;" data-type="{{type}}" data-index="{{index}}" data-sonIndex="{{0}}" data-size="{{70}}"/>
+          </view>
+          <view class="cap-shop-banner__right-content">
+            <view class="cap-shop-banner__right-content-title--middle title">{{storeName}}</view>
+            <view class="cap-shop-banner__sum-content">
+              <view class="xkd-inline-block"><view class="cap-shop-banner__sum-content-total xkd-color-999">全部商品999</view></view>
+              <view class="xkd-inline-block"><view class="cap-shop-banner__sum-content-total xkd-color-999">上新30</view></view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="cap-shop-banner cap-shop-banner--type-4" wx:else >
+      <view class="cap-shop-banner__cover" style="background-image: url({{shareimg}});">
+        <view class="cap-shop-banner__cover-mask"></view>
+      </view>
+      <view class="cap-shop-banner__inner">
+        <view class="cap-shop-banner__content">
+          <view class="cap-shop-banner__logo" data-logo="{{storebanner}}" width="{{width}}">
+            <image src="{{storeLogo}}" alt="店铺logo" style="width:{{imgScanInfo[0].width*2}}rpx;height:{{imgScanInfo[0].height*2}}rpx;" data-type="{{type}}" data-index="{{index}}" data-sonIndex="{{0}}" data-size="{{70}}"/>
+          </view>
+          <view class="cap-shop-banner__right-content">
+            <view class="cap-shop-banner__right-content-title--middle title">{{storeName}}</view>
+            <view class="cap-shop-banner__sum-content">
+              <view class="xkd-inline-block xkd-color-fff"><view class="cap-shop-banner__sum-content-total">全部商品999</view></view>
+              <view class="xkd-inline-block xkd-color-fff"><view class="cap-shop-banner__sum-content-total">上新30</view></view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<!--图片热区-->
+<template name="image-hot">
+  <view>
+    <block wx:for="{{images}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index+'-'+idx}}">
+      <view  style="width:100%;height:{{item.scanHeight}}px;display:inline-block;font-size:0;vertical-align:top;position:relative;" data-height="{{item.scanHeight*item.pixelRatio}}" >
+        <image  src="{{item.imageUrl}}"   style="width:100%;height:{{item.scanHeight}}px;vertical-align:top;" />
+        <block wx:for="{{item.hotData}}" wx:for-item="v" wx:key="*this">
+          <view style="position:absolute;width:{{v.scanWidth}}px;height:{{v.scanHeight}}px;top:{{v.scanY}}px;left:{{v.scanX}}px;" catchtap="navigate" data-link="{{v.PagePath}}"></view>
+        </block>
+      </view>
+    </block>
+  </view>
+</template>

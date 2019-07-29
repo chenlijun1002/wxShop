@@ -1,0 +1,36 @@
+
+<!--每列两图表式-->
+<view wx:if="{{listTyle==1}}" style="width:49%;display:inline-block">
+<view class="van-card__thumbtwo">
+ <image
+      wx:if="{{ thumb }}"
+      src="{{ thumb }}"
+      mode="{{ thumbMode }}"
+      lazy-load="{{ lazyLoad }}"
+      class="van-card__imgtwo"
+    />
+    </view>
+    <view  class="van-card__titletwo van-multi-ellipsis--l2 title-class">{{ title }}</view>
+</view>
+<!--列表式-->
+<view wx:else class="custom-class van-card {{ centered ? 'van-card--center' : '' }}">
+  <view class="van-card__thumb" bind:tap="onClickThumb">
+    <image
+      wx:if="{{ thumb }}"
+      src="{{ thumb }}"
+      mode="{{ thumbMode }}"
+      lazy-load="{{ lazyLoad }}"
+      class="van-card__img thumb-class"
+    />
+  </view>
+  
+  <view  class="van-card__title van-multi-ellipsis--l2 title-class">{{ title }}</view>
+
+  <view>
+   销售量{{num}}
+  </view>
+   <view style="width:100%">
+   <view>{{ currency }} {{ price }}</view>
+   <view>{{ currency }} {{ originPrice }}</view>
+  </view>
+</view>

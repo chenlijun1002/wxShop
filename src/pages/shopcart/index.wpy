@@ -1,0 +1,776 @@
+
+<style lang="less">
+  @import "../../style/variable";
+  page{
+    background-color: #f7f7f7;
+  }
+  .product-infoBox{
+    border-bottom: 1rpx solid #f0f0f0;   
+    height:192rpx;
+    padding:32rpx 0;
+    box-sizing:border-box;
+ 
+  }
+  .right-delete{
+      background-color: #F5222D;
+      width: 100rpx;
+      height: 100%;
+      font-size: 26rpx;
+      line-height: 192rpx;
+      text-align: center;
+      color:#fff;
+      margin-left: 24rpx;
+    }
+  .failure-product{
+    position: relative;
+    &::after{
+      content:'';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255,255,255,.5);
+    }
+  }
+  .total-btn{
+    width:148rpx;
+    height:72rpx;
+    background:#FF9800;
+    opacity:1;
+    border-radius:8rpx;
+    font-size: 28rpx;
+    color:#fff;
+    float: right;
+  }
+  .mask{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background:rgba(0,0,0,0.5);
+}
+
+.express-popup{
+  position: fixed;
+  width: 100%;
+  height: 986rpx;
+  left: 0;
+  bottom: 0;
+  background-color: #fff;
+  z-index: 20;
+  transform: translateY(120%);
+  transition: all 0.4s;
+}
+.express-popup .express-popup-herder{
+  position: relative;
+  padding: 24rpx;
+  height: 96rpx;
+  box-sizing: border-box;
+}
+.express-popup .express-popup-herder::after{
+  position: absolute;
+  content:'';
+  left:0;
+  width:100%;
+  height:1rpx;
+  border-bottom:1rpx solid #e0e0e0;
+  bottom:0;
+}
+.express-popup .express-popup-herder .cancel{
+  position: absolute;
+  right: 24rpx;
+  top: 24rpx;
+}
+.express-popup-footer{
+  padding: 24rpx;
+  position: absolute;
+  width:calc(100% - 48rpx);
+  bottom: 0;
+}
+.express-popup.show{
+  transform: translateY(0);
+}
+.express-picker__loading{
+  text-align: center;
+  transform: translate(0,50%);
+}
+.img-box{
+  display:inline-block;
+  border:1rpx solid #f0f0f0;
+  margin-right:16rpx;
+  position: relative;
+  .count{
+    position: absolute;
+    right: -12rpx;
+    top: 0;
+    min-width: 29rpx;
+   // min-height: 22rpx;
+    background:#F5222D;
+    border-radius:50%;
+    font-size: 20rpx;
+    color:#fff;
+    text-align: center;
+    padding: 10rpx;
+  }
+}
+
+</style>
+
+<template>
+<html>
+  <xkd-master id="xkdmaster" pageReady="{{pageIsReady}}"  pagedata="{{currentData}}" bind:tab-change="tab_selChange" bind:navbackclick="nav_backclick">
+  <block wx:if="{{hasCatsData}}">
+    <view desc="本页工作区域" style="margin-bottom:104rpx;">
+      <scroll-view
+        scroll-y
+        style="height: 100%;"
+        
+      >
+        <view>
+          <view style="margin-bottom:24rpx;">                      
+            <van-panel >
+              <view class="xkd-overflow-hidden padding-l-24 padding-r-24 line-top">
+                <view class="line-bottom padding-b-24 padding-t-24" style="height:40rpx;line-height:40rpx;">
+                  <view class="xkd-inline-block"> 
+                    <image src="{{'http://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/systemfile/icon/icon03.png' }}" style="width:40rpx;height:40rpx;" class="vertical-align-top"/>
+                    <text class="font-30 text-ellipsis xkd-inline-block color-21" style="width:480rpx">{{storeName}}</text>
+                  </view>
+                  <text class="pull-right font-28 color-42" bind:tap="edit" wx:if="{{!isEdit}}">编辑</text>
+                  <text class="pull-right font-28 color-42" bind:tap="edit" wx:if="{{isEdit}}">完成</text>
+                </view>
+              </view>
+              <view>
+                <repeat for="{{pageData.OnSaleList}}" key="index" index="index" item="item">
+                  <van-swipe-cell id="swipe-cell" right-width="{{ 65 }}" left-width="{{ 0 }}" async-close bind:close="onClose" >
+                    <view style="padding-left: 16px;padding-right:24rpx;" >
+                      <view class="product-infoBox">
+                        <van-row  >
+                          <van-col span="2">
+                            <view style="width: 100%;height: 128rpx;line-height: 128rpx;" >
+                              <van-checkbox use-icon-slot value="{{ item.checked }}" bind:change="selected" data-id="{{item.Id}}" data-checked="{{item.checked}}">                       
+                                <image
+                                  style="width:40rpx;height:40rpx;"
+                                  slot="icon"
+                                  src="{{ item.checked ? 'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/systemfile/wxashop/checkbox_true.png' : 'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/systemfile/wxashop/checkbox_false.png' }}"
+                                >
+                              </van-checkbox>
+                            </view>                     
+                          </van-col>
+                          <van-col span="5">
+                            <image src="{{cdnUrl+'/'+item.ProductImg+'?x-oss-process=style/180'}}" style="width:128rpx;height:128rpx;"/>
+                          </van-col>
+                          <van-col span="9">
+                            <van-row  >
+                              <van-col>
+                                <view class="text-ellipsis-2 font-28 color-42" style="min-height:76rpx;">{{item.ProductName}}</view>
+                              </van-col>
+                            </van-row>
+                            <van-row  >
+                              <van-col>
+                                <view class="text-ellipsis font-24 color-74" style="margin-top:12rpx;width:286rpx;">{{item.SkuContent}}</view>
+                              </van-col>
+                            </van-row>
+                          </van-col>
+                          <van-col span="8">
+                            <van-row  >
+                              <van-col span="24">
+                                <view class="font-28 color-42 text-right">￥{{item.Price}}</view>
+                              </van-col>
+                            </van-row>
+                            <van-row  >
+                              <van-col span="24">
+                                <view class="font-24 color-74 text-right" style="margin-top:12rpx;">
+                                  <view class="text-ellipsis font-24 color-74" style="margin-top:12rpx;">
+                                    <view style="display:inline-block;vertical-align:top;font-size:0;" bind:tap="addNum(1,{{item.Id}},{{item.Number}})"><image src="{{item.Number>1?'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/systemfile/wxashop/icon_minus-2.png':'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/systemfile/wxashop/icon_minus.png'}}" style="width:48rpx;height:48rpx;"/></view>
+                                    <text style="width:48rpx;text-align:center;padding:0 24rpx;line-height:48rpx;display:inline-block;color:#424242;font-size:28rpx">{{item.Number}}</text>
+                                    <view style="display:inline-block;vertical-align:top;font-size:0;" bind:tap="addNum(2,{{item.Id}},{{item.Number}})"><image src="https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/systemfile/wxashop/icon_plus.png" style="width:48rpx;height:48rpx;"/></view>
+                                  </view>
+                                </view>
+                              </van-col>
+                            </van-row>
+                          </van-col>
+                        </van-row>
+                      </view>
+                    </view>
+                    <view slot="right" class="right-delete" bind:tap="delete(1,{{item.Id}})">删除</view>
+                  </van-swipe-cell>
+                </repeat>                
+              </view>
+            </van-panel>         
+          </view>
+          <view wx:if="{{pageData.InvalidList}}">                     
+            <van-panel >
+              <view class="xkd-overflow-hidden padding-l-24 padding-r-24">
+                <view class="line-bottom padding-b-24 padding-t-24" style="height:40rpx;line-height:40rpx;">
+                  <view class="xkd-inline-block">                     
+                    <text class="font-30 text-ellipsis xkd-inline-block color-42" style="width:480rpx">失效商品</text>
+                  </view>
+                  <text class="pull-right font-28 color-42" bind:tap="empty">清空</text>
+                </view>
+              </view>
+              <view class="failure-product">
+                <repeat for="{{pageData.InvalidList}}" key="index" index="index" item="item">
+                  <van-swipe-cell id="swipe-cell" disabled>
+                    <view style="padding-left: 16px;padding-right:24rpx;" >
+                      <view class="product-infoBox">
+                        <van-row  >
+                          <van-col span="2">                        
+                            <view style="width: 100%;height: 128rpx;line-height: 128rpx;">
+                              <van-checkbox use-icon-slot >                       
+                                <image
+                                  style="width:40rpx;height:40rpx;"
+                                  slot="icon"
+                                  src="{{'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/systemfile/wxashop/checkbox_false.png' }}"
+                                >
+                              </van-checkbox> 
+                            </view>                     
+                          </van-col>
+                          <van-col span="5">
+                            <image src="{{cdnUrl+'/'+item.ProductImg+'?x-oss-process=style/180'}}" style="width:128rpx;height:128rpx;"/>
+                          </van-col>
+                          <van-col span="9">
+                            <van-row  >
+                              <van-col>
+                                <view class="text-ellipsis-2 font-28 color-74">{{item.ProductName}}</view>
+                              </van-col>
+                            </van-row>
+                            <van-row  >
+                              <van-col>
+                                <view class="text-ellipsis font-24 color-74" style="margin-top:12rpx;">{{item.SkuContent}}</view>
+                              </van-col>
+                            </van-row>
+                          </van-col>
+                          <van-col span="8">
+                            <van-row  >
+                              <van-col span="24">
+                                <view class="font-28 color-74 text-right">￥{{item.Price}}</view>
+                              </van-col>
+                            </van-row>                       
+                          </van-col>
+                        </van-row>
+                      </view>
+                    </view>                  
+                  </van-swipe-cell> 
+                </repeat>                                 
+              </view>
+            </van-panel>         
+          </view>
+        </view>
+      </scroll-view>    
+    </view>
+    <view>
+      <view class="express-picker" catch:touchmove>
+        <view class="mask" wx:if="{{visible}}" bind:tap="onCancel"></view>
+        <view class="express-popup {{visible?'show':''}}">
+          <!-- <view wx:if="{{ loading }}" class="express-picker__loading">
+            <van-loading color="#1989fa"/>
+          </view> -->
+          <view class="express-popup-herder">        
+          <text class="font-32">选择结算商品</text>
+          <icon class="cancel" type="cancel" bindtap="onCancel" size="28" color="#757575" />
+      </view>
+      <view class="express-popup-body">
+          <view style="height:72rpx;background-color:rgba(255,251,230,1);color:#FAAD14;text-align:center;line-height:72rpx;" class="font-26">
+            不同配送方式的商品，暂不支持同时结算，请分开下单。
+          </view>
+          <view >
+            <view style="padding-left: 24rpx;padding-right:24rpx;" >
+              <view class="product-infoBox" style="height:auto;" wx:if="{{expressInfo.list&&expressInfo.list.length}}">
+                <van-row  >
+                  <van-col span="2">
+                    <view style="width: 100%;" >
+                      <van-checkbox use-icon-slot value="{{ item.checked }}" bind:change="selectExpress(1)" data-id="{{item.Id}}" data-checked="{{item.checked}}">                       
+                        <image
+                          style="width:40rpx;height:40rpx;"
+                          slot="icon"
+                          src="{{ expressType===1 ? 'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/systemfile/wxashop/checkbox_true.png' : 'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/systemfile/wxashop/checkbox_false.png' }}"
+                        >
+                      </van-checkbox>
+                    </view>                     
+                  </van-col>
+                  <van-col span="22">
+                    <view style="margin-bottom:16rpx;height:40rpx;" class="color-42 font-28">
+                      <text>快递发货</text>
+                      <text class="color-74">（共{{expressInfo.total}}件，合计￥{{expressInfo.totalPrice}}）</text>
+                    </view>
+                    <scroll-view scroll-x>
+                      <view style="white-space:nowrap;">
+                        <repeat for="{{expressInfo.list}}" key="index" index="index" item="item">
+                          <view class="img-box">
+                            <image src="{{cdnUrl+'/'+item.ProductImg+'?x-oss-process=style/180'}}" style="width:104rpx;height:104rpx;vertical-align:top;"/>
+                            <text class="count">{{item.Number}}</text>
+                          </view> 
+                        </repeat>
+                      </view>
+                    </scroll-view>
+                  </van-col>                  
+                </van-row>
+              </view>
+              <view class="product-infoBox" style="height:auto;" wx:if="{{sameCityInfo.list&&sameCityInfo.list.length}}">
+                <van-row  >
+                  <van-col span="2">
+                    <view style="width: 100%;" >
+                      <van-checkbox use-icon-slot value="{{ item.checked }}" bind:change="selectExpress(2)" data-id="{{item.Id}}" data-checked="{{item.checked}}">                       
+                        <image
+                          style="width:40rpx;height:40rpx;"
+                          slot="icon"
+                          src="{{ expressType===2 ? 'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/systemfile/wxashop/checkbox_true.png' : 'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/systemfile/wxashop/checkbox_false.png' }}"
+                        >
+                      </van-checkbox>
+                    </view>                     
+                  </van-col>
+                  <van-col span="22">
+                    <view style="margin-bottom:16rpx;height:40rpx;" class="color-42 font-28">
+                      <text>同城配送</text>
+                      <text class="color-74">（共{{sameCityInfo.total}}件，合计￥{{sameCityInfo.totalPrice}}）</text>
+                    </view>
+                    <scroll-view scroll-x>
+                      <view style="white-space:nowrap;">
+                        <repeat for="{{sameCityInfo.list}}" key="index" index="index" item="item">
+                          <view class="img-box">
+                            <image src="{{cdnUrl+'/'+item.ProductImg+'?x-oss-process=style/180'}}" style="width:104rpx;height:104rpx;vertical-align:top;"/>
+                            <text class="count">{{item.Number}}</text>
+                          </view> 
+                        </repeat>
+                      </view>
+                    </scroll-view>
+                  </van-col>                  
+                </van-row>
+              </view>
+              <view class="product-infoBox" style="height:auto;" wx:if="{{fromDoorInfo.list&&fromDoorInfo.list.length}}">
+                <van-row  >
+                  <van-col span="2">
+                    <view style="width: 100%;" >
+                      <van-checkbox use-icon-slot value="{{ item.checked }}" bind:change="selectExpress(3)" data-id="{{item.Id}}" data-checked="{{item.checked}}">                       
+                        <image
+                          style="width:40rpx;height:40rpx;"
+                          slot="icon"
+                          src="{{ expressType===3 ? 'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/systemfile/wxashop/checkbox_true.png' : 'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/systemfile/wxashop/checkbox_false.png' }}"
+                        >
+                      </van-checkbox>
+                    </view>                     
+                  </van-col>
+                  <van-col span="22">
+                    <view style="margin-bottom:16rpx;height:40rpx;" class="color-42 font-28">
+                      <text>上门自提</text>
+                      <text class="color-74">（共{{fromDoorInfo.total}}件，合计￥{{fromDoorInfo.totalPrice}}）</text>
+                    </view>
+                    <scroll-view scroll-x>
+                      <view style="white-space:nowrap;">
+                        <repeat for="{{fromDoorInfo.list}}" key="index" index="index" item="item">
+                          <view class="img-box">
+                            <image src="{{cdnUrl+'/'+item.ProductImg+'?x-oss-process=style/180'}}" style="width:104rpx;height:104rpx;vertical-align:top;"/>
+                            <text class="count">{{item.Number}}</text>
+                          </view> 
+                        </repeat>
+                      </view>
+                    </scroll-view>
+                  </van-col>                  
+                </van-row>
+              </view>
+            </view>
+          </view>      
+      </view>
+      <view class="express-popup-footer">        
+          <button class="font-30" disabled="{{expressLoading}}" bindtap="settlementExpress" style="height:88rpx;line-height:88rpx;background:rgba(255,152,0,1);border-radius:12rpx;color:#fff;background-color:{{styleConfig.subColor}};">
+              <text wx:if="{{!expressLoading}}" style="color:{{styleConfig.textSubColor}}">去结算</text>
+              <van-loading size="20px"  wx:else/>
+          </button>                              
+      </view>
+        </view>          
+      </view>
+    </view>
+    <view style="position: fixed;left:0;bottom: 0;width: 100%;padding: 16rpx 24rpx 16rpx 28rpx;height: 104rpx;box-sizing: border-box;background: #fff;line-height: 72rpx;border-top:1rpx solid #f0f0f0;">
+      <van-row>
+        <van-col span="6">
+          <van-checkbox use-icon-slot value="{{ checkedAll }}" bind:change="selectAll" data-checked="{{checkedAll}}"><text class="font-28" style="vertical-align:top;margin-top:-2px;display:inline-block;">全选</text>                     
+            <image
+              style="width:40rpx;height:40rpx;"
+              slot="icon"
+              src="{{ checkedAll ? 'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/systemfile/wxashop/checkbox_true.png' : 'https://insidexkd.oss-cn-shanghai.aliyuncs.com/xkdnewyun/systemfile/wxashop/checkbox_false.png' }}"
+            >
+          </van-checkbox> 
+        </van-col>
+        <van-col span="18">
+          <van-row>
+            <van-col span="16">
+              <view wx:if="{{!isEdit}}">
+                <view style="height:45rpx;font-size:32rpx;line-height:45rpx;text-align:right;">合计：￥{{totalPrice}}</view>
+                <view style="height:32rpx;font-size:24rpx;line-height:32rpx;color:$747474;text-align:right;">共{{selectedIds.length}}件</view>
+              </view>           
+            </van-col>
+            <van-col span="8" offset="{{isEdit?16:0}}">
+              <button class="total-btn" wx:if="{{!isEdit}}" bind:tap="settlement">去结算</button>
+              <button class="total-btn" wx:if="{{isEdit}}" bind:tap="delete(2)">删除</button>
+            </van-col>
+          </van-row>
+        </van-col>
+      </van-row>    
+    </view>
+  </block>
+  <view wx:if="{{!hasCatsData}}">
+      <xkd-nodata
+          @redirectToPage="goIndex"
+          textMsg="暂无商品"
+          btnText="返回首页"
+          fileImageType="xkdnewyun/systemfile/wxashop/wxanodata3.png"
+          btnStyle="font-size: 28rpx; width: 216rpx; background: #fff; white-space:nowrap; color: #424242; text-align: center; padding-left:0; padding-right:0"
+      ></xkd-nodata>
+  </view>
+</xkd-master> 
+</html>
+</template>
+
+<script>
+import wepy from 'wepy';
+import Tips from '../../utils/Tips';
+import wxutils from '../../utils/WxUtils';
+import basepage from '../../utils/basepage';
+import testMixin from '../../mixins/test';
+import pageApi from '../../api/shopcart';
+
+export default class shopcartIndex extends basepage {
+  ///页
+  config = {
+    navigationBarTitleText: '购物车',
+    usingComponents: 
+    {
+      "van-panel": '/components/vant/panel/index',
+      "van-swipe-cell": "/components/vant/swipe-cell/index",
+      "van-cell": "/components/vant/cell/index",
+      "van-cell-group": "/components/vant/cell-group/index",
+      "van-row": "/components/vant/row/index",
+      "van-col": "/components/vant/col/index",      
+      "van-checkbox": "/components/vant/checkbox/index",
+      "van-checkbox-group": "/components/vant/checkbox-group/index",
+      "van-loading": "/components/vant/loading/index",
+      'xkd-nodata': '/components/vant/xkd-nodata/index'
+    },
+    enablePullDownRefresh: false,
+   // disableScroll: true
+  };
+
+  data = {
+    pageTitle:"购物车",
+    share: null,
+    navleftArrow: true, ///是否显示返回按钮
+    searchkey: '',    
+    pageData:{},
+    isEdit:false,
+    checkedAll:false,
+    selectedIds:[],
+    totalPrice:0,
+    visible:false,
+    loading:true,
+    cdnUrl:'',
+    storeName:'',
+    loading:false,
+    hasCatsData:true,
+    expressLoading:false,
+    expressType:1,    
+    expressInfo:{
+      total:0,
+      totalPrice:0,
+      list:[],
+      ids:[]
+    },
+    sameCityInfo:{
+      total:0,
+      totalPrice:0,
+      list:[],
+      ids:[]
+    },
+    fromDoorInfo:{
+      total:0,
+      totalPrice:0,
+      list:[],
+      ids:[]
+    },   
+  };
+  
+  async bindApiData(option,callback) {
+    this.cdnUrl=this.$parent.globalData.CdnUrl;
+    this.storeName=this.$parent.globalData.storeInfo.StoreName;
+    Tips.loading('加载中...');    
+    let data=await pageApi.GetShopCartInfo();
+    if(data.Code==0){
+      if(data.Data){
+        data.Data.OnSaleList&&data.Data.OnSaleList.forEach((item,index)=>{
+          if(item.ActivityPrice){
+            if(item.BuyLimit<=item.Number){
+              item.Price=item.Number*item.ActivityPrice;
+            }else{
+              item.Price=item.Number*(item.MemberPrice||item.SkuPrice);
+            }
+          }else{
+            item.Price=item.Number*(item.MemberPrice||item.SkuPrice);
+          }
+        // this.totalPrice+=item.Price;
+        })
+        data.Data.InvalidList&&data.Data.InvalidList.forEach((item,index)=>{
+          if(item.ActivityPrice){
+            if(item.BuyLimit<=item.Number){
+              item.Price=item.Number*item.ActivityPrice;
+            }else{
+              item.Price=item.Number*(item.MemberPrice||item.SkuPrice);
+            }
+          }else{
+            item.Price=item.Number*(item.MemberPrice||item.SkuPrice);
+          }
+        })
+        this.pageData=data.Data;
+      }else{
+        this.hasCatsData=false;
+      }    
+      if(callback && typeof callback === 'function') callback();
+      this.$apply();
+    }
+  }
+
+  components = {}; // 声明页面中所引用的组件，或声明组件中所引用的子组件
+
+  ///替换mixins配置，请不要定义mixins=[],否则不出现异常
+  addmixins() {
+    return [testMixin]; // 声明页面所引用的Mixin实例
+  }
+
+  computed = {}; // 声明计算属性（详见后文介绍）
+
+  watch = {}; // 声明数据watcher（详见后文介绍）
+
+  
+  methods = {    
+    async addNum(type,id,num){
+      console.log(id)
+      if(this.loading) return;
+      this.loading= true;
+      let index=this.pageData.OnSaleList.findIndex((item)=>item.Id===id);
+      if(index>-1){
+        if(type==1){
+          // console.log({
+          //   productId:this.pageData.OnSaleList[index].ProductId,
+          //   skuId:this.pageData.OnSaleList[index].SkuId,
+          //   addNumber:num
+          // })
+          // return;
+          if(this.pageData.OnSaleList[index].Number<=1) return this.loading= false;
+          let res= await pageApi.UpdateShopCartSkuNumber({
+            productId:this.pageData.OnSaleList[index].ProductId,
+            skuId:this.pageData.OnSaleList[index].SkuId,
+            addNumber:--num
+          });
+          console.log(res,num,777)
+          if(res.Code==0){
+            if(res.Data>num){
+              this.pageData.OnSaleList[index].Number=num;
+            }else{
+              this.pageData.OnSaleList[index].Number=res.Data;
+              if(res.Data !==num){
+                Tips.error('库存不足');                
+              }
+            }
+          }else{
+            Tips.error(res.Msg);
+            if(res.Code===80101){
+              setTimeout(() => {
+                this.bindApiData({},()=>{
+                   Tips.loaded();
+                });                               
+              }, 1500);
+            }
+          }
+          
+          this.pageData.OnSaleList[index].Price=this.pageData.OnSaleList[index].Number*(this.pageData.OnSaleList[index].MemberPrice||this.pageData.OnSaleList[index].SkuPrice);
+        }else{
+          if(this.pageData.OnSaleList[index].Number>=999) return this.loading= false;
+          let res= await pageApi.UpdateShopCartSkuNumber({
+            productId:this.pageData.OnSaleList[index].ProductId,
+            skuId:this.pageData.OnSaleList[index].SkuId,
+            addNumber:++num
+          });
+          console.log(res,num,777)
+          if(res.Code==0){
+            if(res.Data>num){
+              this.pageData.OnSaleList[index].Number=num;
+            }else{
+              this.pageData.OnSaleList[index].Number=res.Data;
+              if(res.Data !==num){
+                Tips.error('库存不足');                
+              }
+            }
+          }else{
+            Tips.error(res.Msg);
+            if(res.Code===80101){
+              setTimeout(() => {
+                this.bindApiData({},()=>{
+                   Tips.loaded();
+                });                               
+              }, 1500);
+            }
+          }
+          //this.pageData.OnSaleList[index].Number=++num;
+          this.pageData.OnSaleList[index].Price=this.pageData.OnSaleList[index].Number*(this.pageData.OnSaleList[index].MemberPrice||this.pageData.OnSaleList[index].SkuPrice);
+        }
+        this.loading= false;
+        this.$apply();
+      }
+      this.calcTotalPrice()
+    },
+    selected(e){            
+      let id = e.currentTarget.dataset.id;
+      let checked = e.currentTarget.dataset.checked;
+      let index=this.pageData.OnSaleList.findIndex((item)=>item.Id==id);
+      if(index>-1){
+        this.pageData.OnSaleList[index].checked=!checked;        
+        let idx=  this.selectedIds.indexOf(id);
+        if(idx>-1){
+          this.selectedIds.splice(idx,1);
+        }else{
+          this.selectedIds.push(id);
+        }     
+      }
+      let arr=this.pageData.OnSaleList.filter((item)=>item.checked);
+      if(arr.length===this.pageData.OnSaleList.length){
+        this.checkedAll=true;
+      }else{
+        this.checkedAll=false;
+      }
+      this.calcTotalPrice()
+    },
+    empty(){
+      let ids=[];
+      this.pageData.InvalidList.forEach((item,index)=>{
+        ids.push(item.Id)
+      })
+      console.log(ids)
+    },
+    delete(type,id){
+      if(type==1){
+        console.log(id)
+        let idx=  this.selectedIds.indexOf(id);
+        this.selectedIds.splice(idx,1);        
+      }else{
+        let arr=this.pageData.OnSaleList.filter((item)=>item.checked);
+        let ids=[];
+        arr.forEach((item)=>{
+          ids.push(item.Id)
+        })
+        console.log(ids)
+        let arr2=this.pageData.OnSaleList.filter((item)=>!item.checked);
+        arr.forEach((item)=>{
+          let idx=  this.selectedIds.indexOf(item.Id);
+          if(idx>-1){
+            this.selectedIds.splice(idx,1);
+          }else{
+            this.selectedIds.push(id);
+          } 
+        })        
+      }
+      this.calcTotalPrice()
+    },
+    onClose(e){
+      console.log(e)
+    },
+    edit(){
+      this.isEdit=!this.isEdit;
+    },
+    selectAll(e){         
+      let ids=[]; 
+      let checked = e.currentTarget.dataset.checked;  
+      this.checkedAll=!checked;
+      this.pageData.OnSaleList.forEach((item)=>{
+        ids.push(item.Id)
+        item.checked=!checked; 
+      })
+      if(checked){
+        this.selectedIds=[];
+      }else{        
+        this.selectedIds=ids;
+      }
+      this.calcTotalPrice()
+    },  
+    //结算
+    settlement(){
+      console.log(this.selectedIds)
+      if(!this.selectedIds.length) return Tips.error('请选择商品');
+      this.visible=true; 
+      let arr=[];      
+      this.selectedIds.forEach((item)=>{
+        let index=index=this.pageData.OnSaleList.findIndex(v=>v.Id===item);        
+        if(index>-1){
+          if(this.pageData.OnSaleList[index].IsExpress){
+            this.expressInfo.list.push(this.pageData.OnSaleList[index]);
+            this.expressInfo.ids.push(item);
+          }else if(this.pageData.OnSaleList[index].IsSameCity){
+            this.sameCityInfo.list.push(this.pageData.OnSaleList[index]);
+            this.sameCityInfo.ids.push(item);
+          }else{
+            this.fromDoorInfo.list.push(this.pageData.OnSaleList[index]);
+            this.fromDoorInfo.ids.push(item);
+          }   
+        }
+      })
+      if(this.expressInfo.list.length){
+        this.expressType=1;
+      }else{
+        if(this.sameCityInfo.list.length){
+          this.expressType=2;
+        }else{
+          this.expressType=3;
+        }
+      }     
+      this.expressInfo.list.forEach((item)=>{      
+        this.expressInfo.total+=item.Number;
+        this.expressInfo.totalPrice+=item.Number*(item.MemberPrice||item.SkuPrice);
+      }) 
+      this.sameCityInfo.list.forEach((item)=>{
+        this.sameCityInfo.total+=item.Number;
+        this.sameCityInfo.totalPrice+=item.Number*(item.MemberPrice||item.SkuPrice);
+      }) 
+      this.fromDoorInfo.list.forEach((item)=>{
+        this.fromDoorInfo.total+=item.Number;
+        this.fromDoorInfo.totalPrice+=item.Number*(item.MemberPrice||item.SkuPrice);
+      })      
+    },
+    onCancel(){
+      this.visible=false;
+      this.expressInfo.list=[];
+      this.sameCityInfo.list=[];
+      this.fromDoorInfo.list=[];
+    },
+    goIndex(){      
+      wxutils.redirectToPage('/pages/home/index')
+    },
+    settlementExpress(){     
+      let arr=[];
+      if(this.expressType==1){
+        arr=this.expressInfo.ids;
+      }else if(this.expressType==2){
+        arr=this.sameCityInfo.ids;
+      }else{
+        arr=this.fromDoorInfo.ids;
+      }
+      wxutils.redirectToPage(`/pages/order/comfirmorder?Ids=${arr}`);
+    },
+    selectExpress(type){
+      this.expressType=type-0;
+    }
+  };
+  calcTotalPrice(){
+    let arr=this.pageData.OnSaleList.filter((item)=>item.checked);
+    this.totalPrice=0;
+    arr.forEach((item)=>{
+      this.totalPrice+=item.Price;
+    })
+  }
+  /**
+   * 分享
+   */
+
+  onShareAppMessage() {
+    return {};
+  }
+}
+</script>

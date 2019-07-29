@@ -1,0 +1,21 @@
+<view
+  class="custom-class van-no-data {{ classPrefix }} {{ classPrefix }}-{{ name }}"
+  style="{{ color ? 'color: ' + color + ';' : '' }}{{ size ? 'font-size: ' + size + ';' : '' }}{{ customStyle }}"
+>
+    <view>
+        <image src="{{fileImage}}" style="{{imageStyle}}"/>
+    </view>
+  
+    <view class="van-textMsg-mid">
+        {{textMsg}}
+    </view>
+
+    <button
+        type="default"
+        style="{{btnStyle}}"
+        bindtap="onClick"
+        wx:if="{{hasButton}}"
+    >
+        {{btnText}}
+    </button>
+</view>

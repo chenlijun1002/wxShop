@@ -1,0 +1,14 @@
+@import '../common/index.wxss';
+.copyrighttext{
+    font-size:20rpx;
+    text-align:center;
+    color:#E0E0E0
+}
+.copyrightbox{
+ width: 100%;
+ height: 128rpx;
+}
+.oemImageLogo{
+    width:116rpx;
+    height:38rpx
+}

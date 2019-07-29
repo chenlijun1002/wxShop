@@ -1,0 +1,185 @@
+<style lang="less">
+@import './style/common'; //公共样式部份
+::-webkit-scrollbar{width: 0;height: 0;color: transparent;}
+</style>
+
+<script>
+import wepy from 'wepy';
+import 'wepy-async-function';
+import { setStore } from 'wepy-redux';
+import configStore from './store';
+import auth from './api/auth';
+import mtjsdk from './utils/mtjwxsdk';
+import fundebug from 'fundebug-wxjs';
+import wxutils from './utils/WxUtils';
+import Tips from './utils/Tips';
+
+fundebug.init({
+  apikey: _FUND_KEY_,
+  releaseStage: 'development' //development test production
+});
+
+const store = configStore();
+setStore(store);
+
+export default class extends wepy.app {
+  //mtj=mtjsdk;
+
+  config = {
+    pages: [
+      'pages/home/index',
+      'pages/member/index',
+      'pages/member/addressList', //地址列表
+      'pages/member/addAddress',
+      'pages/home/framepage',
+      'pages/home/initfaild',
+      'pages/home/login',
+      'pages/shopcart/index',
+      //主页模块
+      'pages/home/micropage',
+      'pages/home/micropage1',
+      'pages/home/micropage2',
+      'pages/home/micropage3',
+      //商品模块
+      'pages/product/list',
+      'pages/product/detail',
+      'pages/product/categories',
+      'pages/product/catsearch',///基于商品分类的搜索
+      'pages/demo',
+      //'pages/guide/guide'
+      //订单模块
+      'pages/order/comfirmorder'
+    ],
+    window: {
+      navigationBarBackgroundColor: '#fff',
+      backgroundTextStyle: 'dark',
+      navigationBarTitleText: '',
+      navigationBarTextStyle: 'black',
+      backgroundColor: '#f7f7f7',
+      enablePullDownRefresh: true
+      // navigationStyle: 'custom' //custom
+    },
+    usingComponents: {
+      'xkd-master': '/components/vant/xkd-master/index', ////模板组件
+      'van-button': '/components/vant/button/index',
+      'van-tabbar': '/components/vant/tabbar/index',
+      'van-tabbar-item': '/components/vant/tabbar-item/index',
+      'van-notify': '/components/vant/notify/index',
+      'van-dialog': '/components/vant/dialog/index',
+      'van-toast': '/components/vant/toast/index',
+      'xkd-nav-bar': '/components/vant/xkdnav-bar/index',
+      'van-icon': '/components/vant/icon/index',
+      'xkd-copyright': '/components/vant/xkd-copyright/index'///底部陈版权
+    }
+  };
+
+  globalData = {
+    fundebug: fundebug, ///log对象
+    isInit: false, ///小程序是否初始化成功
+    initFail: false, ///小程序是否初始化成功
+    isLogin: false, ///当前用户是否登录
+    stopReq: false, ///是否阻止其它业务请求，当正在登录中的时候，其它接口都停止业务请求处理
+    userId: 0, ///当前用户信息
+    wxaOpenId: '',
+    oemInfo: null, ///OEM产商信息
+    storeInfo: null, ///当前店铺信息
+    tabBarConfig: null, ///当前Tabar信息
+    tabApiPages:[],///API端获取的tab页数据
+    navstyleconfig: {
+      PrimaryColor: '#fff',
+      PlainColor: '#fff'
+    }, ///店铺风格信息
+    xkdApiDomians: _API_DOMAINS_, ///当前API网关配置，编译时会赋值
+    extConfig: null, ///ext配置信息
+    jwtToken: '', ///用户JWT令牌，
+    logincode: '', ///登录的code
+    activeNavIndex: -1, ///当前tab选中索引
+    closeCopyright: true, ///版本是否关闭
+    StoreExpired: true, ///店铺是否已经过期
+    IsTrialStore: true, ///是否试用店铺
+    shopCartNumber: 10, ///购物车商品数量
+    pixelRatio: 2,
+    windowWidth: 0,
+    windowHeight: 0,
+  };
+
+  constructor() {
+    super();
+    // 注册中间件
+    this.use('requestfix');
+    this.use('promisify'); ///这一个必需要开启，否则无法获取wepy.api的数据
+  }
+
+  async onLaunch(option) {
+     
+    wx.hideTabBar({});
+    ///基础库检查，需要2.0.0以上版本
+    let isSDKExipred = wxutils.isSDKExipred();
+    if (isSDKExipred) {
+      wx.showModal({
+        title: '加载失败',
+        content: '您的微信版本太低，为确保正常使用，请尽快升级',
+        success(res) {
+          wx.navigateBack({delta: 0});//退出当前
+        }
+      });
+     
+      setTimeout(()=>{
+        Tips.loaded();
+      },2000);
+
+      setTimeout(()=>{
+        Tips.loaded();
+      },3000);
+      return;
+    }
+
+    const that = this;
+    ///查看当前小程序的域名信息
+    //console.log("xkdApiDomians",this.globalData.xkdApiDomians);
+  
+    //获取屏幕信息
+    wx.getSystemInfo({
+      success(res) {
+        that.globalData.pixelRatio = res.pixelRatio;
+        that.globalData.windowWidth = res.windowWidth;
+        that.globalData.windowHeight=res.windowHeight;///窗口高度
+      }
+    });
+
+    ///ext配置获取
+    let extConfig = wepy.getExtConfigSync();
+
+    
+
+    this.globalData.extConfig = extConfig; ///当前小程序的ext配置信息
+
+    ///缓存的JWT令牌
+    this.globalData.jwtToken = wx.getStorageSync('jwtToken');
+
+    await this.tryLogin();
+    wx.showTabBar({});///初始化成功，才显示TabBar
+
+    
+  }
+
+  async onShow() {}
+
+  // onError(ex) {
+  //   console.log(ex);
+  // }
+
+  async tryLogin() {
+    let that = this;
+    await auth.trylogin(); ////尝试登录
+  }
+
+  sleep(s) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve('promise resolved');
+      }, s * 1000);
+    });
+  }
+}
+</script>

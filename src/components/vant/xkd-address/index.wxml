@@ -1,0 +1,30 @@
+<view class="custom-class">
+    <van-cell-group>
+        <view class="top-item">
+        <van-cell
+            is-link
+            border="{{ false }}"
+            bind:tap="onClickWechat"           
+        >
+            <view slot="title" class="slot-left">
+                <van-icon
+                    name="{{ fileImage }}"
+                    class="left-icon"
+                />
+                <view class="left-text">一键使用微信收货地址</view>           
+            </view>
+            </van-cell>
+        </view>      
+        <van-cell
+            is-link
+            border="{{ false }}"
+            bind:tap="onClickAdd"
+        >
+            <view slot="title" class="slot-left">
+                <van-icon name="add-o" color="#1890FF" class="left-icon"/>
+                <view class="left-text">添加收货地址</view>           
+            </view>
+        </van-cell>
+    </van-cell-group>
+    <van-toast  id="wvan-toast" />
+</view>

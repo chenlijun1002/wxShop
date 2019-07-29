@@ -1,0 +1,12 @@
+<view wx:if="{{!isclose}}" class="copyrightbox" >
+  <van-transition  show="{{ visibility=='visible' }}" name="fade" 
+  custom-style="bottom: 0; position:{{position}};width:100%;margin:34rpx 0rpx {{btmargin}};visibility:{{visibility}}">
+    <view style="text-align:center">
+    <image class="oemImageLogo" src="{{oemLogo}}" />
+    </view>
+
+    <view class="copyrighttext">
+    {{oemname}}提供技术支持
+    </view>
+ </van-transition>
+</view>

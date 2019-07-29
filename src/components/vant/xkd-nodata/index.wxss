@@ -1,0 +1,14 @@
+@import '../common/index.wxss';
+.van-no-data {
+    text-align: center;
+}
+ .van-textMsg-mid {
+    margin: 48rpx 0 64rpx 0;
+    color: #747474;
+    font-size: 28rpx;
+ } 
+.van-image {
+    width: 296rpx;
+    height: 272rpx;
+    margin-top: 160rpx;
+}

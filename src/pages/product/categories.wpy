@@ -1,0 +1,319 @@
+
+<style lang="less">
+  @import "../../style/variable";
+.section{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-top: 1rpx solid #eee;
+}
+.left{
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 160rpx;
+  background: #F7F7F7;
+  text-align: left;
+  font-size:26rpx;
+  color:#424242;
+}
+.left::before{
+  content: "";
+  position: absolute;
+  background: #dcdcdc;
+  right: 0;
+  top: 0;
+  height: 100%;
+  border-right: 1rpx solid #dcdcdc;
+}
+.left view.active {
+  background: #FFF;
+  position: relative;
+  z-index: 2;
+  padding-left: 20rpx;
+  border-left: 4rpx solid #FF9800;
+  color:#FF9800;
+}
+.left view{
+  display: block;
+  line-height: 38rpx;
+  padding: 24rpx;
+  border-bottom: 1px solid #eee;
+}
+.right{
+  margin-left: 160rpx;
+  padding: 36rpx 24rpx;
+  height: 100%;
+  overflow: hidden;
+  width: auto;
+  background: #fff;
+}
+.right .banner {
+  margin-bottom: 16rpx;
+  height:264rpx;
+}
+.right .banner image {
+  width: 100%;
+  height: 100%;
+  border-radius: 8rpx;
+}
+.typeTree .item{
+  text-align: center;
+  display: inline-block;
+  vertical-align: top;
+}
+.typeTree .brand {
+  width: 136rpx;
+  display: block;
+  padding: 16rpx;
+  text-align: center;
+  margin-bottom: 24rpx;
+}
+.typeTree .brand image{
+  width:136rpx;
+  height: 136rpx;
+}
+.typeTree .brand .text{
+  font-size: 24rpx;
+  display: block;
+  color: #595959;
+}
+.noData {
+  padding: 100rpx 0px;
+  text-align: center;
+}
+</style>
+
+<template>
+<html>
+  <xkd-master id="xkdmaster" pageReady="{{pageIsReady}}">
+  <view desc="本页工作区域">
+
+    <view wx:if="{{!hasCatsData}}">
+        <xkd-nodata
+            @redirectToPage="repage"
+            textMsg="该店铺暂无商品分类"
+            fileImageType="xkdnewyun/systemfile/wxashop/wxanodata2.png"
+        ></xkd-nodata>
+    </view>
+
+    <view class="section" wx:else>
+        <!-- 左侧类型 -->
+        <scroll-view scroll-y scroll-with-animation="true" scroll-top="{{scrolLeftlTop}}" class="left">
+            <view
+              wx:for="{{topCats}}"
+              wx:for-item="item"
+              wx:key="item.Id"
+              wx:for-index="lindex"
+              class="{{ currentTab == item.Id ? 'active' : ''}}"
+              bindtap="{{ currentTab != item.Id ? 'navbarTap':'' }}" 
+              id="{{item.Id}}" data-lindex="{{lindex}}"
+              data-topid="{{item.Id}}">
+                {{item.Name}}
+            </view>
+        </scroll-view>
+        <!-- 右侧数据 -->
+        <scroll-view scroll-y enable-back-to-top  scroll-with-animation="true"  class="right" scroll-top="{{scrolRightlTop}}">
+          <view id="leftcontentbox">
+            <view class="banner" wx:if="{{currentCat.BannerPath}}">
+              <image class="img" src="{{fileCdnUrl}}/{{currentCat.BannerPath}}?x-oss-process=style/720" mode="scaleToFill" />
+            </view>
+            <van-row wx:if="{{currentCat.HasItem}}" class="typeTree"  gutter="10" justify="space-around">
+              <van-col span="8" wx:for="{{currentCat.items}}"  wx:for-item="item" wx:key="item.Id"  id="{{item.Id}}">
+                  <view class="brand"  data-link="/pages/product/catsearch?cid={{item.Id}}&cname={{item.Name}}" data-catagoryid="{{item.Id}}" @tap="tapLinkTopage">
+                    <image src="{{fileCdnUrl}}/{{item.ImgPath}}?x-oss-process=style/360" />
+                    <view class="text">{{item.Name}}</view>  
+                  </view>                   
+              </van-col>
+            </van-row>            
+            <view wx:else>               
+                <xkd-nodata
+                    @redirectToPage="repage"
+                    hasButton="{{false}}"
+                    textMsg="暂无二级商品分类"
+                    fileImageType="xkdnewyun/systemfile/wxashop/wxanodata2.png"
+                    imageStyle="width: 208rpx; height: 191rpx; margin-top: 200rpx;"
+                ></xkd-nodata>
+            </view>
+          <xkd-copyright wx:if="{{pageIsReady}}" id="wxacopyright" btmargin="80rpx" desc="底部版权" watchNode="#leftcontentbox"/>
+          </view>    
+        </scroll-view>
+    </view>
+</view>
+   
+</xkd-master> 
+</html>
+</template>
+
+<script>
+import wepy from 'wepy';
+import Tips from '../../utils/Tips';
+import wxutils from '../../utils/WxUtils';
+import basepage from '../../utils/basepage';
+import testMixin from '../../mixins/test';
+import productApi from '../../api/product';
+
+export default class productCategories extends basepage {
+  ///页
+  config = {
+    navigationBarTitleText: '商品分类',
+    enablePullDownRefresh:false,
+    usingComponents: {
+      'van-search': '/components/vant/search/index',
+      'van-row': '/components/vant/row/index',
+      'van-col': '/components/vant/col/index',
+      'xkd-lazy': '/components/vant/lazy-panel/index',
+      'xkd-nodata': '/components/vant/xkd-nodata/index'
+    }
+  };
+
+  data = {
+    pageTitle:"商品分类",
+    hasCatsData:false,
+    share: null,
+    currentTab: 0,  //对应样式变化
+    scrolRightlTop: 0,  //用作跳转后右侧视图回到顶部
+    scrolLeftlTop: 0, ///右边滚动的位置
+    topCats:null,
+    cacheSecCats:{},////缓存二级数据
+    currentCat: {
+      HasItem:true,
+      BannerPath: '',
+      items: []
+    }
+
+  };
+  
+  async bindApiData(option) {
+    Tips.loading('加载中');
+    let topApiRs=await productApi.GetTopCategories();
+    if (!topApiRs.Next) {
+          return "stop";///请求被框架阻止了，在这里结束
+    }
+
+    if (topApiRs.HttpCode == 200) {
+      if (topApiRs.Code == 0) {
+        this.topCats=topApiRs.Data;
+        if(this.topCats==null)
+        {
+              return "";
+        }
+
+        this.hasCatsData=true;
+        this.currentTab=this.topCats[0].Id;
+        await this.bizSecondCats(this.currentTab);
+        
+        
+      } else {
+        ///code非零的处理
+        console.log(topApiRs);
+        this.showErrorMsg(topApiRs);
+      } 
+    } else {
+      
+      ///非200的请求
+      console.log(topApiRs);
+      this.showErrorMsg(topApiRs);
+    }
+    this.$apply();
+  }
+
+  ///查到下级分类，从缓存中取值
+  async bizSecondCats(topId)
+  {         
+          let findTop=this.fingTopCat(topId);
+
+          if(findTop==null){
+               this.currentCat.HasItem=false;
+               this.currentCat.items=[];
+               this.currentCat.BannerPath="";
+               return "";
+          }
+          
+          ///先从缓存中取值，
+          if(this.cacheSecCats["Cat"+topId])
+          {
+               this.currentCat.HasItem=true;
+               this.currentCat.items=this.cacheSecCats["Cat"+topId];
+               this.currentCat.BannerPath=findTop.BannerPath;
+               return "";
+          }
+
+          ///从服务器取值
+          Tips.loading('加载中');
+
+            ///取二级分类数据
+           let firstApiRs=await productApi.GeChildCategories(topId);
+           if (firstApiRs.HttpCode == 200 && firstApiRs.Data)
+           {
+               this.currentCat.HasItem=true;
+               this.currentCat.items=firstApiRs.Data;
+               this.cacheSecCats["Cat"+topId]=firstApiRs.Data;
+               this.currentCat.BannerPath=findTop.BannerPath;
+           }
+           else
+           {
+               this.currentCat.HasItem=false;
+               this.currentCat.items=[];
+               this.currentCat.BannerPath=findTop.BannerPath;
+           }
+  }
+
+  ///通过Id找到上级
+  fingTopCat(id)
+  {
+     if(this.topCats==null || this.topCats.length==0){
+         return null;
+     }
+
+     for(let i=0;i<this.topCats.length;i++)
+     {
+        if(this.topCats[i].Id==id){
+            return this.topCats[i];
+        }
+     }
+      return null;
+  }
+ 
+
+  components = {}; // 声明页面中所引用的组件，或声明组件中所引用的子组件
+
+  ///替换mixins配置，请不要定义mixins=[],否则不出现异常
+  addmixins() {
+    return [testMixin]; // 声明页面所引用的Mixin实例
+  }
+
+  computed = {}; // 声明计算属性（详见后文介绍）
+
+  watch = {}; // 声明数据watcher（详见后文介绍）
+
+  methods = {
+    navbarTap(e) {
+        var that = this;
+        this.scrolLeftlTop=e.target.offsetTop-this.$parent.globalData.windowHeight/2+44;///左侧选中分类尝试滚动到中间位置
+        that.currentTab=e.currentTarget.id;
+        this.bizSecondCats(that.currentTab).then(()=>{
+           //that.scrolRightlTop=0;这个不起作用，WEPY的问题
+           that.setData({scrolRightlTop: 0});
+           that.$apply();
+           Tips.loaded();
+           wxutils.ChangeCopyRight();///刷新底部版权位置
+        });
+   },
+   doApiRequest(notifynum){
+        console.log("doApiRequest",notifynum);
+   }
+
+  };
+
+  /**
+   * 分享
+   */
+
+  onShareAppMessage() {
+    return {};
+  }
+}
+</script>
